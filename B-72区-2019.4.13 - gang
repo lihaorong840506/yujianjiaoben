@@ -454,7 +454,7 @@ function WhoAmIFunc() {
             skillstr6 = "覆雨剑法,如来神掌,6,道种心魔经";
             skillstr9 =  "覆雨剑法,如来神掌,6,道种心魔经";
             addXueFunc();
-        } else if (myID == '6813699'){   // u6813699--司多健
+        } else if (myID == 'u6813699'){   // u6813699--司多健
             skillstr6 = "覆雨剑法,如来神掌,6,道种心魔经";
             skillstr9 =  "覆雨剑法,如来神掌,6,道种心魔经";
             addXueFunc();
