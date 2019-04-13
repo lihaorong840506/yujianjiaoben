@@ -67,7 +67,7 @@ function delayCmd() {
     if(cmd_stop==0){
         cmd = cmdCache.shift();
         if(cmd.indexOf('jh')!=-1){
-            cmdBack = [];
+            cmdBack =1 [];
             cmdBack.push(cmd);
         }else{
             cmdBack.push(cmd);
