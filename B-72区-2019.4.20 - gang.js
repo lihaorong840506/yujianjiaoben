@@ -414,6 +414,7 @@ function WhoAmIFunc() {
     if (llmyattrs) {
         myID = llmyattrs.get("id"); //自己的ID
         sm_MastID = llmyattrs.get("master_id");
+        getGretting(qu, llmyattrs, myID)
         if (myID == 'u6837832') {   // 小叮当
             skillstr6 = "天火飞锤,织冰剑法,6,道种心魔经";
             skillstr9 = "破军棍诀,天火飞锤,6,道种心魔经";
@@ -462,7 +463,7 @@ function WhoAmIFunc() {
             skillstr6 = "九天龙吟剑法,6,道种心魔经";
             skillstr9 = "九天龙吟剑法,6,道种心魔经";
             addXueFunc();
-        } else if (myID == 'u6898169' && qu == '74') {   // u6898169--齐忠宾
+        } else if (myID == 'u6898169' && qu == '74') {   // u6898169--令狐友挺
             skillstr6 = "九天龙吟剑法,6,道种心魔经";
             skillstr9 = "九天龙吟剑法,6,道种心魔经";
             addXueFunc();
@@ -470,19 +471,24 @@ function WhoAmIFunc() {
             skillstr6 = "九溪断月枪,千影百伤棍,6,道种心魔经";
             skillstr9 = "九溪断月枪,千影百伤棍,6,道种心魔经";
             addXueFunc();
-        }
-        if (myID == 'u6684925') {   // 门哥
+        } else if (myID == 'u6684925') {   // 门哥
             skillstr6 = "燎原百破,九天龙吟剑法,6,道种心魔经";
             skillstr9 = "千影百伤棍,燎原百破,6,道种心魔经";
             mySkillLists = "燎原百破";
             //autoBattleFunc();
             addXueFunc();
-        }
-        if (myID == 'u6896930') {   // u6896930--韩友旭
+        } else if (myID == 'u6896930') {   // u6896930--韩友旭
             skillstr6 = "覆雨剑法,如来神掌,6,道种心魔经";
             skillstr9 = "覆雨剑法,如来神掌,6,道种心魔经";
             addXueFunc();
         }
+        getSettingSkillsMessage()
+        // 自动开单阵
+        autoBattleFunc();
+        // 监听青龙
+        listenQLFunc();
+        // 监听云远寺
+        DiTuSuiPianFunc();
 
         /*   if (myID == 'u3267274'){   // 眼泪
               skillstr6 = "如来神掌,九溪断月枪,6,道种心魔经";
@@ -497,18 +503,25 @@ function WhoAmIFunc() {
               autoBattleFunc();
               addXueFunc();
           }*/
-        // 自动开单阵
-        autoBattleFunc()
-        let msg = myID + "--" + g_simul_efun.replaceControlCharBlank(llmyattrs.get("name")) + "--" + llmyattrs.get("master_id");
-        $('#out2').append("<span class='out2' style='color:rgb(255, 60, 60)'>您好， " + qu + " 区  " + llmyattrs.get("name") + " </span>");
-        $('#out2').append("<span class='out2' style='color:rgb(235, 218, 32)'>单阵: " + skillstr6 + "</span>");
-        $('#out2').append("<span class='out2' style='color:rgb(235, 218, 32)'>群阵: " + skillstr9 + "</span>");
-        $('#out2').append("<span class='out2' style='color:rgb(235, 218, 32)'>青龙监听: " + (QLtrigger === 1 ? '开启' : '关闭') + "</span>");
-        $('#out2').append("<span class='out2' style='color:rgb(32, 209, 235)'>=========</span>");
-        
-        console.log(msg);
     }
     setTimeout(WhoAmI1Func, 2000);
+}
+
+function getGretting(qu, llmyattrs, myID) {
+    $('#out2').append("<span class='out2'><span style='color:rgb(32, 209, 235)'>您好， </span><span style='color:rgb(118, 235, 32)'>" + qu + " 区 " + g_simul_efun.replaceControlCharBlank(llmyattrs.get("name")) + " , 您的 ID 为 " + myID + " </span></span>")
+}
+
+function getSettingSkillsMessage() {
+    $('#out2').append("<span class='out2'><span style='color:rgb(235, 218, 32)'>单阵</span><span style='color:rgb(118, 235, 32)'>(默认开启): " + skillstr6 + "</span></span>" +
+    "<span class='out2'><span style='color:rgb(235, 218, 32)'>群阵: </span><span style='color:rgb(118, 235, 32)'>" + skillstr9 + "</span></span>")
+}
+
+function getQLListenMessage() {
+    $('#out2').append("<span class='out2'><span style='color:rgb(235, 218, 32)'>青龙监听: " + (QLtrigger === 1 ? "</span><span style='color:rgb(118, 235, 32)'>开启" : '关闭') + "</span></span>")
+}
+
+function getYWSListtenMessage() {
+    $('#out2').append("<span class='out2'><span style='color:rgb(235, 218, 32)'>云远寺监听: " + (ditusuipian === 1 ? "</span><span style='color:rgb(118, 235, 32)'>开启" : '关闭') + "</span></span>")
 }
 
 function WhoAmI1Func() {
@@ -765,7 +778,7 @@ function MingDeMenFunc() {
 //直达云远寺--------------------------------------------------
 createPopButton('云远寺', '直通车', YunYuanSiFunc);
 function YunYuanSiFunc() {
-    go("jh 2;n;n;n;n;n;n;n;n;n;n;n;n;n;n;n;n;w;s;s;s;s;e;");
+    go("jh 2;n;n;n;n;n;n;n;n;n;n;n;n;n;n;n;n;w;s;s;s;s;e;event_1_2215721;");
 }
 //东市大街--------------------------------------------------
 createPopButton('东市大街', '直通车', DongShiDaJieFunc);
@@ -1682,7 +1695,7 @@ function PTFunc() {
     }
 }
 
-var QLtrigger = 1;
+var QLtrigger = 0;
 function listenQLFunc() {
     if (QLtrigger == 0) {
         QLtrigger = 1;
@@ -1691,6 +1704,7 @@ function listenQLFunc() {
         QLtrigger = 0;
         btnList['青龙监听'].innerText = '青龙监听';
     }
+    getQLListenMessage()
 }
 
 var KFQLtrigger = 0;
@@ -1744,12 +1758,13 @@ var ditusuipian = 0;
 function DiTuSuiPianFunc() {
     if (ditusuipian == 0) {
         ditusuipian = 1;
-        go("jh 2;n;n;n;n;n;n;n;n;n;n;n;n;n;n;n;n;w;s;s;s;s;e;event_1_2215721;");
+        // go("jh 2;n;n;n;n;n;n;n;n;n;n;n;n;n;n;n;n;w;s;s;s;s;e;event_1_2215721;");
         btnList['特殊正邪'].innerText = '停止正邪';
     } else if (ditusuipian == 1) {
         ditusuipian = 0;
         btnList['特殊正邪'].innerText = '特殊正邪';
     }
+    getYWSListtenMessage()
 }
 
 
