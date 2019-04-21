@@ -1,10 +1,9 @@
-
 // ==UserScript==
-// @name         B-72区-2018.12.24
-// @namespace    http://tampermonkey.net/
-// @version      2018.12.2
-// @description  try to take over the world!
-// @author       Brett
+// @name         B-72区-2019.4.20
+// @namespace    https://github.com/lihaorong840506/yujianjiaoben
+// @version      2019.4.20
+// @description  免费版本
+// @author       李浩荣
 // @match        http://*.yytou.cn/*
 // @exclude      http://res.yytou.cn/*
 // @exclude      http://sword.mud.yytou.
@@ -411,12 +410,7 @@ var myID = '', sm_MastID;
 function WhoAmIFunc() {
     clickButton("score");
     var llmyattrs = g_obj_map.get("msg_attrs");
-    var url = window.location.href;
-    var reg_arr = url.match(/direct(\d{1,3})\.?/)
-    var qu = "74";
-    if (reg_arr) {
-        qu = reg_arr[1];
-    }
+    var qu = g_area_id;
     if (llmyattrs) {
         myID = llmyattrs.get("id"); //自己的ID
         sm_MastID = llmyattrs.get("master_id");
@@ -503,7 +497,16 @@ function WhoAmIFunc() {
               autoBattleFunc();
               addXueFunc();
           }*/
-        console.log(myID + "--" + g_simul_efun.replaceControlCharBlank(llmyattrs.get("name")) + "--" + llmyattrs.get("master_id"));
+        // 自动开单阵
+        autoBattleFunc()
+        let msg = myID + "--" + g_simul_efun.replaceControlCharBlank(llmyattrs.get("name")) + "--" + llmyattrs.get("master_id");
+        $('#out2').append("<span class='out2' style='color:rgb(255, 60, 60)'>您好， " + qu + " 区  " + llmyattrs.get("name") + " </span>");
+        $('#out2').append("<span class='out2' style='color:rgb(235, 218, 32)'>单阵: " + skillstr6 + "</span>");
+        $('#out2').append("<span class='out2' style='color:rgb(235, 218, 32)'>群阵: " + skillstr9 + "</span>");
+        $('#out2').append("<span class='out2' style='color:rgb(235, 218, 32)'>青龙监听: " + (QLtrigger === 1 ? '开启' : '关闭') + "</span>");
+        $('#out2').append("<span class='out2' style='color:rgb(32, 209, 235)'>=========</span>");
+        
+        console.log(msg);
     }
     setTimeout(WhoAmI1Func, 2000);
 }
@@ -634,6 +637,7 @@ function xuetingzhenFunc() {
 createPopButton('洛阳中心', '直通车', lyFunc);
 function lyFunc() { go("jh 2;n;n;n;n;n;"); }
 
+
 //华山村--------------------------------------------------
 createPopButton('华山村中', '直通车', hycFunc);
 function hycFunc() { go("jh 3;s;s;"); }
@@ -757,6 +761,11 @@ function goldFunc() {
 createPopButton('明德门', '直通车', MingDeMenFunc);
 function MingDeMenFunc() {
     go("jh 2;n;n;n;n;n;n;n;n;n;n;n;n;n;n;n;");
+}
+//直达云远寺--------------------------------------------------
+createPopButton('云远寺', '直通车', YunYuanSiFunc);
+function YunYuanSiFunc() {
+    go("jh 2;n;n;n;n;n;n;n;n;n;n;n;n;n;n;n;n;w;s;s;s;s;e;");
 }
 //东市大街--------------------------------------------------
 createPopButton('东市大街', '直通车', DongShiDaJieFunc);
@@ -1673,7 +1682,7 @@ function PTFunc() {
     }
 }
 
-var QLtrigger = 0;
+var QLtrigger = 1;
 function listenQLFunc() {
     if (QLtrigger == 0) {
         QLtrigger = 1;
