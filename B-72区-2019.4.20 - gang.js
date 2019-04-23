@@ -156,7 +156,7 @@ function delayCmd() {
         timeCmd = setTimeout(delayCmd, cmdDelayTime);
     } else {
         // 没有命令 则归零
-        timeCmd = 1;
+        timeCmd = q;
         setTimeout(function () {
             if (cmdCache.length === 0)
                 timeCmd = 0;
@@ -2023,7 +2023,8 @@ function QinglongMon() { //各种监控大杂烩
                     clearInterval(QinglongIntervalFunc);
                     var url = msg.split("href;0;")[1].split("")[0];
                     tarNPC = msg.split("组织：")[1].split("正在")[0];
-                    clickButton(url);
+                    // clickButton(url);
+                    go_qinglong(msg);
                     Qinglong();
                     QinglongIntervalFunc = setInterval(Qinglong, 500);
 
@@ -2045,12 +2046,13 @@ function QinglongMon() { //各种监控大杂烩
                 if (msg.match("青龙会组织") != null) {
                     //                    console.log(msg);
                     if ((msg.match("天罡掌套") != null || msg.match("晚香玉") != null || msg.match("凌霄花") != null || msg.match("百宜雪梅") != null || msg.match("朝开暮落花") != null || msg.match("凤凰木") != null || msg.match("熙颜花") != null || msg.match("君影草") != null || msg.match("矢车菊") != null || msg.match("忘忧草") != null || msg.match("仙客来") != null || msg.match("雪英") != null || msg.match("夕雾草") != null || msg.match("彼岸花") != null || msg.match("洛神花") != null || msg.match("碎片") != null || msg.match("岳老大") != null) || (msg.match("乾坤再造丹") != null) || (msg.match("灵草") != null) || (msg.match("小还丹") != null) || (msg.match("紫芝") != null) || (msg.match("狂暴丹") != null)) {
-                        sendMessage(msg);
                         var url = msg.split("href;0;")[1].split("")[0];
                         tarNPC = msg.split("组织：")[1].split("正在")[0];
                         // 在跨服时，不执行本服青龙的操作
                         if (!tarNPC.match("]区")) {
-                            clickButton(url);
+                            sendMessage(msg);
+                            // clickButton(url);
+                            go_qinglong(msg);
                             Qinglong();
                             setInterval(Qinglong, 500);
                         }
@@ -2171,6 +2173,29 @@ function QinglongMon() { //各种监控大杂烩
     }
 }
 
+function go_qinglong(msg) {
+    if (msg.includes('书房')) {
+        xuetingshufangFunc()
+    } else if (msg.includes('打铁铺子')) {
+        xuetingtiejiangpuFunc()
+    } else if (msg.includes('桑邻药铺')) {
+        xuetingsanglingyaopuFunc()
+    } else if (msg.includes('南市')) {
+        lynsFunc()
+    } else if (msg.includes('绣楼')) {
+        lyxlFunc()
+    } else if (msg.includes('北大街')) {
+        lybdjFunc()
+    } else if (msg.includes('钱庄')) {
+        lyqzFunc()
+    } else if (msg.includes('杂货铺')) {
+        hyzhpFunc()
+    } else if (msg.includes('祠堂大门')) {
+        hycstdmFunc()
+    } else if (msg.includes('厅堂')) {
+        hyttFunc()
+    }
+}
 //本服 青龙碎片、二娘
 var QinglongIntervalFunc = null;
 var currentNPCIndex = 0;
