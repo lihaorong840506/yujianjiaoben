@@ -3124,13 +3124,11 @@ function JinKuaFuFunc() {
     go('jh 1;e;n;n;n;n;w;event_1_36344468');
     //    if(realmInfo == 'kuafu'){
     KFQLtrigger = 1;
-    setInterval(() => {
-        QLtrigger = 0;// 跨服不需要监控青龙
-        btnList['青龙监听'].innerText = '青龙监听';
-        btnList1['青龙镖车'].innerText = '停止青龙';
-        getQLListenMessage()
-        getKFQLListenMessage()
-    }, 4000)
+    QLtrigger = 0;// 跨服不需要监控青龙
+    btnList['青龙监听'].innerText = '青龙监听';
+    btnList1['青龙镖车'].innerText = '停止青龙';
+    getQLListenMessage()
+    getKFQLListenMessage()
     setTimeout(function () { clickButton('auto_equip on') }, 6000);  // 一键装备
 }
 
