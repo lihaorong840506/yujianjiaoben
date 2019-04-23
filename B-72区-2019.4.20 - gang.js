@@ -512,12 +512,17 @@ function getGretting(qu, llmyattrs, myID) {
 }
 
 function getSettingSkillsMessage() {
-    $('#out2').append("<span class='out2'><span style='color:rgb(235, 218, 32)'>单阵</span><span style='color:rgb(118, 235, 32)'>(默认开启): " + skillstr6 + "</span></span>" +
-    "<span class='out2'><span style='color:rgb(235, 218, 32)'>群阵: </span><span style='color:rgb(118, 235, 32)'>" + skillstr9 + "</span></span>")
+    $('#out2').append("<span class='out2'><span style='color:rgb(235, 218, 32)'>开启阵: </span><span style='color:rgb(118, 235, 32)'>" + skillStatus + "</span></span>" +
+        "<span class='out2'><span style='color:rgb(235, 218, 32)'>单阵: </span><span style='color:rgb(118, 235, 32)'>" + skillstr6 + "</span></span>" +
+        "<span class='out2'><span style='color:rgb(235, 218, 32)'>群阵: </span><span style='color:rgb(118, 235, 32)'>" + skillstr9 + "</span></span>")
 }
 
 function getQLListenMessage() {
     $('#out2').append("<span class='out2'><span style='color:rgb(235, 218, 32)'>青龙监听: " + (QLtrigger === 1 ? "</span><span style='color:rgb(118, 235, 32)'>开启" : '关闭') + "</span></span>")
+}
+
+function getKFQLListenMessage() {
+    $('#out2').append("<span class='out2'><span style='color:rgb(235, 218, 32)'>跨服青龙(镖车)监听: " + (KFQLtrigger === 1 ? "</span><span style='color:rgb(118, 235, 32)'>开启" : '关闭') + "</span></span>")
 }
 
 function getYWSListtenMessage() {
@@ -558,6 +563,7 @@ function killnpc() {
 
 //自动绝学阵|| btnList['自动绝学'].innerText == '自动绝学
 var autoBattleTimer;
+var skillStatus
 function autoBattleFunc() {
     var playerName = sessionStorage.getItem("playerName");
     var playerMaxHp = sessionStorage.getItem("playerMaxHp");
@@ -566,6 +572,7 @@ function autoBattleFunc() {
     if (btnList['开单阵'].innerText == '开单阵') {
         btnList['开单阵'].innerText = '开群阵';
         skillstr = skillstr6;
+        skillStatus = '开单阵'
         //   clickButton('enable mapped_skills restore go 1', 1);
         //  clickButton('golook_room');
         autoBattleTimer = setInterval(function () { doAttack(skillstr, playerName, playerMaxHp) }, 1000);
@@ -573,12 +580,15 @@ function autoBattleFunc() {
         btnList['开单阵'].innerText = '停 阵';
         skillstr = skillstr9;
         console.log(skillstr9);
+        skillStatus = '开群阵'
+
         // clickButton('enable mapped_skills restore go 2', 1);
         //  clickButton('golook_room');
         autoBattleTimer = setInterval(function () { doAttack(skillstr, playerName, playerMaxHp) }, 1000);
     } else if (btnList['开单阵'].innerText == '停 阵') {
         btnList['开单阵'].innerText = '开单阵';
         clearInterval(autoBattleTimer);
+        skillStatus = '停 阵'
         //   clickButton('enable mapped_skills restore go 3', 1);
     }
 }
@@ -643,43 +653,43 @@ popList['直通车'].innerHTML = '<div>选择目的地</div>';
 //雪婷--------------------------------------------------
 createPopButton('书房', '直通车', xuetingshufangFunc);
 function xuetingshufangFunc() {
-    go("jh 1;e;n;e;e;e;e;n");
+    go("jh 1;e;n;e;e;e;e;n;");
 }
 
 createPopButton('打铁铺子', '直通车', xuetingtiejiangpuFunc);
 function xuetingtiejiangpuFunc() {
-    go("jh 1;e;n;n;w");
+    go("jh 1;e;n;n;w;");
 }
 
 createPopButton('桑邻药铺', '直通车', xuetingsanglingyaopuFunc);
 function xuetingsanglingyaopuFunc() {
-    go("jh 1;e;n;n;n;w");
+    go("jh 1;e;n;n;n;w;");
 }
 
 //洛阳--------------------------------------------------
 
 createPopButton('南市', '直通车', lynsFunc);
-function lynsFunc() { go("jh 2;n;n;e"); }
+function lynsFunc() { go("jh 2;n;n;e;"); }
 
 createPopButton('绣楼', '直通车', lyxlFunc);
-function lyxlFunc() { go("jh 2;n;n;n;n;w;s;w"); }
+function lyxlFunc() { go("jh 2;n;n;n;n;w;s;w;"); }
 
 createPopButton('北大街', '直通车', lybdjFunc);
-function lybdjFunc() { go("jh 2;n;n;n;n;n;n;n"); }
+function lybdjFunc() { go("jh 2;n;n;n;n;n;n;n;"); }
 
 createPopButton('钱庄', '直通车', lyqzFunc);
-function lyqzFunc() { go("jh 2;n;n;n;n;n;n;n;e"); }
+function lyqzFunc() { go("jh 2;n;n;n;n;n;n;n;e;"); }
 
 
 //华山村--------------------------------------------------
 createPopButton('杂货铺', '直通车', hyzhpFunc);
-function hyzhpFunc() { go("jh 3;s;s;e"); }
+function hyzhpFunc() { go("jh 3;s;s;e;"); }
 
 createPopButton('祠堂大门', '直通车', hycstdmFunc);
-function hycstdmFunc() { go("jh 3;s;s;w"); }
+function hycstdmFunc() { go("jh 3;s;s;w;"); }
 
 createPopButton('厅堂', '直通车', hyttFunc);
-function hyttFunc() { go("jh 3;s;s;w;n"); }
+function hyttFunc() { go("jh 3;s;s;w;n;"); }
 
 //华山--------------------------------------------------
 createPopButton('华山', '直通车', hyFunc);
@@ -1742,6 +1752,7 @@ function KFQLFunc() {
         KFQLtrigger = 0;
         btnList1['青龙镖车'].innerText = '青龙镖车';
     }
+    getKFQLListenMessage()
 }
 
 
@@ -3116,6 +3127,7 @@ function JinKuaFuFunc() {
     btnList['青龙监听'].innerText = '青龙监听';
     KFQLtrigger = 1;
     btnList1['跨服青龙'].innerText = '停止青龙';
+    getKFQLListenMessage()
     setTimeout(function () { clickButton('auto_equip on') }, 6000);  // 一键装备
 }
 
