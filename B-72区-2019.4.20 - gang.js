@@ -1799,7 +1799,7 @@ function DiTuSuiPianFunc() {
         btnList['特殊正邪'].innerText = '停止正邪';
     } else if (ditusuipian == 1) {
         ditusuipian = 0;
-        btnList['特殊正邪'].innerText = '特殊正邪';
+        btnList['停止正邪'].innerText = '特殊正邪';
     }
     getYWSListtenMessage()
 }
