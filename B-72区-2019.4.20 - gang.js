@@ -3129,7 +3129,7 @@ function JinKuaFuFunc() {
     if (btnList1['跨服青龙']) {
         btnList1['跨服青龙'].innerText = '停止青龙';
     } else {
-        btnList1['跨服镖车'].innerText = '停止青龙';
+        btnList1['青龙镖车'].innerText = '停止青龙';
     }
     getQLListenMessage()
     getKFQLListenMessage()
