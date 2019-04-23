@@ -563,7 +563,7 @@ function killnpc() {
 
 //自动绝学阵|| btnList['自动绝学'].innerText == '自动绝学
 var autoBattleTimer;
-var skillStatus
+var skillStatus = '开单阵'
 function autoBattleFunc() {
     var playerName = sessionStorage.getItem("playerName");
     var playerMaxHp = sessionStorage.getItem("playerMaxHp");
@@ -3126,7 +3126,12 @@ function JinKuaFuFunc() {
     QLtrigger = 0;// 跨服不需要监控青龙
     btnList['青龙监听'].innerText = '青龙监听';
     KFQLtrigger = 1;
-    btnList1['跨服青龙'].innerText = '停止青龙';
+    if (btnList1['跨服青龙']) {
+        btnList1['跨服青龙'].innerText = '停止青龙';
+    } else {
+        btnList1['跨服镖车'].innerText = '停止青龙';
+    }
+    getQLListenMessage()
     getKFQLListenMessage()
     setTimeout(function () { clickButton('auto_equip on') }, 6000);  // 一键装备
 }
