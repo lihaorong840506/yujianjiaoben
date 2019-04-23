@@ -1799,7 +1799,7 @@ function DiTuSuiPianFunc() {
         btnList['特殊正邪'].innerText = '停止正邪';
     } else if (ditusuipian == 1) {
         ditusuipian = 0;
-        btnList['停止正邪'].innerText = '特殊正邪';
+        btnList['特殊正邪'].innerText = '特殊正邪';
     }
     getYWSListtenMessage()
 }
@@ -3127,11 +3127,7 @@ function JinKuaFuFunc() {
     setInterval(() => {
         QLtrigger = 0;// 跨服不需要监控青龙
         btnList['青龙监听'].innerText = '青龙监听';
-        if (btnList1['跨服青龙']) {
-            btnList1['跨服青龙'].innerText = '停止青龙';
-        } else {
-            btnList1['青龙镖车'].innerText = '停止青龙';
-        }
+        btnList1['青龙镖车'].innerText = '停止青龙';
         getQLListenMessage()
         getKFQLListenMessage()
     }, 4000)
