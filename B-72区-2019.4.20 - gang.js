@@ -156,7 +156,7 @@ function delayCmd() {
         timeCmd = setTimeout(delayCmd, cmdDelayTime);
     } else {
         // 没有命令 则归零
-        timeCmd = q;
+        timeCmd = 1;
         setTimeout(function () {
             if (cmdCache.length === 0)
                 timeCmd = 0;
