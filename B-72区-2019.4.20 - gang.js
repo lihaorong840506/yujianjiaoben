@@ -3123,16 +3123,18 @@ function Tsdz2Func() {
 function JinKuaFuFunc() {
     go('jh 1;e;n;n;n;n;w;event_1_36344468');
     //    if(realmInfo == 'kuafu'){
-    QLtrigger = 0;// 跨服不需要监控青龙
-    btnList['青龙监听'].innerText = '青龙监听';
     KFQLtrigger = 1;
-    if (btnList1['跨服青龙']) {
-        btnList1['跨服青龙'].innerText = '停止青龙';
-    } else {
-        btnList1['青龙镖车'].innerText = '停止青龙';
-    }
-    getQLListenMessage()
-    getKFQLListenMessage()
+    setInterval(() => {
+        QLtrigger = 0;// 跨服不需要监控青龙
+        btnList['青龙监听'].innerText = '青龙监听';
+        if (btnList1['跨服青龙']) {
+            btnList1['跨服青龙'].innerText = '停止青龙';
+        } else {
+            btnList1['青龙镖车'].innerText = '停止青龙';
+        }
+        getQLListenMessage()
+        getKFQLListenMessage()
+    }, 4000)
     setTimeout(function () { clickButton('auto_equip on') }, 6000);  // 一键装备
 }
 
