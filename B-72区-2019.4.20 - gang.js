@@ -2730,6 +2730,8 @@ function hideButton1() {
     btnList1['帮一集合'].style.visibility = "hidden";
     btnList1['帮一队长'].style.visibility = "hidden";
     btnList1['撩奇侠'].style.visibility = "hidden";
+    btnList1['对话奇侠'].style.visibility = "hidden";
+    btnList1['给奇侠金'].style.visibility = "hidden";
     btnList1['无尽深渊'].style.visibility = "hidden";
     btnList1['秘境优化'].style.visibility = "hidden";
 }
@@ -2750,6 +2752,8 @@ function showButton1() {
     btnList1['帮一集合'].style.visibility = "visible";
     btnList1['帮一队长'].style.visibility = "visible";
     btnList1['撩奇侠'].style.visibility = "visible";
+    btnList1['对话奇侠'].style.visibility = "visible";
+    btnList1['给奇侠金'].style.visibility = "visible";
     btnList1['秘境优化'].style.visibility = "visible";
     btnList1['无尽深渊'].style.visibility = "visible";
 }
