@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @version      2019.4.25
 // @description  try to take over the world!
-// @author       Lihaorong
+// @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
 // @exclude      http://res.yytou.cn/*
 // @exclude      http://sword.mud.yytou.

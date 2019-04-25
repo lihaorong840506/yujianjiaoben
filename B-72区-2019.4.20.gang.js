@@ -3,7 +3,7 @@
 // @namespace    https://github.com/lihaorong840506/yujianjiaoben
 // @version      2019.4.25
 // @description  免费版本
-// @author       李浩荣
+// @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
 // @exclude      http://res.yytou.cn/*
 // @exclude      http://sword.mud.yytou.
