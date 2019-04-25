@@ -70,6 +70,7 @@ var SkillSet = {
     "如来神掌": "rulai-zhang", "排云掌法": "paiyun-zhang",
     "翻云刀法": "fanyun-blade",
     "孔雀翎": "kongqueling", "飞刀绝技": "feidao",
+    "道种心魔经": "dzxinmojing",
     "生生造化功": "sszaohuagong",
     "玄天杖法": "xtzf", "辉月杖法": "hyzf",
     "拈花解语鞭": "zhjyb", "十怒绞龙索": "snjls",
@@ -337,6 +338,8 @@ createButton('摸尸体', btnBox0, AutoGetFunc);
 createButton('一键恢复', btnBox0, yijianhuifuFunc);
 createButton('战斗补血', btnBox0, addXueFunc);
 createButton('战斗装', btnBox0, ZhuangBei);
+createButton('设单阵', btnBox0, settingSkillstr6);
+createButton('设群阵', btnBox0, settingSkillstr9);
 createButton('开单阵', btnBox0, autoBattleFunc);
 createButton('自动三气', btnBox0, AutoKillFunc);
 createButton('青龙监听', btnBox0, listenQLFunc);
@@ -370,6 +373,8 @@ function hideButton() {
     btnList['摸尸体'].style.visibility = "hidden";
     btnList['怼人'].style.visibility = "hidden";
     btnList['逃跑'].style.visibility = "hidden";
+    btnList['设单阵'].style.visibility = "hidden";
+    btnList['设群阵'].style.visibility = "hidden";
     btnList['开单阵'].style.visibility = "hidden";
     btnList['连招'].style.visibility = "hidden";
     btnList['自动三气'].style.visibility = "hidden";
@@ -393,6 +398,8 @@ function showButton() {
     btnList['摸尸体'].style.visibility = "visible";
     btnList['逃跑'].style.visibility = "visible";
     btnList['怼人'].style.visibility = "visible";
+    btnList['设单阵'].style.visibility = "visible";
+    btnList['设群阵'].style.visibility = "visible";
     btnList['开单阵'].style.visibility = "visible";
     btnList['连招'].style.visibility = "visible";
     btnList['自动三气'].style.visibility = "visible";
@@ -508,25 +515,24 @@ function WhoAmIFunc() {
 }
 
 function getGretting(qu, llmyattrs, myID) {
-    $('#out2').append("<span class='out2'><span style='color:rgb(32, 209, 235)'>您好， </span><span style='color:rgb(118, 235, 32)'>" + qu + " 区 " + g_simul_efun.replaceControlCharBlank(llmyattrs.get("name")) + " , 您的 ID 为 " + myID + " </span></span>")
+    recvNetWork2("<span class='out2'><span style='color:rgb(32, 209, 235)'>您好， </span><span style='color:rgb(118, 235, 32)'>" + qu + " 区 " + g_simul_efun.replaceControlCharBlank(llmyattrs.get("name")) + " , 您的 ID 为 " + myID + " </span></span>")
 }
 
 function getSettingSkillsMessage() {
-    $('#out2').append("<span class='out2'><span style='color:rgb(235, 218, 32)'>开启阵: </span><span style='color:rgb(118, 235, 32)'>" + skillStatus + "</span></span>" +
-        "<span class='out2'><span style='color:rgb(235, 218, 32)'>单阵: </span><span style='color:rgb(118, 235, 32)'>" + skillstr6 + "</span></span>" +
+    recvNetWork2("<span class='out2'><span style='color:rgb(235, 218, 32)'>单阵: </span><span style='color:rgb(118, 235, 32)'>" + skillstr6 + "</span></span>" +
         "<span class='out2'><span style='color:rgb(235, 218, 32)'>群阵: </span><span style='color:rgb(118, 235, 32)'>" + skillstr9 + "</span></span>")
 }
 
 function getQLListenMessage() {
-    $('#out2').append("<span class='out2'><span style='color:rgb(235, 218, 32)'>青龙监听: " + (QLtrigger === 1 ? "</span><span style='color:rgb(118, 235, 32)'>开启" : '关闭') + "</span></span>")
+    recvNetWork2("<span class='out2'><span style='color:rgb(235, 218, 32)'>青龙监听: " + (QLtrigger === 1 ? "</span><span style='color:rgb(118, 235, 32)'>开启" : '关闭') + "</span></span>")
 }
 
 function getKFQLListenMessage() {
-    $('#out2').append("<span class='out2'><span style='color:rgb(235, 218, 32)'>跨服青龙(镖车)监听: " + (KFQLtrigger === 1 ? "</span><span style='color:rgb(118, 235, 32)'>开启" : '关闭') + "</span></span>")
+    recvNetWork2("<span class='out2'><span style='color:rgb(235, 218, 32)'>跨服青龙(镖车)监听: " + (KFQLtrigger === 1 ? "</span><span style='color:rgb(118, 235, 32)'>开启" : '关闭') + "</span></span>")
 }
 
 function getYWSListtenMessage() {
-    $('#out2').append("<span class='out2'><span style='color:rgb(235, 218, 32)'>云远寺监听: " + (ditusuipian === 1 ? "</span><span style='color:rgb(118, 235, 32)'>开启" : '关闭') + "</span></span>")
+    recvNetWork2("<span class='out2'><span style='color:rgb(235, 218, 32)'>云远寺监听: " + (ditusuipian === 1 ? "</span><span style='color:rgb(118, 235, 32)'>开启" : '关闭') + "</span></span>")
 }
 
 function WhoAmI1Func() {
@@ -554,6 +560,43 @@ setTimeout(function () { WhoAmIFunc(); }, 2000);
 
 //叫杀NPC-----------------------------------------------------------------------------------------------------
 function Getnpcid() { tarNPC = prompt("输入NPC的ID", "changan_neigongjinwei"); }
+
+function settingSkillstr6() {
+    let skillstr_s = prompt("设置单阵: 技能1,技能2,攒气数,技能3(攒气数为9时可释放) 例如: 排云掌法,九天龙吟剑法,6,道种心魔经 （逗号为英文字母逗号)", skillstr6);
+    if (skillstr_s && checkInputSkill(skillstr_s)) {
+        skillstr6 = skillstr_s
+        getSettingSkillsMessage()
+    }
+}
+function settingSkillstr9() {
+    let skillstr_s = prompt("设置群阵: 技能1,技能2,攒气数,技能3(攒气数为9时可释放) 例如: 千影百伤棍,燎原百破,9,道种心魔经 （逗号为英文字母逗号)", skillstr9);
+    if (skillstr_s && checkInputSkill(skillstr_s)) {
+        skillstr9 = skillstr_s
+        getSettingSkillsMessage()
+    }
+}
+
+function checkInputSkill(skillstr_s) {
+    recvNetWork2(skillstr_s)
+    let skills = skillstr_s.split(",");
+    if (!skills || skills.length < 3) {
+        recvNetWork2("<span class='out2'><span style='color:rgb(255, 10, 10)'>逗号请使用英文输入法逗号.</span><span style='color:rgb(118, 235, 32)'>设置: 技能1,技能2,攒气数,技能3(攒气数为9时可释放) 例如: 排云掌法,九天龙吟剑法,6,千影百伤棍 （逗号为英文字母逗号) </span></span>")
+        return false
+    }
+    let skillname1 = skills[0];
+    let skillname2 = skills[1];
+    let power = skills[2];
+    if (!skillname1 || !skillname2 || !SkillSet[skillname1] || !SkillSet[skillname2]) {
+        recvNetWork2("<span class='out2'><span style='color:rgb(255, 10, 10)'>技能名称有误.</span><span style='color:rgb(118, 235, 32)'>设置: 技能1,技能2,攒气数,技能3(攒气数为9时可释放) 例如: 排云掌法,九天龙吟剑法,6,千影百伤棍 （逗号为英文字母逗号) </span></span>")
+        return false
+    }
+
+    if (!power || !Number.isInteger(Number(power)) || Number(power) < 1 || Number(power) > 9) {
+        recvNetWork2("<span class='out2'><span style='color:rgb(255, 10, 10)'>攒气数有误.</span><span style='color:rgb(118, 235, 32)'>设置: 技能1,技能2,攒气数,技能3(攒气数为9时可释放) 例如: 排云掌法,九天龙吟剑法,6,千影百伤棍 （逗号为英文字母逗号) </span></span>")
+        return false
+    }
+    return true
+}
 
 function killnpc() {
     console.log(tarNPC);
@@ -591,6 +634,7 @@ function autoBattleFunc() {
         skillStatus = '停 阵'
         //   clickButton('enable mapped_skills restore go 3', 1);
     }
+    recvNetWork2("<span class='out2'><span style='color:rgb(235, 218, 32)'>开启阵: </span><span style='color:rgb(118, 235, 32)'>" + skillStatus + "</span></span>")
 }
 
 function doAttack(skillstr, playerName, playerMaxHp) {
@@ -1968,7 +2012,7 @@ function QinglongMon() { //各种监控大杂烩
                         var onGoingSkillID = SkillSet[skill];
                         console.log(onGoingSkillID);
                         eval("clickButton('enable " + onGoingSkillID + "')");
-                        eval("clickButton('tupo go," + onGoingSkillID + "', 1)");  //'tupo try,jiuyang-shengong'
+                        eval("clickButton('tupo try," + onGoingSkillID + "', 1)");  //'tupo try,jiuyang-shengong'
                         clickButton('enable mapped_skills restore go 1', 1);
                         eval("clickButton('tupo_speedup2 " + onGoingSkillID + " go', 1)");  //try all
                         eval("clickButton('tupo_speedup " + onGoingSkillID + " go', 1)");  //
@@ -2116,7 +2160,7 @@ function QinglongMon() { //各种监控大杂烩
                         var onGoingSkillID = SkillSet[skill];
                         console.log(onGoingSkillID);
                         eval("clickButton('enable " + onGoingSkillID + "')");
-                        eval("clickButton('practice " + onGoingSkillID + "')");
+                        eval("clickButton('practice " + onGoingSkillID + "', 1)");
                         clickButton('enable mapped_skills restore go 1', 1);
                         clickButton('golook_room');
                     }
