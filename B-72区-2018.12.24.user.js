@@ -711,18 +711,44 @@ var ztc_popbk = createPop('直通车');
 popList['直通车'].innerHTML = '<div>选择目的地</div>';
 
 //雪婷--------------------------------------------------
-createPopButton('雪亭客栈', '直通车', xuetingzhenFunc);
-function xuetingzhenFunc() {
-    go("jh 1;");
+createPopButton('书房', '直通车', xuetingshufangFunc);
+function xuetingshufangFunc() {
+    go("jh 1;e;n;e;e;e;e;n;");
+}
+
+createPopButton('打铁铺子', '直通车', xuetingtiejiangpuFunc);
+function xuetingtiejiangpuFunc() {
+    go("jh 1;e;n;n;w;");
+}
+
+createPopButton('桑邻药铺', '直通车', xuetingsanglingyaopuFunc);
+function xuetingsanglingyaopuFunc() {
+    go("jh 1;e;n;n;n;w;");
 }
 
 //洛阳--------------------------------------------------
-createPopButton('洛阳中心', '直通车', lyFunc);
-function lyFunc() { go("jh 2;n;n;n;n;n;"); }
+
+createPopButton('南市', '直通车', lynsFunc);
+function lynsFunc() { go("jh 2;n;n;e;"); }
+
+createPopButton('绣楼', '直通车', lyxlFunc);
+function lyxlFunc() { go("jh 2;n;n;n;n;w;s;w;"); }
+
+createPopButton('北大街', '直通车', lybdjFunc);
+function lybdjFunc() { go("jh 2;n;n;n;n;n;n;n;"); }
+
+createPopButton('钱庄', '直通车', lyqzFunc);
+function lyqzFunc() { go("jh 2;n;n;n;n;n;n;n;e;"); }
 
 //华山村--------------------------------------------------
-createPopButton('华山村中', '直通车', hycFunc);
-function hycFunc() { go("jh 3;s;s;"); }
+createPopButton('杂货铺', '直通车', hyzhpFunc);
+function hyzhpFunc() { go("jh 3;s;s;e;"); }
+
+createPopButton('祠堂大门', '直通车', hycstdmFunc);
+function hycstdmFunc() { go("jh 3;s;s;w;"); }
+
+createPopButton('厅堂', '直通车', hyttFunc);
+function hyttFunc() { go("jh 3;s;s;w;n;"); }
 
 //华山--------------------------------------------------
 createPopButton('华山', '直通车', hyFunc);
