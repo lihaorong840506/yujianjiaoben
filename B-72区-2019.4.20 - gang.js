@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         B-72区-2019.4.20
+// @name         B-72区-2019.4.25
 // @namespace    https://github.com/lihaorong840506/yujianjiaoben
-// @version      2019.4.20
+// @version      2019.4.25
 // @description  免费版本
 // @author       李浩荣
 // @match        http://*.yytou.cn/*
@@ -490,26 +490,14 @@ function WhoAmIFunc() {
             addXueFunc();
         }
         getSettingSkillsMessage()
-        // 自动开单阵
-        autoBattleFunc();
+        // 阵法
+        loadAutoBattle();
         // 监听青龙
-        listenQLFunc();
+        loadQLListen();
         // 监听云远寺
-        DiTuSuiPianFunc();
-
-        /*   if (myID == 'u3267274'){   // 眼泪
-              skillstr6 = "如来神掌,九溪断月枪,6,道种心魔经";
-              skillstr9 = "千影百伤棍,燎原百破,6,道种心魔经";
-              autoBattleFunc();
-              addXueFunc();
-          }
-          if (myID == 'u7630388'){   // 烦
-              skillstr6 = "玄天杖法,九溪断月枪,6,道种心魔经";
-              skillstr9 = "千影百伤棍,燎原百破,6,道种心魔经";
-              mySkillLists = "九溪断月枪;燎原百破";
-              autoBattleFunc();
-              addXueFunc();
-          }*/
+        loadYWSListen();
+        // 监听自动练习，突破
+        loadPTListen();
     }
     setTimeout(WhoAmI1Func, 2000);
 }
@@ -519,20 +507,58 @@ function getGretting(qu, llmyattrs, myID) {
 }
 
 function getSettingSkillsMessage() {
+    if (localStorage[myID + '-skillstr6'] && skillstr6 !== localStorage[myID + '-skillstr6']) skillstr6 = localStorage[myID + '-skillstr6']
+    if (localStorage[myID + '-skillstr9'] && skillstr9 !== localStorage[myID + '-skillstr9']) skillstr9 = localStorage[myID + '-skillstr9']
     recvNetWork2("<span class='out2'><span style='color:rgb(235, 218, 32)'>单阵: </span><span style='color:rgb(118, 235, 32)'>" + skillstr6 + "</span></span>" +
         "<span class='out2'><span style='color:rgb(235, 218, 32)'>群阵: </span><span style='color:rgb(118, 235, 32)'>" + skillstr9 + "</span></span>")
 }
 
+function loadAutoBattle() {
+    if (localStorage[myID + '-skillStatus']) {
+        if (localStorage[myID + '-skillStatus'] == '开单阵') {
+            btnList['开单阵'].innerText = '开单阵';
+        } else if (localStorage[myID + '-skillStatus'] == '开群阵') {
+            btnList['开单阵'].innerText = '开群阵';
+        } else if (localStorage[myID + '-skillStatus'] == '停 阵') {
+            btnList['开单阵'].innerText = '停 阵';
+        }
+    }
+    autoBattleFunc()
+}
+function getAutoBattleMessage() {
+    recvNetWork2("<span class='out2'><span style='color:rgb(235, 218, 32)'>开启阵: </span><span style='color:rgb(118, 235, 32)'>" + skillStatus + "</span></span>")
+}
+
+function loadQLListen() {
+    QLtrigger = localStorage[myID + '-QLtrigger'] == 1 ? 0 : 1
+    listenQLFunc()
+}
 function getQLListenMessage() {
     recvNetWork2("<span class='out2'><span style='color:rgb(235, 218, 32)'>青龙监听: " + (QLtrigger === 1 ? "</span><span style='color:rgb(118, 235, 32)'>开启" : '关闭') + "</span></span>")
 }
 
+function loadKFQLListen() {
+    KFQLtrigger = localStorage[myID + '-KFQLtrigger'] == 1 ? 0 : 1
+    KFQLFunc()
+}
 function getKFQLListenMessage() {
     recvNetWork2("<span class='out2'><span style='color:rgb(235, 218, 32)'>跨服青龙(镖车)监听: " + (KFQLtrigger === 1 ? "</span><span style='color:rgb(118, 235, 32)'>开启" : '关闭') + "</span></span>")
 }
 
-function getYWSListtenMessage() {
+function loadYWSListen() {
+    ditusuipian = sessionStorage[myID + '-ditusuipian'] == 1 ? 0 : 1;
+    DiTuSuiPianFunc()
+}
+function getYWSListenMessage() {
     recvNetWork2("<span class='out2'><span style='color:rgb(235, 218, 32)'>云远寺监听: " + (ditusuipian === 1 ? "</span><span style='color:rgb(118, 235, 32)'>开启" : '关闭') + "</span></span>")
+}
+
+function loadPTListen() {
+    PTtrigger = localStorage[myID + '-PTtrigger'] == 1 ? 0 : 1;
+    PTFunc()
+}
+function getPTListenMessage() {
+    recvNetWork2("<span class='out2'><span style='color:rgb(235, 218, 32)'>自动突破、练习: " + (PTtrigger === 1 ? "</span><span style='color:rgb(118, 235, 32)'>开启" : '关闭') + "</span></span>")
 }
 
 function WhoAmI1Func() {
@@ -565,6 +591,7 @@ function settingSkillstr6() {
     let skillstr_s = prompt("设置单阵: 技能1,技能2,攒气数,技能3(攒气数为9时可释放) 例如: 排云掌法,九天龙吟剑法,6,道种心魔经 （逗号为英文字母逗号)", skillstr6);
     if (skillstr_s && checkInputSkill(skillstr_s)) {
         skillstr6 = skillstr_s
+        localStorage[myID + '-skillstr6'] = skillstr6
         getSettingSkillsMessage()
     }
 }
@@ -572,6 +599,7 @@ function settingSkillstr9() {
     let skillstr_s = prompt("设置群阵: 技能1,技能2,攒气数,技能3(攒气数为9时可释放) 例如: 千影百伤棍,燎原百破,9,道种心魔经 （逗号为英文字母逗号)", skillstr9);
     if (skillstr_s && checkInputSkill(skillstr_s)) {
         skillstr9 = skillstr_s
+        localStorage[myID + '-skillstr9'] = skillstr9
         getSettingSkillsMessage()
     }
 }
@@ -616,17 +644,11 @@ function autoBattleFunc() {
         btnList['开单阵'].innerText = '开群阵';
         skillstr = skillstr6;
         skillStatus = '开单阵'
-        //   clickButton('enable mapped_skills restore go 1', 1);
-        //  clickButton('golook_room');
         autoBattleTimer = setInterval(function () { doAttack(skillstr, playerName, playerMaxHp) }, 1000);
     } else if (btnList['开单阵'].innerText == '开群阵') {
         btnList['开单阵'].innerText = '停 阵';
         skillstr = skillstr9;
-        console.log(skillstr9);
         skillStatus = '开群阵'
-
-        // clickButton('enable mapped_skills restore go 2', 1);
-        //  clickButton('golook_room');
         autoBattleTimer = setInterval(function () { doAttack(skillstr, playerName, playerMaxHp) }, 1000);
     } else if (btnList['开单阵'].innerText == '停 阵') {
         btnList['开单阵'].innerText = '开单阵';
@@ -634,7 +656,8 @@ function autoBattleFunc() {
         skillStatus = '停 阵'
         //   clickButton('enable mapped_skills restore go 3', 1);
     }
-    recvNetWork2("<span class='out2'><span style='color:rgb(235, 218, 32)'>开启阵: </span><span style='color:rgb(118, 235, 32)'>" + skillStatus + "</span></span>")
+    localStorage[myID + '-skillStatus'] = skillStatus
+    getAutoBattleMessage()
 }
 
 function doAttack(skillstr, playerName, playerMaxHp) {
@@ -1769,10 +1792,12 @@ function PTFunc() {
     if (PTtrigger == 1) {
         PTtrigger = 0;
         btnList['突破练习'].innerText = '暂停中';
-    } else if (PTtrigger == 0) {
+    } else {
         PTtrigger = 1;
         btnList['突破练习'].innerText = '突破练习';
     }
+    localStorage[myID + '-PTtrigger'] = PTtrigger
+    getPTListenMessage()
 }
 
 var QLtrigger = 0;
@@ -1780,10 +1805,11 @@ function listenQLFunc() {
     if (QLtrigger == 0) {
         QLtrigger = 1;
         btnList['青龙监听'].innerText = '停止青龙';
-    } else if (QLtrigger == 1) {
+    } else {
         QLtrigger = 0;
         btnList['青龙监听'].innerText = '青龙监听';
     }
+    localStorage[myID + '-QLtrigger'] = QLtrigger
     getQLListenMessage()
 }
 
@@ -1792,10 +1818,11 @@ function KFQLFunc() {
     if (KFQLtrigger == 0) {
         KFQLtrigger = 1;
         btnList1['青龙镖车'].innerText = '停止青龙';
-    } else if (KFQLtrigger == 1) {
+    } else {
         KFQLtrigger = 0;
         btnList1['青龙镖车'].innerText = '青龙镖车';
     }
+    localStorage[myID + '-KFQLtrigger'] = KFQLtrigger
     getKFQLListenMessage()
 }
 
@@ -1805,7 +1832,7 @@ function listenYXFunc() {
     if (YXtrigger == 0) {
         YXtrigger = 1;
         btnList['游侠监听'].innerText = '停止监听';
-    } else if (YXtrigger == 1) {
+    } else {
         YXtrigger = 0;
         btnList['游侠监听'].innerText = '游侠监听';
     }
@@ -1841,11 +1868,12 @@ function DiTuSuiPianFunc() {
         ditusuipian = 1;
         // go("jh 2;n;n;n;n;n;n;n;n;n;n;n;n;n;n;n;n;w;s;s;s;s;e;event_1_2215721;");
         btnList['特殊正邪'].innerText = '停止正邪';
-    } else if (ditusuipian == 1) {
+    } else {
         ditusuipian = 0;
         btnList['特殊正邪'].innerText = '特殊正邪';
     }
-    getYWSListtenMessage()
+    sessionStorage[myID + '-ditusuipian'] = ditusuipian
+    getYWSListenMessage()
 }
 
 
@@ -1864,9 +1892,11 @@ function ClanWarFunc() {
         Parms2 = Parms[1];
         ClanWarFuncRun();
 
-    } else if (clanWarFlag == 1) {
-        clanWarFlag = 0;
-        btnList1['帮派战'].innerText = '帮派战';
+    } else {
+        if (clanWarFlag == 1) {
+            clanWarFlag = 0;
+            btnList1['帮派战'].innerText = '帮派战';
+        }
     }
 }
 
@@ -2037,6 +2067,7 @@ function QinglongMon() { //各种监控大杂烩
             }
             if (msg.match("宝藏秘图任务数量已经超量") != null || msg.match("是你今天完成的第4/4") != null) {
                 ditusuipian = 0;
+                sessionStorage[myID + '-ditusuipian'] = 0
                 paustStatus = 0;
                 btnList['地图碎片'].innerText = '地图碎片';
                 return;
@@ -2050,6 +2081,7 @@ function QinglongMon() { //各种监控大杂烩
             // 跨服青龙信息监控
             if (msg.match("你今天完成的跨服青龙战数量已经超量") != null) {
                 KFQLtrigger = 0;
+                localStorage[myID + '-KFQLtrigger'] = KFQLtrigger
                 btnList1['跨服青龙'].innerText = '跨服青龙';
                 clearInterval(QinglongIntervalFunc);
                 return;
@@ -2080,7 +2112,7 @@ function QinglongMon() { //各种监控大杂烩
                     // clickButton(url);
                     go_qinglong(msg);
                     Qinglong();
-                    sendMessage(msg.replace(/href;0;find_qinglong_road [/d]{5,7}/, '').replace(/[\d]{1}施展力量/, '施展力量'));
+                    sendMessage(msg.replace(/href;0;find_qinglong_road/, '').replace(/[/d]{5,7}/, '').replace(/[\d]{1}施展力量/, '施展力量'));
                     QinglongIntervalFunc = setInterval(Qinglong, 500);
 
                 }
@@ -2092,7 +2124,7 @@ function QinglongMon() { //各种监控大杂烩
                     var url = msg.split("href;0;")[1].split("")[0];
                     clickButton(url);
                     Qinglong();
-                    sendMessage(msg.replace(/href;0;find_qinglong_road [/d]{5,7}/, '').replace(/[\d]{1}施展力量/, '施展力量'));
+                    sendMessage(msg.replace(/href;0;find_qinglong_road/, '').replace(/[/d]{5,7}/, '').replace(/[\d]{1}施展力量/, '施展力量'));
                     QinglongIntervalFunc = setInterval(Qinglong, 500);
 
                 }
@@ -2109,7 +2141,7 @@ function QinglongMon() { //各种监控大杂烩
                             // clickButton(url);
                             go_qinglong(msg);
                             Qinglong();
-                            sendMessage(msg.replace(/href;0;find_qinglong_road [/d]{5,7}/, '').replace(/[\d]{1}施展力量/, '施展力量'));
+                            sendMessage(msg.replace(/href;0;find_qinglong_road/, '').replace(/[/d]{5,7}/, '').replace(/[\d]{1}施展力量/, '施展力量'));
                             setInterval(Qinglong, 500);
                         }
                     }
@@ -2140,16 +2172,17 @@ function QinglongMon() { //各种监控大杂烩
 
             if (msg.match("是你今天完成的第4/4") != null) {
                 ditusuipian = 0;
+                sessionStorage[myID + '-ditusuipian'] = 0
                 btnList['地图碎片'].innerText = '地图碎片';
                 return;
             }
 
             //自动续 打坐、寒玉床
-            if (msg.match("你从寒玉床上爬起，结束了这次练功") != null && QLtrigger == 1) {
+            if (msg.match("你从寒玉床上爬起，结束了这次练功") != null) {
                 go('home;sleep_hanyuchuang');
                 return;
             }
-            if ((msg.match("你停止了打坐") != null) && QLtrigger == 1) {
+            if (msg.match("你停止了打坐") != null) {
                 go('exercise;');
                 return;
             }
@@ -3178,6 +3211,9 @@ function JinKuaFuFunc() {
     QLtrigger = 0;// 跨服不需要监控青龙
     btnList['青龙监听'].innerText = '青龙监听';
     btnList1['青龙镖车'].innerText = '停止青龙';
+
+    localStorage[myID + '-KFQLtrigger'] = KFQLtrigger
+    localStorage[myID + '-QLtrigger'] = QLtrigger
     getQLListenMessage()
     getKFQLListenMessage()
     setTimeout(function () { clickButton('auto_equip on') }, 6000);  // 一键装备
