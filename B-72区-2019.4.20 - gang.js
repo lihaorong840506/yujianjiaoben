@@ -2074,13 +2074,13 @@ function QinglongMon() { //各种监控大杂烩
                 //监控 71-75  青龙(周一、周二）-
                 if ((msg.match("天罡掌套") != null || msg.match("晚香玉") != null || msg.match("凌霄花") != null || msg.match("百宜雪梅") != null || msg.match("朝开暮落花") != null || msg.match("熙颜花") != null || msg.match("夕雾草") != null || msg.match("彼岸花") != null || msg.match("洛神花") != null || msg.match("碎片") != null) && (msg.match("荣威镖局") == null)) { // pt triggsuer = 1 是默认， =0 时 打所有跨服青龙
                     //                  if (( msg.match("晚香玉")!=null || msg.match("凌霄花")!=null || msg.match("百宜雪梅")!=null || msg.match("朝开暮落花")!=null || msg.match("凤凰木")!=null || msg.match("熙颜花")!=null || msg.match("君影草")!=null ||msg.match("矢车菊")!=null ||msg.match("忘忧草")!=null ||msg.match("仙客来")!=null ||msg.match("雪英")!=null ||msg.match("夕雾草")!=null ||  msg.match("彼岸花")!=null || msg.match("洛神花")!=null || PTtrigger == 0) && ( msg.match("荣威镖局")==null)){ // pt triggsuer = 1 是默认， =0 时 打所有跨服青龙
-                    sendMessage(msg);
                     clearInterval(QinglongIntervalFunc);
                     var url = msg.split("href;0;")[1].split("")[0];
                     tarNPC = msg.split("组织：")[1].split("正在")[0];
                     // clickButton(url);
                     go_qinglong(msg);
                     Qinglong();
+                    sendMessage(msg.replace(/href;0;find_qinglong_road [/d]{5,7}/, '').replace(/[\d]{1}施展力量/, '施展力量'));
                     QinglongIntervalFunc = setInterval(Qinglong, 500);
 
                 }
@@ -2092,6 +2092,7 @@ function QinglongMon() { //各种监控大杂烩
                     var url = msg.split("href;0;")[1].split("")[0];
                     clickButton(url);
                     Qinglong();
+                    sendMessage(msg.replace(/href;0;find_qinglong_road [/d]{5,7}/, '').replace(/[\d]{1}施展力量/, '施展力量'));
                     QinglongIntervalFunc = setInterval(Qinglong, 500);
 
                 }
@@ -2105,10 +2106,10 @@ function QinglongMon() { //各种监控大杂烩
                         tarNPC = msg.split("组织：")[1].split("正在")[0];
                         // 在跨服时，不执行本服青龙的操作
                         if (!tarNPC.match("]区")) {
-                            sendMessage(msg);
                             // clickButton(url);
                             go_qinglong(msg);
                             Qinglong();
+                            sendMessage(msg.replace(/href;0;find_qinglong_road [/d]{5,7}/, '').replace(/[\d]{1}施展力量/, '施展力量'));
                             setInterval(Qinglong, 500);
                         }
                     }
