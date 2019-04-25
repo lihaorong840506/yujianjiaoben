@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         B-72区-2019.4.25
-// @namespace    https://github.com/lihaorong840506/yujianjiaoben
+// @namespace    http://tampermonkey.net/
 // @version      2019.4.25
 // @description  免费版本
 // @author       寒塘渡鹤影 - 闾丘公钢
