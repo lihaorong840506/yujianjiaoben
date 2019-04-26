@@ -5299,7 +5299,6 @@ function getQiXiaList() {
         // console.log(QixiaInfoList);
         QixiaInfoList = SortNewQiXia(firstQiXiaList);
         giveSoreQiXiaListId();
-        setQiXiaObj();
     }
 }
 // 给排序的奇侠列表赋予id
@@ -5365,58 +5364,6 @@ function getQiXiaObj(name) {
 var fightQixiaSwitch = true;
 var qixiaObj = {};
 
-function setQiXiaObj() {
-    if (Base.getCorrectText('4254240')) {
-        getQiXiaObj('风无痕');
-    }
-    // 37区大号
-    if (Base.getCorrectText('4253282')) {
-        getQiXiaObj('狼居胥');
-    }
-    //38区 张三丰
-    else if (Base.getCorrectText('4316804') && Base.correctQu() == '38') {
-        getQiXiaObj('风行骓');
-    }
-    // 37区小号  西方失败
-    else if (Base.getCorrectText('4316804') && Base.correctQu() == '37') {
-        getQiXiaObj('风行骓');
-    } else {
-        getQiXiaObj('吴缜');
-    }
-    if (Base.getCorrectText('4254240')) {
-        getQiXiaObj('风无痕');
-    }
-    //38区 东方大侠
-    if (Base.getCorrectText('4254240') && Base.correctQu() == '38') {
-        getQiXiaObj('王蓉');
-    }
-    // 38小号 火树银花
-    // if(Base.getCorrectText('4259178') && Base.correctQu() == '38'){
-    //     getQiXiaObj('护竺'); 
-    // }
-    // 37区东方1-6号
-    if (isSixId()) {
-        getQiXiaObj('风行骓');
-    }
-    // 37区东方1-6号
-    if (isSmallId()) {
-        getQiXiaObj('吴缜');
-    }
-    //37区
-    // if(Base.getCorrectText('4254240') && Base.correctQu() == '37'){
-    //     getQiXiaObj('李玄霸'); 
-    // }
-    //37区 火狼
-    // if(Base.getCorrectText('4238943')){
-    //     getQiXiaObj('风无痕'); 
-    // }
-    //37区 王有财
-    // if(Base.getCorrectText('4219507')){
-    //     getQiXiaObj('玄月研'); 
-    // }
-    // console.log(qixiaObj);
-}
-
 var fightSkillInter = null,
     setFight = null,
     zhaobing = true;
@@ -5428,7 +5375,6 @@ var isTalkQiXia = false;
 var qixiaDone = false;
 var giveJinInterval = null;
 var giveQixiaSwitch = false;
-GetQiXiaList();
 // 对话奇侠
 function talkToQixiaFn(e) {
     var Dom = $(e.target);
@@ -5470,8 +5416,15 @@ function giveJinToQixiaFn(e) {
         if (qixiaDone) {
             return;
         }
+        if (!QixiaInfoList) {
+            var html = g_obj_map.get("msg_html_page");
+            var firstQiXiaList = formatQx(g_obj_map.get("msg_html_page").get("msg"));
+            QixiaInfoList = SortNewQiXia(firstQiXiaList);
+            giveSoreQiXiaListId();
+            console.log('获取奇侠列表成功');
+        }
         let qixiaName1 = prompt("请输入奇侠名字", "夏岳卿");
-        qixiaObj = getQiXiaObj(qixiaName1)
+        getQiXiaObj(qixiaName1)
         if (!qixiaObj) {
             alert("找不到奇侠【" + qixiaName1 + "】，请正确输入");
             return;
@@ -5519,10 +5472,9 @@ function giveJinQiXiaFunc() {
             // }else{
             //     eval("clickButton('ask " + QiXiaId + "')");
             // }
-
-        }, 1000)
-        giveJinInterval = setInterval(function () {
-            geiJinQiXiaInfo();
+            giveJinInterval = setInterval(function () {
+                geiJinQiXiaInfo();
+            }, 1000)
         }, 1000)
     }
 }
