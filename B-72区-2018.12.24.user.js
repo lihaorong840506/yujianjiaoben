@@ -926,6 +926,10 @@ function tutuFunc() {
         console.log('no arrow')
         return;
     }
+    if (g_obj_map.get("msg_room").get("short") != "神凰林") {
+        console.log('无法到达')
+        return;
+    }
     if (gangsFightControl() == "N") { //没进战斗， 射一发
         go('shediao', 0);
         setTimeout(tutuFunc, 500);
