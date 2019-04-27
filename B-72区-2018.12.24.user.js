@@ -2059,7 +2059,7 @@ function QinglongMon() { //各种监控大杂烩
                 ditusuipian = 0;
                 sessionStorage[myID + '-ditusuipian'] = 0
                 paustStatus = 0;
-                btnList['地图碎片'].innerText = '地图碎片';
+                btnList['特殊正邪'].innerText = '特殊正邪';
                 return;
             }
             // 跨服逃犯信息监控
@@ -2149,7 +2149,7 @@ function QinglongMon() { //各种监控大杂烩
                 ditusuipian = 0;
                 sessionStorage[myID + '-ditusuipian'] = 0
                 paustStatus = 0;
-                btnList['地图碎片'].innerText = '地图碎片';
+                btnList['特殊正邪'].innerText = '特殊正邪';
                 return;
             }
             /*  //  鉴于11区管事的太勤快，这个没必要

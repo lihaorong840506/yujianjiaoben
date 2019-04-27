@@ -2073,7 +2073,7 @@ function QinglongMon() { //各种监控大杂烩
                 ditusuipian = 0;
                 sessionStorage[myID + '-ditusuipian'] = 0
                 paustStatus = 0;
-                btnList['地图碎片'].innerText = '地图碎片';
+                btnList['特殊正邪'].innerText = '特殊正邪';
                 return;
             }
             // 跨服逃犯信息监控
@@ -2177,7 +2177,7 @@ function QinglongMon() { //各种监控大杂烩
             if (msg.match("是你今天完成的第4/4") != null) {
                 ditusuipian = 0;
                 sessionStorage[myID + '-ditusuipian'] = 0
-                btnList['地图碎片'].innerText = '地图碎片';
+                btnList['特殊正邪'].innerText = '特殊正邪';
                 return;
             }
 
@@ -5417,7 +5417,7 @@ function giveJinToQixiaFn(e) {
             return;
         }
         if (!QixiaInfoList) {
-            var html = g_obj_map.get("msg_html_page");
+            clickButton('open jhqx');
             var firstQiXiaList = formatQx(g_obj_map.get("msg_html_page").get("msg"));
             QixiaInfoList = SortNewQiXia(firstQiXiaList);
             giveSoreQiXiaListId();
@@ -5987,3 +5987,8 @@ function doTalkWithQixia(info) {
             console.error("没有找到该奇侠：" + localname + " ！");
     }
 */
+// 获取当前时间
+function getTimes() {
+    var date = new Date();
+    return date.toLocaleString();
+}
