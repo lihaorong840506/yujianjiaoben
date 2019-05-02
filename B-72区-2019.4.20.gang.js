@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B-72区-2019.4.25
 // @namespace    http://tampermonkey.net/
-// @version      2019.4.25
+// @version      2019.5.1
 // @description  免费版本
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -75,6 +75,7 @@ var SkillSet = {
     "玄天杖法": "xtzf", "辉月杖法": "hyzf",
     "拈花解语鞭": "zhjyb", "十怒绞龙索": "snjls",
     "万流归一": "wanliuguiyi",
+    "幽影幻虚步": "yyhuanxubu",
     "九溪断月枪": "jxdyq", "燎原百破": "lybp",
     "千影百伤棍": "qybsg", "破军棍诀": "pjgj",
 };
@@ -2000,44 +2001,44 @@ function QinglongMon() { //各种监控大杂烩
         if (type == "notice") { //handle notice
             var msg = g_simul_efun.replaceControlCharBlank(b.get("msg"));
             // sendMessage(msg);
-            // if (msg.match("对你悄声道") != null) {
-            //     QXStop = 1;
-            //     //               alert(msg);
-            //     btnList1["撩奇侠"].innerText.innerText = '继续奇侠';
-            //     //                var mijing=msg.split("悄声道：你现在去")[1].split("，应当会有发现")[0];
-            //     console.log(msg);
-            //     if (msg.match("山坳") != null) { ShanAoFunc(); }
-            //     if (msg.match("桃花泉") != null) { TaoHuaFunc(); }
-            //     if (msg.match("千尺幢") != null) { QianChiFunc(); }
-            //     if (msg.match("猢狲愁") != null) { HuSunFunc(); }
-            //     if (msg.match("潭畔草地") != null) { CaoDiFunc(); }
-            //     if (msg.match("临渊石台") != null) { ShiTaiFunc(); }
-            //     if (msg.match("长空栈道") != null) { ShiTaiFunc1(); }
-            //     if (msg.match("玉女峰") != null) { YuNvFunc(); }
-            //     if (msg.match("沙丘小洞") != null) { ShaQiuFunc(); }
-            //     if (msg.match("九老洞") != null) { JiuLaoFunc(); }
-            //     if (msg.match("悬根松") != null) { XuanSongFunc(); }
-            //     if (msg.match("夕阳岭") != null) { XiYangFunc(); }
-            //     if (msg.match("青云坪") != null) { QingYunFunc(); }
-            //     if (msg.match("玉壁瀑布") != null) { YuBiFunc(); }
-            //     if (msg.match("湖边") != null) { HuBianFunc(); }
-            //     if (msg.match("碧水寒潭") != null) { BiShuiFunc(); }
-            //     if (msg.match("寒水潭") != null) { HanShuiFunc(); }
-            //     if (msg.match("悬崖") != null) { GuMuXuanYaFunc(); }
-            //     if (msg.match("戈壁") != null) { GeBiFunc(); }
-            //     if (msg.match("卢崖瀑布") != null) { LuYaPuBuFunc(); }
-            //     if (msg.match("启母石") != null) { QiMuFunc(); }
-            //     if (msg.match("无极老姆洞") != null) { WuJiDongFunc(); }
-            //     if (msg.match("山溪畔") != null) { WuJiDongFunc1(); }
-            //     if (msg.match("奇槐坡") != null) { QiHuaiFunc(); }
-            //     if (msg.match("天梯") != null) { TianTiFunc(); }
-            //     if (msg.match("小洞天") != null) { XiaoDongFunc(); }
-            //     if (msg.match("云步桥") != null) { YunBuFunc(); }
-            //     if (msg.match("观景台") != null) { GuanJingFunc(); }
-            //     if (msg.match("危崖前") != null) { WeiYaQianFunc(); }
-            //     if (msg.match("草原") != null) { CaoYuanFunc(); }
-            //     if (msg.match("无名山峡谷") != null) { WuMingFunc(); }
-            // }
+            if (msg.match("对你悄声道") != null) {
+                QXStop = 1;
+                //               alert(msg);
+                btnList1["撩奇侠"].innerText.innerText = '继续奇侠';
+                //                var mijing=msg.split("悄声道：你现在去")[1].split("，应当会有发现")[0];
+                console.log(msg);
+                if (msg.match("山坳") != null) { ShanAoFunc(); }
+                if (msg.match("桃花泉") != null) { TaoHuaFunc(); }
+                if (msg.match("千尺幢") != null) { QianChiFunc(); }
+                if (msg.match("猢狲愁") != null) { HuSunFunc(); }
+                if (msg.match("潭畔草地") != null) { CaoDiFunc(); }
+                if (msg.match("临渊石台") != null) { ShiTaiFunc(); }
+                if (msg.match("长空栈道") != null) { ShiTaiFunc1(); }
+                if (msg.match("玉女峰") != null) { YuNvFunc(); }
+                if (msg.match("沙丘小洞") != null) { ShaQiuFunc(); }
+                if (msg.match("九老洞") != null) { JiuLaoFunc(); }
+                if (msg.match("悬根松") != null) { XuanSongFunc(); }
+                if (msg.match("夕阳岭") != null) { XiYangFunc(); }
+                if (msg.match("青云坪") != null) { QingYunFunc(); }
+                if (msg.match("玉壁瀑布") != null) { YuBiFunc(); }
+                if (msg.match("湖边") != null) { HuBianFunc(); }
+                if (msg.match("碧水寒潭") != null) { BiShuiFunc(); }
+                if (msg.match("寒水潭") != null) { HanShuiFunc(); }
+                if (msg.match("悬崖") != null) { GuMuXuanYaFunc(); }
+                if (msg.match("戈壁") != null) { GeBiFunc(); }
+                if (msg.match("卢崖瀑布") != null) { LuYaPuBuFunc(); }
+                if (msg.match("启母石") != null) { QiMuFunc(); }
+                if (msg.match("无极老姆洞") != null) { WuJiDongFunc(); }
+                if (msg.match("山溪畔") != null) { WuJiDongFunc1(); }
+                if (msg.match("奇槐坡") != null) { QiHuaiFunc(); }
+                if (msg.match("天梯") != null) { TianTiFunc(); }
+                if (msg.match("小洞天") != null) { XiaoDongFunc(); }
+                if (msg.match("云步桥") != null) { YunBuFunc(); }
+                if (msg.match("观景台") != null) { GuanJingFunc(); }
+                if (msg.match("危崖前") != null) { WeiYaQianFunc(); }
+                if (msg.match("草原") != null) { CaoYuanFunc(); }
+                if (msg.match("无名山峡谷") != null) { WuMingFunc(); }
+            }
             //自动续 突破
             if (msg.match("成功向前突破了") != null && PTtrigger == 1) {
                 var onGoingSkill = msg.split("你的")[1].split("成功向前突破了")[0]; // 提取skill
@@ -2115,9 +2116,9 @@ function QinglongMon() { //各种监控大杂烩
                     tarNPC = msg.split("组织：")[1].split("正在")[0];
                     // clickButton(url);
                     go_qinglong(msg);
-                    Qinglong();
+                    Qinglong(tarNPC);
                     sendMessage(msg.replace(/href;0;find_qinglong_road/, '').replace(/[/d]{5,7}/, '').replace(/[\d]{1}施展力量/, '施展力量'));
-                    QinglongIntervalFunc = setInterval(Qinglong, 500);
+                    // QinglongIntervalFunc = setInterval(Qinglong(msg), 500);
 
                 }
                 //监控 71-75  镖车(周日）-
@@ -2127,9 +2128,9 @@ function QinglongMon() { //各种监控大杂烩
                     clearInterval(QinglongIntervalFunc);
                     var url = msg.split("href;0;")[1].split("")[0];
                     clickButton(url);
-                    Qinglong();
+                    Qinglong(tarNPC);
                     sendMessage(msg.replace(/href;0;find_qinglong_road/, '').replace(/[/d]{5,7}/, '').replace(/[\d]{1}施展力量/, '施展力量'));
-                    QinglongIntervalFunc = setInterval(Qinglong, 500);
+                    // QinglongIntervalFunc = setInterval(Qinglong(msg), 500);
 
                 }
             }
@@ -2137,18 +2138,18 @@ function QinglongMon() { //各种监控大杂烩
             if (QLtrigger == 1) {
                 if (msg.match("青龙会组织") != null) {
                     //                    console.log(msg);
-                    if ((msg.match("天罡掌套") != null || msg.match("晚香玉") != null || msg.match("凌霄花") != null || msg.match("百宜雪梅") != null || msg.match("朝开暮落花") != null || msg.match("凤凰木") != null || msg.match("熙颜花") != null || msg.match("君影草") != null || msg.match("矢车菊") != null || msg.match("忘忧草") != null || msg.match("仙客来") != null || msg.match("雪英") != null || msg.match("夕雾草") != null || msg.match("彼岸花") != null || msg.match("洛神花") != null || msg.match("碎片") != null || msg.match("岳老大") != null) || (msg.match("乾坤再造丹") != null) || (msg.match("灵草") != null) || (msg.match("小还丹") != null) || (msg.match("紫芝") != null) || (msg.match("狂暴丹") != null)) {
+                    // if ((msg.match("天罡掌套") != null || msg.match("晚香玉") != null || msg.match("凌霄花") != null || msg.match("百宜雪梅") != null || msg.match("朝开暮落花") != null || msg.match("凤凰木") != null || msg.match("熙颜花") != null || msg.match("君影草") != null || msg.match("矢车菊") != null || msg.match("忘忧草") != null || msg.match("仙客来") != null || msg.match("雪英") != null || msg.match("夕雾草") != null || msg.match("彼岸花") != null || msg.match("洛神花") != null || msg.match("碎片") != null || msg.match("岳老大") != null) || (msg.match("乾坤再造丹") != null) || (msg.match("灵草") != null) || (msg.match("小还丹") != null) || (msg.match("紫芝") != null) || (msg.match("狂暴丹") != null)) {
                         var url = msg.split("href;0;")[1].split("")[0];
                         tarNPC = msg.split("组织：")[1].split("正在")[0];
                         // 在跨服时，不执行本服青龙的操作
                         if (!tarNPC.match("]区")) {
                             // clickButton(url);
                             go_qinglong(msg);
-                            Qinglong();
+                            Qinglong(tarNPC);
                             sendMessage(msg.replace(/href;0;find_qinglong_road/, '').replace(/[/d]{5,7}/, '').replace(/[\d]{1}施展力量/, '施展力量'));
-                            setInterval(Qinglong, 500);
+                            // setInterval(Qinglong(msg), 500);
                         }
-                    }
+                    // }
                 }
             }
 
@@ -2229,9 +2230,9 @@ function QinglongMon() { //各种监控大杂烩
                 var url = msg.split("href;0;")[1].split("")[0];
                 if (btnList1["杀好人"].innerText == '停好人') { tarNPC = '[71-75区]无一'; }
                 else { tarNPC = '[71-75区]段老大'; }
-                clearInterval(QinglongIntervalFunc);
-                Qinglong();
-                QinglongIntervalFunc = setInterval(Qinglong, 500);
+                // clearInterval(QinglongIntervalFunc);
+                Qinglong(tarNPC);
+                // QinglongIntervalFunc = setInterval(Qinglong, 500);
                 zhou4TaoFan = 1;
                 clickButton(url);
                 return;
@@ -2293,21 +2294,12 @@ function go_qinglong(msg) {
 var QinglongIntervalFunc = null;
 var currentNPCIndex = 0;
 
-function QinglongFunc() {
-    zdskill = null;
-    currentNPCIndex = 0;
-    console.log("开始杀青龙 qinglongfunc" + "tarNPC=" + tarNPC);
-    skillLists = mySkillLists;
-    QinglongIntervalFunc = setInterval(Qinglong, 500);
-
-}
-
-function Qinglong() {
+function Qinglong(tarNPC) {
     if ($('span').text().slice(-7) == "不能杀这个人。") {
         currentNPCIndex = currentNPCIndex + 1;
     }
     //   console.log(" qinglong：" + "tarNPC=" + tarNPC);
-    getQinglongCode();
+    getQinglongCode(tarNPC);
     if ($('span:contains(胜利)').text().slice(-3) == '胜利！' || $('span:contains(战败了)').text().slice(-6) == '战败了...') {
         currentNPCIndex = 0;
         //      console.log('杀人一次！');
@@ -2316,12 +2308,12 @@ function Qinglong() {
         clickButton('golook_room');
     }
 }
-function getQinglongCode() {
+function getQinglongCode(tarNPC) {
     var peopleList = $(".cmd_click3");
     var thisonclick = null;
     var targetNPCListHere = [];
     var countor = 0;
-    //    console.log("getqinglongcode:" + "tarNPC=" + tarNPC);
+    console.log("getqinglongcode:" + "tarNPC=" + tarNPC);
 
     for (var i = 0; i < peopleList.length; i++) { // 从第一个开始循环
         // 打印 NPC 名字，button 名，相应的NPC名
@@ -2338,9 +2330,10 @@ function getQinglongCode() {
         currentNPCIndex = 0;
     }
     if (targetNPCListHere.length > 0) {
-        thisonclick = targetNPCListHere[currentNPCIndex].getAttribute('onclick');
+        thisonclick = targetNPCListHere[countor].getAttribute('onclick');
         var targetCode = thisonclick.split("'")[1].split(" ")[1];
-        //     console.log("准备杀目标NPC名字：" + targetNPCListHere[currentNPCIndex].innerText + "，代码：" + targetCode +"，目标列表中序号：" + (currentNPCIndex ));
+        console.log("准备杀目标NPC名字：" + targetNPCListHere[countor].innerText + "，代码：" + targetCode +"，目标列表中序号：" + (countor ));
+        recvNetWork2("<span class='out2'><span style='color:rgb(235, 218, 32)'>青龙 ID: " + targetCode  + "</span></span>")
         clickButton('kill ' + targetCode); // 点击杀人
         setTimeout(detectQinglongInfo, 200); // 200 ms后获取杀人情况，是满了还是进入了
     }

@@ -75,6 +75,7 @@ var SkillSet = {
     "玄天杖法": "xtzf", "辉月杖法": "hyzf",
     "拈花解语鞭": "zhjyb", "十怒绞龙索": "snjls",
     "万流归一": "wanliuguiyi",
+    "幽影幻虚步": "yyhuanxubu",
     "九溪断月枪": "jxdyq", "燎原百破": "lybp",
     "千影百伤棍": "qybsg", "破军棍诀": "pjgj",
 };
@@ -2099,9 +2100,8 @@ function QinglongMon() { //各种监控大杂烩
                     var url = msg.split("href;0;")[1].split("")[0];
                     tarNPC = msg.split("组织：")[1].split("正在")[0];
                     clickButton(url);
-                    Qinglong();
-                    QinglongIntervalFunc = setInterval(Qinglong, 500);
-
+                    Qinglong(tarNPC);
+                    // QinglongIntervalFunc = setInterval(Qinglong, 500);
                 }
                 //监控 71-75  镖车(周日）-
                 if (msg.match("71-75区]花落云") != null) {
@@ -2110,9 +2110,8 @@ function QinglongMon() { //各种监控大杂烩
                     clearInterval(QinglongIntervalFunc);
                     var url = msg.split("href;0;")[1].split("")[0];
                     clickButton(url);
-                    Qinglong();
-                    QinglongIntervalFunc = setInterval(Qinglong, 500);
-
+                    Qinglong(tarNPC);
+                    // QinglongIntervalFunc = setInterval(Qinglong, 500);
                 }
             }
             //监控 本服 碎片青龙
@@ -2123,8 +2122,8 @@ function QinglongMon() { //各种监控大杂烩
                         var url = msg.split("href;0;")[1].split("")[0];
                         tarNPC = msg.split("组织：")[1].split("正在")[0];
                         clickButton(url);
-                        Qinglong();
-                        setInterval(Qinglong, 500);
+                        Qinglong(tarNPC);
+                        // setInterval(Qinglong, 500);
                     }
                 }
             }
@@ -2206,8 +2205,8 @@ function QinglongMon() { //各种监控大杂烩
                 if (btnList1["杀好人"].innerText == '停好人') { tarNPC = '[71-75区]无一'; }
                 else { tarNPC = '[71-75区]段老大'; }
                 clearInterval(QinglongIntervalFunc);
-                Qinglong();
-                QinglongIntervalFunc = setInterval(Qinglong, 500);
+                Qinglong(tarNPC);
+                // QinglongIntervalFunc = setInterval(Qinglong, 500);
                 zhou4TaoFan = 1;
                 clickButton(url);
                 return;
@@ -2246,21 +2245,12 @@ function QinglongMon() { //各种监控大杂烩
 var QinglongIntervalFunc = null;
 var currentNPCIndex = 0;
 
-function QinglongFunc() {
-    zdskill = null;
-    currentNPCIndex = 0;
-    console.log("开始杀青龙 qinglongfunc" + "tarNPC=" + tarNPC);
-    skillLists = mySkillLists;
-    QinglongIntervalFunc = setInterval(Qinglong, 500);
-
-}
-
-function Qinglong() {
+function Qinglong(tarNPC) {
     if ($('span').text().slice(-7) == "不能杀这个人。") {
         currentNPCIndex = currentNPCIndex + 1;
     }
     //   console.log(" qinglong：" + "tarNPC=" + tarNPC);
-    getQinglongCode();
+    getQinglongCode(tarNPC);
     if ($('span:contains(胜利)').text().slice(-3) == '胜利！' || $('span:contains(战败了)').text().slice(-6) == '战败了...') {
         currentNPCIndex = 0;
         //      console.log('杀人一次！');
@@ -2269,7 +2259,7 @@ function Qinglong() {
         clickButton('golook_room');
     }
 }
-function getQinglongCode() {
+function getQinglongCode(tarNPC) {
     var peopleList = $(".cmd_click3");
     var thisonclick = null;
     var targetNPCListHere = [];
@@ -2291,7 +2281,7 @@ function getQinglongCode() {
         currentNPCIndex = 0;
     }
     if (targetNPCListHere.length > 0) {
-        thisonclick = targetNPCListHere[currentNPCIndex].getAttribute('onclick');
+        thisonclick = targetNPCListHere[countor].getAttribute('onclick');
         var targetCode = thisonclick.split("'")[1].split(" ")[1];
         //     console.log("准备杀目标NPC名字：" + targetNPCListHere[currentNPCIndex].innerText + "，代码：" + targetCode +"，目标列表中序号：" + (currentNPCIndex ));
         clickButton('kill ' + targetCode); // 点击杀人
