@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B-72区-2019.4.25
 // @namespace    http://tampermonkey.net/
-// @version      2019.4.25
+// @version      2019.5.2
 // @description  try to take over the world!
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
