@@ -2042,7 +2042,9 @@ function QinglongMon() { //各种监控大杂烩
             //自动续 突破
             if (msg.match("成功向前突破了") != null && PTtrigger == 1) {
                 var onGoingSkill = msg.split("你的")[1].split("成功向前突破了")[0]; // 提取skill
+                console.log("onGoingSkill: " + onGoingSkill)
                 for (var skill in SkillSet) {
+                    console.log("skill: " + JSON.stringify(skill))
                     if (isContains(skill, onGoingSkill)) {
                         var onGoingSkillID = SkillSet[skill];
                         console.log(onGoingSkillID);
@@ -2130,8 +2132,7 @@ function QinglongMon() { //各种监控大杂烩
                     clickButton(url);
                     Qinglong(tarNPC);
                     sendMessage(msg.replace(/href;0;find_qinglong_road/, '').replace(/[/d]{5,7}/, '').replace(/[\d]{1}施展力量/, '施展力量'));
-                    // QinglongIntervalFunc = setInterval(Qinglong(msg), 500);
-
+                    // QinglongIntervalFunc = setInterval(Qinglong(tarNPC), 500);
                 }
             }
             //监控 本服 碎片青龙
@@ -2147,7 +2148,7 @@ function QinglongMon() { //各种监控大杂烩
                             go_qinglong(msg);
                             Qinglong(tarNPC);
                             sendMessage(msg.replace(/href;0;find_qinglong_road/, '').replace(/[/d]{5,7}/, '').replace(/[\d]{1}施展力量/, '施展力量'));
-                            // setInterval(Qinglong(msg), 500);
+                            // setInterval(Qinglong(tarNPC), 500);
                         }
                     }
                 }
@@ -2230,7 +2231,7 @@ function QinglongMon() { //各种监控大杂烩
                 var url = msg.split("href;0;")[1].split("")[0];
                 if (btnList1["杀好人"].innerText == '停好人') { tarNPC = '[71-75区]无一'; }
                 else { tarNPC = '[71-75区]段老大'; }
-                // clearInterval(QinglongIntervalFunc);
+                clearInterval(QinglongIntervalFunc);
                 Qinglong(tarNPC);
                 // QinglongIntervalFunc = setInterval(Qinglong, 500);
                 zhou4TaoFan = 1;
@@ -2330,9 +2331,9 @@ function getQinglongCode(tarNPC) {
         currentNPCIndex = 0;
     }
     if (targetNPCListHere.length > 0) {
-        thisonclick = targetNPCListHere[countor].getAttribute('onclick');
+        thisonclick = targetNPCListHere[countor - 1].getAttribute('onclick');
         var targetCode = thisonclick.split("'")[1].split(" ")[1];
-        console.log("准备杀目标NPC名字：" + targetNPCListHere[countor].innerText + "，代码：" + targetCode +"，目标列表中序号：" + (countor ));
+        console.log("准备杀目标NPC名字：" + targetNPCListHere[countor - 1].innerText + "，代码：" + targetCode +"，目标列表中序号：" + (countor ));
         recvNetWork2("<span class='out2'><span style='color:rgb(235, 218, 32)'>青龙 ID: " + targetCode  + "</span></span>")
         clickButton('kill ' + targetCode); // 点击杀人
         setTimeout(detectQinglongInfo, 200); // 200 ms后获取杀人情况，是满了还是进入了
@@ -3272,9 +3273,9 @@ function getHongMingTargetCode() {
         currentNPCIndex = 0;
     }
     if (targetNPCListHere.length > 0) {
-        thisonclick = targetNPCListHere[currentNPCIndex].getAttribute('onclick');
+        thisonclick = targetNPCListHere[countor - 1].getAttribute('onclick');
         var targetCode = thisonclick.split("'")[1].split(" ")[1];
-        //     console.log("准备杀目标NPC名字：" + targetNPCListHere[currentNPCIndex].innerText + "，代码：" + targetCode +"，目标列表中序号：" + (currentNPCIndex ));
+        //     console.log("准备杀目标NPC名字：" + targetNPCListHere[countor - 1].innerText + "，代码：" + targetCode +"，目标列表中序号：" + (currentNPCIndex ));
         clickButton('kill ' + targetCode); // 点击杀人
         setTimeout(detectKillHongMingInfo, 200); // 200 ms后获取杀人情况，是满了还是进入了
     }
@@ -3355,9 +3356,9 @@ function getHuangMingTargetCode() {
         currentNPCIndex = 0;
     }
     if (targetNPCListHere.length > 0) {
-        thisonclick = targetNPCListHere[currentNPCIndex].getAttribute('onclick');
+        thisonclick = targetNPCListHere[countor - 1].getAttribute('onclick');
         var targetCode = thisonclick.split("'")[1].split(" ")[1];
-        //      console.log("准备杀目标NPC名字：" + targetNPCListHere[currentNPCIndex].innerText + "，代码：" + targetCode +"，目标列表中序号：" + (currentNPCIndex ));
+        //      console.log("准备杀目标NPC名字：" + targetNPCListHere[countor - 1].innerText + "，代码：" + targetCode +"，目标列表中序号：" + (currentNPCIndex ));
         clickButton('kill ' + targetCode); // 点击杀人
         setTimeout(detectKillHuangMingInfo, 200); // 200 ms后获取杀人情况，是满了还是进入了
     }
@@ -3436,9 +3437,9 @@ function getZhou4Code() {
         currentNPCIndex = 0;
     }
     if (targetNPCListHere.length > 0) {
-        thisonclick = targetNPCListHere[currentNPCIndex].getAttribute('onclick');
+        thisonclick = targetNPCListHere[countor - 1].getAttribute('onclick');
         var targetCode = thisonclick.split("'")[1].split(" ")[1];
-        console.log("准备杀目标NPC名字：" + targetNPCListHere[currentNPCIndex].innerText + "，代码：" + targetCode + "，目标列表中序号：" + (currentNPCIndex));
+        console.log("准备杀目标NPC名字：" + targetNPCListHere[countor - 1].innerText + "，代码：" + targetCode + "，目标列表中序号：" + (currentNPCIndex));
         clickButton('kill ' + targetCode); // 点击杀人
         setTimeout(detectZhou4Info, 200); // 200 ms后获取杀人情况，是满了还是进入了
     }
@@ -3553,9 +3554,9 @@ function getTianJianTargetCode() {
         currentNPCIndex = 0;
     }
     if (targetNPCListHere.length > 0) {
-        thisonclick = targetNPCListHere[currentNPCIndex].getAttribute('onclick');
+        thisonclick = targetNPCListHere[countor - 1].getAttribute('onclick');
         var targetCode = thisonclick.split("'")[1].split(" ")[1];
-        console.log("准备杀目标NPC名字：" + targetNPCListHere[currentNPCIndex].innerText + "，代码：" + targetCode + "，目标列表中序号：" + (currentNPCIndex));
+        console.log("准备杀目标NPC名字：" + targetNPCListHere[countor - 1].innerText + "，代码：" + targetCode + "，目标列表中序号：" + (currentNPCIndex));
         clickButton('kill ' + targetCode); // 点击杀人
         setTimeout(detectKillTianJianInfo, 200); // 200 ms后获取杀人情况，是满了还是进入了
     }
