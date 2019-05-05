@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         B-72区-2019.5.2
+// @name         B-72区-2019.5.5
 // @namespace    http://tampermonkey.net/
-// @version      2019.5.2
+// @version      2019.5.5
 // @description  免费版本
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -2320,7 +2320,6 @@ function Qinglong(tarNPC) {
         setTimeout(() => {
             Qinglong(tarNPC)
         }, 500)
-        setTimeout
         return
     }
     //   console.log(" qinglong：" + "tarNPC=" + tarNPC);
@@ -2364,18 +2363,20 @@ function getQinglongCode(tarNPC) {
             clickButton('kill ' + targetCode)
             console.log("kill " + targetCode)
         }, 200); // 点击杀人
-        setTimeout(detectQinglongInfo(inteval), 200); // 200 ms后获取杀人情况，是满了还是进入了
+        setTimeout(() => {
+            detectQinglongInfo(inteval)
+        }, 300); // 200 ms后获取杀人情况，是满了还是进入了
     }
 }
 function detectQinglongInfo(inteval) {
     var QinglongInfo = $('span').text();
-    if (QinglongInfo.slice(-15) == "已经太多人了，不要以多欺少啊。") {
+    if (QinglongInfo.slice(-15) == "已经太多人了，不要以多欺少啊") {
         clearInterval(inteval)
-    } else if (QinglongInfo.slice(-8) == "这儿没有这个人。") {
+    } else if (QinglongInfo.slice(-8).includes("这儿没有这个人")) {
         clearInterval(inteval)
     } else if (gangsFightControl() == 'Y') {
         clearInterval(inteval)
-    } else if (QinglongInfo.slice(-15).includes("情况还不明朗，先观察一下再动手")) {
+    } else if (QinglongInfo.slice(-20).includes("情况还不明朗，先观察一下再动手")) {
         setTimout(() => {
             detectQinglongInfo(inteval)
         }, 200)
@@ -2578,7 +2579,7 @@ function runsGonsFunc() {
 function gangsFightControl() {
     var gangsIsFight = 'N'
     if ($("#out2 span.out2 ").html().indexOf("auto_fight") != -1) {
-        //        console.log("检测到进入了战斗")
+        console.log("检测到进入了战斗")
         gangsIsFight = 'Y'
     } else {
         gangsIsFight = 'N'
