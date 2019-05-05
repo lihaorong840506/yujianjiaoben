@@ -2117,7 +2117,6 @@ function QinglongMon() { //各种监控大杂烩
                     tarNPC = msg.split("组织：")[1].split("正在")[0];
                     // clickButton(url);
                     go_qinglong(msg);
-                    // Qinglong(tarNPC);
                     Qinglong(tarNPC)
                     sendMessage(msg.replace(/href;0;find_qinglong_road/, '').replace(/[/d]{5,7}/, '').replace(/[\d]{1}施展力量/, '施展力量'));
 
@@ -2137,14 +2136,14 @@ function QinglongMon() { //各种监控大杂烩
                 if (msg.match("青龙会组织") != null) {
                     //                    console.log(msg);
                     // if ((msg.match("天罡掌套") != null || msg.match("晚香玉") != null || msg.match("凌霄花") != null || msg.match("百宜雪梅") != null || msg.match("朝开暮落花") != null || msg.match("凤凰木") != null || msg.match("熙颜花") != null || msg.match("君影草") != null || msg.match("矢车菊") != null || msg.match("忘忧草") != null || msg.match("仙客来") != null || msg.match("雪英") != null || msg.match("夕雾草") != null || msg.match("彼岸花") != null || msg.match("洛神花") != null || msg.match("碎片") != null || msg.match("岳老大") != null) || (msg.match("乾坤再造丹") != null) || (msg.match("灵草") != null) || (msg.match("小还丹") != null) || (msg.match("紫芝") != null) || (msg.match("狂暴丹") != null)) {
-                        tarNPC = msg.split("组织：")[1].split("正在")[0];
-                        // 在跨服时，不执行本服青龙的操作
-                        if (!tarNPC.match("]区")) {
-                            // clickButton(url);
-                            go_qinglong(msg);
-                            Qinglong(tarNPC);
-                            sendMessage(msg.replace(/href;0;find_qinglong_road/, '').replace(/[/d]{5,7}/, '').replace(/[\d]{1}施展力量/, '施展力量'));
-                        }
+                    tarNPC = msg.split("组织：")[1].split("正在")[0];
+                    // 在跨服时，不执行本服青龙的操作
+                    if (!tarNPC.match("]区")) {
+                        // clickButton(url);
+                        go_qinglong(msg);
+                        Qinglong(tarNPC);
+                        sendMessage(msg.replace(/href;0;find_qinglong_road/, '').replace(/[/d]{5,7}/, '').replace(/[\d]{1}施展力量/, '施展力量'));
+                    }
                     // }
                 }
             }
@@ -2346,7 +2345,7 @@ function getQinglongCode(tarNPC) {
         // thisonclick = peopleList[i].getAttribute('onclick');
         if (tarNPC == (peopleList[i].innerText)) {
             // var targetCode = thisonclick.split("'")[1].split(" ")[1];
-            console.log("发现NPC名字：" +  peopleList[i].innerText);
+            console.log("发现NPC名字：" + peopleList[i].innerText);
             targetNPCListHere[countor] = peopleList[i];
             countor = countor + 1;
         }
@@ -2359,11 +2358,11 @@ function getQinglongCode(tarNPC) {
     if (targetNPCListHere.length > 0) {
         thisonclick = targetNPCListHere[countor - 1].getAttribute('onclick');
         var targetCode = thisonclick.split("'")[1].split(" ")[1];
-        console.log("准备杀目标NPC名字：" + targetNPCListHere[countor - 1].innerText + "，代码：" + targetCode +"，目标列表中序号：" + (countor - 1));
-        recvNetWork2("<span class='out2'><span style='color:rgb(235, 218, 32)'>青龙 ID: " + targetCode  + "</span></span>")
+        console.log("准备杀目标NPC名字：" + targetNPCListHere[countor - 1].innerText + "，代码：" + targetCode + "，目标列表中序号：" + (countor - 1));
+        recvNetWork2("<span class='out2'><span style='color:rgb(235, 218, 32)'>青龙 ID: " + targetCode + "</span></span>")
         let inteval = setInterval(() => {
             clickButton('kill ' + targetCode)
-            console.log("kill" + targetCode)
+            console.log("kill " + targetCode)
         }, 200); // 点击杀人
         setTimeout(detectQinglongInfo(inteval), 200); // 200 ms后获取杀人情况，是满了还是进入了
     }
@@ -2371,7 +2370,8 @@ function getQinglongCode(tarNPC) {
 function detectQinglongInfo(inteval) {
     var QinglongInfo = $('span').text();
     if (QinglongInfo.slice(-15) == "已经太多人了，不要以多欺少啊。") {
-        currentNPCIndex = currentNPCIndex + 1;
+        clearInterval(inteval)
+    } else if (QinglongInfo.slice(-8) == "这儿没有这个人。") {
         clearInterval(inteval)
     } else if (gangsFightControl() == 'Y') {
         clearInterval(inteval)
