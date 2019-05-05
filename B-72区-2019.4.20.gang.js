@@ -2128,23 +2128,23 @@ function QinglongMon() { //各种监控大杂烩
                     var url = msg.split("href;0;")[1].split("")[0];
                     clickButton(url);
                     Qinglong(tarNPC);
-                    sendMessage(msg.replace(/href;0;find_qinglong_road/, '').replace(/[/d]{5,7}/, '').replace(/[\d]{1}施展力量/, '施展力量'));
+                    sendMessage(msg.replace(/href;0;find_qinglong_road/, '').replace(/\d{5,7}/, '').replace(/\d{1}/, ''));
                 }
             }
             //监控 本服 碎片青龙
             if (QLtrigger == 1) {
                 if (msg.match("青龙会组织") != null) {
                     //                    console.log(msg);
-                    // if ((msg.match("天罡掌套") != null || msg.match("晚香玉") != null || msg.match("凌霄花") != null || msg.match("百宜雪梅") != null || msg.match("朝开暮落花") != null || msg.match("凤凰木") != null || msg.match("熙颜花") != null || msg.match("君影草") != null || msg.match("矢车菊") != null || msg.match("忘忧草") != null || msg.match("仙客来") != null || msg.match("雪英") != null || msg.match("夕雾草") != null || msg.match("彼岸花") != null || msg.match("洛神花") != null || msg.match("碎片") != null || msg.match("岳老大") != null) || (msg.match("乾坤再造丹") != null) || (msg.match("灵草") != null) || (msg.match("小还丹") != null) || (msg.match("紫芝") != null) || (msg.match("狂暴丹") != null)) {
-                    tarNPC = msg.split("组织：")[1].split("正在")[0];
-                    // 在跨服时，不执行本服青龙的操作
-                    if (!tarNPC.match("]区")) {
-                        // clickButton(url);
-                        go_qinglong(msg);
-                        Qinglong(tarNPC);
-                        sendMessage(msg.replace(/href;0;find_qinglong_road/, '').replace(/[/d]{5,7}/, '').replace(/[\d]{1}施展力量/, '施展力量'));
+                    if ((msg.match("天罡掌套") != null || msg.match("晚香玉") != null || msg.match("凌霄花") != null || msg.match("百宜雪梅") != null || msg.match("朝开暮落花") != null || msg.match("凤凰木") != null || msg.match("熙颜花") != null || msg.match("君影草") != null || msg.match("矢车菊") != null || msg.match("忘忧草") != null || msg.match("仙客来") != null || msg.match("雪英") != null || msg.match("夕雾草") != null || msg.match("彼岸花") != null || msg.match("洛神花") != null || msg.match("碎片") != null || msg.match("岳老大") != null) || (msg.match("乾坤再造丹") != null) || (msg.match("灵草") != null) || (msg.match("小还丹") != null) || (msg.match("紫芝") != null) || (msg.match("狂暴丹") != null)) {
+                        tarNPC = msg.split("组织：")[1].split("正在")[0];
+                        // 在跨服时，不执行本服青龙的操作
+                        if (!tarNPC.match("]区")) {
+                            // clickButton(url);
+                            go_qinglong(msg);
+                            Qinglong(tarNPC);
+                            sendMessage(msg.replace(/href;0;find_qinglong_road/, '').replace(/\d{5,7}/, '').replace(/\d{1}/, ''));
+                        }
                     }
-                    // }
                 }
             }
 
