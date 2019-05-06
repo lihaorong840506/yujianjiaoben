@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         B-72区-2019.5.5
+// @name         B-72区-2019.5.2
 // @namespace    http://tampermonkey.net/
-// @version      2019.5.5
+// @version      2019.5.6
 // @description  免费版本
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -1961,6 +1961,7 @@ function QinglongMon() { //各种监控大杂烩
         var type = b.get("type"), subType = b.get("subtype");
         if ((type == "vs" && subType == "text") && (sixqpvp == 1 || papapa == 1)) {
             var msg = g_simul_efun.replaceControlCharBlank(b.get("msg"));
+            console.log("msg: " + msg)
             // 自动连招
             var number_xdz = "";
             if (sixqpvp == 1) {
@@ -2114,12 +2115,14 @@ function QinglongMon() { //各种监控大杂烩
                 if ((msg.match("天罡掌套") != null || msg.match("晚香玉") != null || msg.match("凌霄花") != null || msg.match("百宜雪梅") != null || msg.match("朝开暮落花") != null || msg.match("熙颜花") != null || msg.match("夕雾草") != null || msg.match("彼岸花") != null || msg.match("洛神花") != null || msg.match("碎片") != null) && (msg.match("荣威镖局") == null)) { // pt triggsuer = 1 是默认， =0 时 打所有跨服青龙
                     //                  if (( msg.match("晚香玉")!=null || msg.match("凌霄花")!=null || msg.match("百宜雪梅")!=null || msg.match("朝开暮落花")!=null || msg.match("凤凰木")!=null || msg.match("熙颜花")!=null || msg.match("君影草")!=null ||msg.match("矢车菊")!=null ||msg.match("忘忧草")!=null ||msg.match("仙客来")!=null ||msg.match("雪英")!=null ||msg.match("夕雾草")!=null ||  msg.match("彼岸花")!=null || msg.match("洛神花")!=null || PTtrigger == 0) && ( msg.match("荣威镖局")==null)){ // pt triggsuer = 1 是默认， =0 时 打所有跨服青龙
                     // var url = msg.split("href;0;")[1].split("")[0];
+                    clearInterval(QinglongIntervalFunc)
                     tarNPC = msg.split("组织：")[1].split("正在")[0];
                     // clickButton(url);
                     go_qinglong(msg);
-                    Qinglong(tarNPC)
+                    QinglongIntervalFunc = setInterval(() => {
+                        Qinglong(tarNPC)
+                    }, 1000)
                     sendMessage(msg.replace(/href;0;find_qinglong_road/, '').replace(/[/d]{5,7}/, '').replace(/[\d]{1}施展力量/, '施展力量'));
-
                 }
                 //监控 71-75  镖车(周日）-
                 if (msg.match("71-75区]花落云") != null) {
@@ -2139,9 +2142,12 @@ function QinglongMon() { //各种监控大杂烩
                         tarNPC = msg.split("组织：")[1].split("正在")[0];
                         // 在跨服时，不执行本服青龙的操作
                         if (!tarNPC.match("]区")) {
+                            clearInterval(QinglongIntervalFunc)
                             // clickButton(url);
                             go_qinglong(msg);
-                            Qinglong(tarNPC);
+                            QinglongIntervalFunc = setInterval(() => {
+                                Qinglong(tarNPC)
+                            }, 1000)
                             sendMessage(msg.replace(/href;0;find_qinglong_road/, '').replace(/\d{5,7}/, '').replace(/\d{1}/, ''));
                         }
                     }
@@ -2264,36 +2270,37 @@ function QinglongMon() { //各种监控大杂烩
 
 var qinglongHere = null;
 function go_qinglong(msg) {
+    let locationName = g_obj_map.get("msg_room") ? g_obj_map.get("msg_room").get("short") : '';
     if (msg.includes('书房')) {
         qinglongHere = '书房'
-        xuetingshufangFunc()
+        if (locationName != qinglongHere) xuetingshufangFunc()
     } else if (msg.includes('打铁铺子')) {
         qinglongHere = '打铁铺子'
-        xuetingtiejiangpuFunc()
+        if (locationName != qinglongHere) xuetingtiejiangpuFunc()
     } else if (msg.includes('桑邻药铺')) {
         qinglongHere = '桑邻药铺'
-        xuetingsanglingyaopuFunc()
+        if (locationName != qinglongHere) xuetingsanglingyaopuFunc()
     } else if (msg.includes('南市')) {
         qinglongHere = '南市'
-        lynsFunc()
+        if (locationName != qinglongHere) lynsFunc()
     } else if (msg.includes('绣楼')) {
         qinglongHere = '绣楼'
-        lyxlFunc()
+        if (locationName != qinglongHere) lyxlFunc()
     } else if (msg.includes('北大街')) {
         qinglongHere = '北大街'
-        lybdjFunc()
+        if (locationName != qinglongHere) lybdjFunc()
     } else if (msg.includes('钱庄')) {
         qinglongHere = '钱庄'
-        lyqzFunc()
+        if (locationName != qinglongHere) lyqzFunc()
     } else if (msg.includes('杂货铺')) {
         qinglongHere = '杂货铺'
-        hyzhpFunc()
+        if (locationName != qinglongHere) hyzhpFunc()
     } else if (msg.includes('祠堂大门')) {
         qinglongHere = '祠堂大门'
-        hycstdmFunc()
+        if (locationName != qinglongHere) hycstdmFunc()
     } else if (msg.includes('厅堂')) {
         qinglongHere = '厅堂'
-        hyttFunc()
+        if (locationName != qinglongHere) hyttFunc()
     }
 }
 
@@ -2311,17 +2318,7 @@ var currentNPCIndex = 0;
 
 function Qinglong(tarNPC) {
     console.log("targetNPC: " + tarNPC)
-    console.log("qinglongHere: " + qinglongHere)
-    let locationname
-    locationname = g_obj_map.get("msg_room") ? g_obj_map.get("msg_room").get("short") : '';
-    console.log("locationname: " + locationname)
-    if (locationname != qinglongHere) {
-        console.log("is not in the qinglong location")
-        setTimeout(() => {
-            Qinglong(tarNPC)
-        }, 500)
-        return
-    }
+    // console.log("qinglongHere: " + qinglongHere)
     //   console.log(" qinglong：" + "tarNPC=" + tarNPC);
     getQinglongCode(tarNPC);
     if ($('span:contains(胜利)').text().slice(-3) == '胜利！' || $('span:contains(战败了)').text().slice(-6) == '战败了...') {
@@ -2332,19 +2329,19 @@ function Qinglong(tarNPC) {
         clickButton('golook_room');
     }
 }
-function getQinglongCode(tarNPC) {
+function getQinglongCode(target) {
     var peopleList = $(".cmd_click3");
     var thisonclick = null;
     var targetNPCListHere = [];
     var countor = 0;
-    console.log("getqinglongcode:" + "tarNPC=" + tarNPC);
-
+    // console.log("getqinglongcode:" + "tarNPC=" + tarNPC);
+    if (target) tarNPC = target
     for (var i = 0; i < peopleList.length; i++) { // 从第一个开始循环
         // 打印 NPC 名字，button 名，相应的NPC名
         // thisonclick = peopleList[i].getAttribute('onclick');
         if (tarNPC == (peopleList[i].innerText)) {
             // var targetCode = thisonclick.split("'")[1].split(" ")[1];
-            console.log("发现NPC名字：" + peopleList[i].innerText);
+            // console.log("发现NPC名字：" + peopleList[i].innerText);
             targetNPCListHere[countor] = peopleList[i];
             countor = countor + 1;
         }
@@ -2353,39 +2350,30 @@ function getQinglongCode(tarNPC) {
     if (currentNPCIndex >= targetNPCListHere.length) {
         currentNPCIndex = 0;
     }
-    console.log(`targetNPCListHere.length : ${targetNPCListHere.length}`)
+    // console.log(`targetNPCListHere.length : ${targetNPCListHere.length}`)
     if (targetNPCListHere.length > 0) {
         thisonclick = targetNPCListHere[countor - 1].getAttribute('onclick');
         var targetCode = thisonclick.split("'")[1].split(" ")[1];
-        console.log("准备杀目标NPC名字：" + targetNPCListHere[countor - 1].innerText + "，代码：" + targetCode + "，目标列表中序号：" + (countor - 1));
-        recvNetWork2("<span class='out2'><span style='color:rgb(235, 218, 32)'>青龙 ID: " + targetCode + "</span></span>")
-        let inteval = setInterval(() => {
-            clickButton('kill ' + targetCode)
-            console.log("kill " + targetCode)
-        }, 200); // 点击杀人
-        setTimeout(() => {
-            detectQinglongInfo(inteval)
-        }, 300); // 200 ms后获取杀人情况，是满了还是进入了
+        // console.log("准备杀目标NPC名字：" + targetNPCListHere[countor - 1].innerText + "，代码：" + targetCode + "，目标列表中序号：" + (countor - 1));
+        // recvNetWork2("<span class='out2'><span style='color:rgb(235, 218, 32)'>青龙 ID: " + targetCode + "</span></span>")
+        clickButton('kill ' + targetCode)
+        // console.log("kill " + targetCode)
+        // console.log("getQinglongCode interval:" + interval)
+        setTimeout(detectQinglongInfo, 200);
     }
 }
-function detectQinglongInfo(inteval) {
+function detectQinglongInfo() {
+    console.log("detectQinglongInfo interval: " + interval)
     var QinglongInfo = $('span').text();
-    if (QinglongInfo.slice(-15) == "已经太多人了，不要以多欺少啊") {
-        clearInterval(inteval)
+    if (QinglongInfo.slice(-15) == "已经太多人了，不要以多欺少啊。") {
+        clearInterval(QinglongIntervalFunc)
     } else if (QinglongInfo.slice(-8).includes("这儿没有这个人")) {
-        clearInterval(inteval)
+        clearInterval(QinglongIntervalFunc)
     } else if (gangsFightControl() == 'Y') {
-        clearInterval(inteval)
-    } else if (QinglongInfo.slice(-20).includes("情况还不明朗，先观察一下再动手")) {
-        setTimout(() => {
-            detectQinglongInfo(inteval)
-        }, 200)
-    } else {
-        setTimout(() => {
-            clearInterval(inteval)
-        }, 10000)
+        clearInterval(QinglongIntervalFunc)
     }
 }
+
 Array.prototype.contains = function (obj) {
     var i = this.length;
     while (i--) {
