@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B-72区-2019.5.2
 // @namespace    http://tampermonkey.net/
-// @version      2019.5.6
+// @version      2019.5.7
 // @description  免费版本
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -1177,7 +1177,8 @@ function QiJian2Func() {
 
 // 签到--------------------------------------------------------
 function CheckInFunc() {
-    go('jh 1;look_npc snow_wuyidashi;event_1_82393002;snow_mercenary;eval_startFengyi();zhounian_lb;lq_znboss_rewards');
+    go('jh 1;look_npc snow_mercenary;eval_startFengyi();zhounian_lb;lq_znboss_rewards');
+    go('jh 1;look_npc snow_wuyidashi;event_1_82393002;');
     go('jh 1;w;event_1_46497436;home;');//纪念金庸
     go('jh 5;n;n;e;look_npc yangzhou_yangzhou9;eval_startShuanger();');//扬州双儿礼包
     go('home;vip drops;shop money_buy mny_shop1_N_10');//领通勤
