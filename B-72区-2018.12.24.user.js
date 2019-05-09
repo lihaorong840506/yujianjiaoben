@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B-72区-2019.4.25
 // @namespace    http://tampermonkey.net/
-// @version      2019.5.6
+// @version      2019.5.8
 // @description  try to take over the world!
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -116,7 +116,11 @@ function delayCmd() {
     }
     var cmd = cmdCache.shift();
     if (!cmd) {
-        timeCmd = setTimeout(delayCmd, cmdDelayTime);
+        try {
+            timeCmd = setTimeout(delayCmd, cmdDelayTime);
+        } catch (error) {
+            console.log("cmd error : ", error)
+        }
         //    console.log("cmd error!");
         return;
 
@@ -1689,10 +1693,11 @@ function xiakedao1() {
 }
 
 function xiakedao2() {
-    if (g_obj_map.get("msg_room") == undefined) {
+    var roominfo = g_obj_map.get("msg_room")
+    if (roominfo == undefined) {
         setTimeout(function () { xiakedao2(); }, 200);
     } else {
-        var locationname = g_obj_map.get("msg_room").get("short");
+        var locationname = roominfo.get("short");
         console.log(locationname);
         if ((locationname == "侠客岛渡口")) {
             go('e;ne;ne;ne;e;e;e;event_1_9179222;e;event_1_11720543;w;n;e;e;s;e;event_1_44025101;');
@@ -1703,10 +1708,11 @@ function xiakedao2() {
     }
 }
 function xiakedao3() {
-    if (g_obj_map.get("msg_room") == undefined) {
+    var roominfo = g_obj_map.get("msg_room")
+    if (roominfo == undefined) {
         setTimeout(function () { xiakedao3(); }, 200);
     } else {
-        var locationname = g_obj_map.get("msg_room").get("short");
+        var locationname = roominfo.get("short");
         console.log(locationname);
         if (locationname == "崖底") {
             go('event_1_4788477;nw;w;sw;w;n;n;n;w;w;s;w;nw;ne;ne;ne;e;e;e;e;e;s;e;event_1_44025101');
