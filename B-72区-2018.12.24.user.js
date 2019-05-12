@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B-72区-2019.4.25
 // @namespace    http://tampermonkey.net/
-// @version      2019.5.9
+// @version      2019.5.10
 // @description  try to take over the world!
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -2330,7 +2330,7 @@ function getQinglongCode(tarNPC) {
     }
     setTimeout(() => {
         clearInterval(QinglongIntervalFunc)
-    }, 5000)
+    }, 10000)
 }
 function detectQinglongInfo() {
     var QinglongInfo = $('span').text();

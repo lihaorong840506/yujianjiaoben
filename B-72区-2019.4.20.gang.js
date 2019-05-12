@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B-72区-2019.5.2
 // @namespace    http://tampermonkey.net/
-// @version      2019.5.9
+// @version      2019.5.10
 // @description  免费版本
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -2370,7 +2370,7 @@ function getQinglongCode(target) {
     }
     setTimeout(() => {
         clearInterval(QinglongIntervalFunc)
-    }, 5000)
+    }, 10000)
 }
 function detectQinglongInfo() {
     console.log("detectQinglongInfo interval: " + interval)
@@ -5104,8 +5104,9 @@ var QuestAnsLibs = {
     "丁老怪是哪个门派的终极师傅": "a",
     "武学世家加的什么初始属性": "a",
     "白金项链可以在哪位npc那里获得？": "b",
+    "金戒指可以在哪位npc那里获得？": "a",
     "黑水伏蛟可以在哪位npc那里获得？": "c",
-    "“翰墨书屋”场景是在哪个地图上？": "c"
+    "“翰墨书屋”场景是在哪个地图上？": "c",
 };
 function answerQuestionsFunc() {
     if (btnList["开答题"].innerText == "开答题") {
