@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B-72区-2019.5.2
 // @namespace    http://tampermonkey.net/
-// @version      2019.5.10
+// @version      2019.5.11
 // @description  免费版本
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -2128,7 +2128,7 @@ function QinglongMon() { //各种监控大杂烩
                     go_qinglong(msg);
                     QinglongIntervalFunc = setInterval(() => {
                         Qinglong(tarNPC)
-                    }, 1000)
+                    }, 500)
                     sendMessage(msg.replace(/href;0;find_qinglong_road/, '').replace(/[/d]{5,7}/, '').replace(/[\d]{1}施展力量/, '施展力量'));
                 }
                 //监控 71-75  镖车(周日）-
@@ -2154,7 +2154,7 @@ function QinglongMon() { //各种监控大杂烩
                             go_qinglong(msg);
                             QinglongIntervalFunc = setInterval(() => {
                                 Qinglong(tarNPC)
-                            }, 1000)
+                            }, 500)
                             sendMessage(msg.replace(/href;0;find_qinglong_road/, '').replace(/\d{5,7}/, '').replace(/\d{1}/, ''));
                         }
                     }
@@ -2275,9 +2275,10 @@ function QinglongMon() { //各种监控大杂烩
     }
 }
 
-var qinglongHere = null;
 function go_qinglong(msg) {
-    let locationName = g_obj_map.get("msg_room") ? g_obj_map.get("msg_room").get("short") : '';
+    let qinglongHere = null;
+    let room_info = g_obj_map.get("msg_room")
+    let locationName = room_info ? room_info.get("short") : '';
     if (msg.includes('书房')) {
         qinglongHere = '书房'
         if (locationName != qinglongHere) xuetingshufangFunc()
@@ -2341,14 +2342,14 @@ function getQinglongCode(target) {
     var thisonclick = null;
     var targetNPCListHere = [];
     var countor = 0;
-    // console.log("getqinglongcode:" + "tarNPC=" + tarNPC);
+    console.log("getqinglongcode:" + "tarNPC=" + tarNPC);
     if (target) tarNPC = target
     for (var i = 0; i < peopleList.length; i++) { // 从第一个开始循环
         // 打印 NPC 名字，button 名，相应的NPC名
         // thisonclick = peopleList[i].getAttribute('onclick');
         if (tarNPC == (peopleList[i].innerText)) {
             // var targetCode = thisonclick.split("'")[1].split(" ")[1];
-            // console.log("发现NPC名字：" + peopleList[i].innerText);
+            console.log("发现NPC名字：" + peopleList[i].innerText);
             targetNPCListHere[countor] = peopleList[i];
             countor = countor + 1;
         }
@@ -2361,25 +2362,23 @@ function getQinglongCode(target) {
     if (targetNPCListHere.length > 0) {
         thisonclick = targetNPCListHere[countor - 1].getAttribute('onclick');
         var targetCode = thisonclick.split("'")[1].split(" ")[1];
-        // console.log("准备杀目标NPC名字：" + targetNPCListHere[countor - 1].innerText + "，代码：" + targetCode + "，目标列表中序号：" + (countor - 1));
-        // recvNetWork2("<span class='out2'><span style='color:rgb(235, 218, 32)'>青龙 ID: " + targetCode + "</span></span>")
+        console.log("准备杀目标NPC名字：" + targetNPCListHere[countor - 1].innerText + "，代码：" + targetCode + "，目标列表中序号：" + (countor - 1));
+        recvNetWork2("<span class='out2'><span style='color:rgb(235, 218, 32)'>青龙 ID: " + targetCode + "</span></span>")
         clickButton('kill ' + targetCode)
-        // console.log("kill " + targetCode)
-        // console.log("getQinglongCode interval:" + interval)
+        console.log("kill " + targetCode)
         setTimeout(detectQinglongInfo, 200);
     }
-    setTimeout(() => {
-        clearInterval(QinglongIntervalFunc)
-    }, 10000)
 }
 function detectQinglongInfo() {
-    console.log("detectQinglongInfo interval: " + interval)
     var QinglongInfo = $('span').text();
     if (QinglongInfo.slice(-15) == "已经太多人了，不要以多欺少啊。") {
+        console.log("已经太多, 停止战斗")
         clearInterval(QinglongIntervalFunc)
     } else if (QinglongInfo.slice(-8).includes("这儿没有这个人")) {
+        console.log("这儿没有这个人, 停止战斗")
         clearInterval(QinglongIntervalFunc)
     } else if (gangsFightControl() == 'Y') {
+        console.log("进入战斗, 停止战斗")
         clearInterval(QinglongIntervalFunc)
     }
 }

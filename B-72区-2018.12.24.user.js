@@ -2328,9 +2328,6 @@ function getQinglongCode(tarNPC) {
         clickButton('kill ' + targetCode); // 点击杀人
         setTimeout(detectQinglongInfo, 200); // 200 ms后获取杀人情况，是满了还是进入了
     }
-    setTimeout(() => {
-        clearInterval(QinglongIntervalFunc)
-    }, 10000)
 }
 function detectQinglongInfo() {
     var QinglongInfo = $('span').text();
