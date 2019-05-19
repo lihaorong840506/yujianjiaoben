@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B-72区-2019.5.2
 // @namespace    http://tampermonkey.net/
-// @version      2019.5.11
+// @version      2019.5.12
 // @description  免费版本
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -111,7 +111,11 @@ function go(str) {
 function delayCmd() {
     // 执行命令池中第一个命令，并从池中删除
     if (paustStatus === 1) {
-        timeCmd = setTimeout(delayCmd, cmdDelayTime);
+        try {
+            timeCmd = setTimeout(delayCmd, cmdDelayTime);
+        } catch (error) {
+            console.log("cmd error : ", error)
+        }
         return;
     }
     var cmd = cmdCache.shift();
@@ -127,13 +131,21 @@ function delayCmd() {
     }
     var arr = cmd.split(",");
     if (!arr) {
-        timeCmd = setTimeout(delayCmd, cmdDelayTime);
+        try {
+            timeCmd = setTimeout(delayCmd, cmdDelayTime);
+        } catch (error) {
+            console.log("cmd error : ", error)
+        }
         console.log("arr error!");
         return;
 
     }
     if (!sock) {
-        timeCmd = setTimeout(delayCmd, cmdDelayTime);
+        try {
+            timeCmd = setTimeout(delayCmd, cmdDelayTime);
+        } catch (error) {
+            console.log("cmd error : ", error)
+        }
         console.log("sock error!");
         return;
     }
@@ -159,7 +171,11 @@ function delayCmd() {
 
     // 如果命令池还有命令，则延时继续执行
     if (cmdCache.length > 0) {
-        timeCmd = setTimeout(delayCmd, cmdDelayTime);
+        try {
+            timeCmd = setTimeout(delayCmd, cmdDelayTime);
+        } catch (error) {
+            console.log("cmd error : ", error)
+        }
     } else {
         // 没有命令 则归零
         timeCmd = 1;
@@ -351,6 +367,7 @@ createButton('青龙监听', btnBox0, listenQLFunc);
 createButton('交悬红', btnBox0, LingxuanhongFunc);
 createButton('嵩山', btnBox0, SongshanFunc);
 createButton('捡钥匙', btnBox0, JianyaoshiFunc);
+createButton('医者治疗', btnBox0, xiakedaozhiliao);
 //隐藏所有按钮的按钮----------------------------------
 var buttonhiden = 0;
 function buttonhideFunc() {
@@ -1690,6 +1707,28 @@ function killsnake() {
     setTimeout(killsnake, 500);
 }
 
+// 侠客岛治疗
+function xiakedaozhiliao() {
+    go("home")
+    go("jh 36");
+    go('yell', 0);
+    xiakedaozhiliao2();
+}
+
+function xiakedaozhiliao2() {
+    var roominfo = g_obj_map.get("msg_room")
+    if (roominfo == undefined) {
+        setTimeout(function () { xiakedaozhiliao2(); }, 200);
+    } else {
+        var locationname = roominfo.get("short");
+        console.log(locationname);
+        if (locationname == "侠客岛渡口") {
+            go('e;se;e;e;e;e;look_npc xiakedao_yizhe;event_1_77187106;home');
+        } else {
+            setTimeout(xiakedaozhiliao2, 500);
+        }
+    }
+}
 
 //大昭壁画-------------------------
 function MianBiFunc() {
@@ -2480,7 +2519,7 @@ function addXue() {
             if (force < 10000) {  //血量大于1/3 且蓝小于10000时 回蓝
                 JiaLanFight();
             } else {
-                setTimeout(addXue, 500);
+                // setTimeout(addXue, 500);
             }
         }
         else { //使用内功加血
@@ -2498,7 +2537,7 @@ function addXue() {
                 JiaXueFight();  //加血
                 nowXueTempCount = nowXueTempCount + 1;
                 // kee=parseInt(g_obj_map.get("msg_attrs").get("kee"));//获取最新血量
-                setTimeout(addXue, 500);
+                // setTimeout(addXue, 500);
             }
         }
     }
@@ -2820,8 +2859,6 @@ createButton1('  ');
 createButton1('帮一集合', ClanInst1SumFunc);
 createButton1('帮一队长', ClanInst1CapFunc);
 createButton1('撩奇侠', QiXiaTalkFunc11);
-createButton1('对话奇侠', talkToQixiaFn);
-createButton1('给奇侠金', giveJinToQixiaFn);
 createButton1('无尽深渊', wujinFunc);
 createButton1('秘境优化', mijingFunc);
 hideButton1();
@@ -2842,8 +2879,6 @@ function hideButton1() {
     btnList1['帮一集合'].style.visibility = "hidden";
     btnList1['帮一队长'].style.visibility = "hidden";
     btnList1['撩奇侠'].style.visibility = "hidden";
-    btnList1['对话奇侠'].style.visibility = "hidden";
-    btnList1['给奇侠金'].style.visibility = "hidden";
     btnList1['无尽深渊'].style.visibility = "hidden";
     btnList1['秘境优化'].style.visibility = "hidden";
 }
@@ -2864,8 +2899,6 @@ function showButton1() {
     btnList1['帮一集合'].style.visibility = "visible";
     btnList1['帮一队长'].style.visibility = "visible";
     btnList1['撩奇侠'].style.visibility = "visible";
-    btnList1['对话奇侠'].style.visibility = "visible";
-    btnList1['给奇侠金'].style.visibility = "visible";
     btnList1['秘境优化'].style.visibility = "visible";
     btnList1['无尽深渊'].style.visibility = "visible";
 }
@@ -5210,816 +5243,4 @@ function sendMessage(message) {
             }
         }
     }
-}
-
-
-var giveJinSwitch = 0;
-function give15Jin(e) {
-    var Dom = $(e.target);
-    var DomTxt = Dom.html();
-    if (DomTxt == '去给15金') {
-        Dom.html('在给15金');
-        giveJinSwitch = 1;
-        console.log(getTimes() + '设置给15金');
-    } else if (DomTxt == '在给15金') {
-        Dom.html('在给1金');
-        giveJinSwitch = 2;
-        console.log(getTimes() + '设置给1金');
-    } else {
-        giveJinSwitch = 0;
-        Dom.html('去给15金');
-        console.log(getTimes() + '不设置给金');
-    }
-}
-var QixiaInfoList = [];
-var qixiaPlace
-var QixiaIdList = [
-    {
-        'name': '浪唤雨',
-        'id': qixiaPlace ? 'langfuyu_1494082366_3948' : 'langfuyu_1493782694_7241',
-    }, {
-        'name': '王蓉',
-        'id': qixiaPlace ? 'wangrong_1494083286_5287' : 'wangrong_1493782958_7306',
-    }, {
-        'name': '庞统',
-        'id': qixiaPlace ? 'pangtong_1494084207_2639' : 'pangtong_1493783879_4255',
-    }, {
-        'name': '李宇飞',
-        'id': qixiaPlace ? 'liyufei_1494085130_5201' : 'liyufei_1493784259_6382',
-    }, {
-        'name': '步惊鸿',
-        'id': qixiaPlace ? 'bujinghong_1494086054_1635' : 'bujinghong_1493785173_9368',
-    }, {
-        'name': '风行骓',
-        'id': qixiaPlace ? 'fengxingzhui_1499611328_9078' : 'fengxingzhui_1499611243_9634',
-    }, {
-        'name': '郭济',
-        'id': qixiaPlace ? 'guoji_1494086978_5597' : 'guoji_1493786081_9111',
-    }, {
-        'name': '吴缜',
-        'id': qixiaPlace ? 'wuzhen_1499612120_4584' : 'wuzhen_1499612120_7351',
-    }, {
-        'name': '风南',
-        'id': qixiaPlace ? 'fengnan_1494087902_8771' : 'fengnan_1493786990_415',
-    }, {
-        'name': '火云邪神',
-        'id': qixiaPlace ? 'huoyunxieshen_1494088826_8655' : 'huoyunxieshen_1493787900_1939',
-    }, {
-        'name': '逆风舞',
-        'id': qixiaPlace ? 'niwufeng_1494089750_5660' : 'niwufeng_1493788811_7636',
-    }, {
-        'name': '狐苍雁',
-        'id': qixiaPlace ? 'hucangyan_1499613025_5192' : 'hucangyan_1499613026_2522',
-    }, {
-        'name': '护竺',
-        'id': qixiaPlace ? 'huzhu_1499613932_2191' : 'huzhu_1499613933_1522',
-    }, {
-        'name': '八部龙将',
-        'id': qixiaPlace ? 'babulongjiang_1521719740_7754' : 'babulongjiang_1521719730_537',
-    }, {
-        'name': '玄月研',
-        'id': qixiaPlace ? 'xuanyueyan_1521600969_7372' : 'xuanyueyan_1521600969_8119',
-    }, {
-        'name': '狼居胥',
-        'id': qixiaPlace ? 'langjuxu_1521715080_132' : 'langjuxu_1521715081_4559',
-    }, {
-        'name': '烈九州',
-        'id': qixiaPlace ? 'liejiuzhou_1521716031_1449' : 'liejiuzhou_1521716024_5316',
-    }, {
-        'name': '穆妙羽',
-        'id': qixiaPlace ? 'mumiaoyu_1521716956_979' : 'mumiaoyu_1521716949_346',
-    }, {
-        'name': '宇文无敌',
-        'id': qixiaPlace ? 'yuwenwudi_1521717883_6285' : 'yuwenwudi_1521717874_9561',
-    }, {
-        'name': '李玄霸',
-        'id': qixiaPlace ? 'lixuanba_1521718813_5916' : 'lixuanba_1521718806_7259',
-    }, {
-        'name': '风无痕',
-        'id': qixiaPlace ? 'fengwuhen_1521720667_2927' : 'fengwuhen_1521720658_2332',
-    }, {
-        'name': '厉沧若',
-        'id': qixiaPlace ? 'licangruo_1521721595_4149' : 'licangruo_1521721586_3467',
-    }, {
-        'name': '夏岳卿',
-        'id': qixiaPlace ? 'xiaqing_1521722519_8891' : 'xiaqing_1521722508_7807',
-    }, {
-        'name': '妙无心',
-        'id': qixiaPlace ? 'miaowuxin_1521723444_5139' : 'miaowuxin_1521723435_7261',
-    }, {
-        'name': '巫夜姬',
-        'id': qixiaPlace ? 'wuyeju_1521724375_3924' : 'wuyeju_1521724367_482',
-    }
-]
-function GetNewQiXiaList() {
-    clickButton('open jhqx');
-    setTimeout(function () {
-        getQiXiaList();
-    }, 1000);
-}
-
-function getQiXiaList() {
-    var html = g_obj_map.get("msg_html_page");
-    if (html == undefined) {
-        setTimeout(function () { GetNewQiXiaList(); }, 1000);
-    } else if (g_obj_map.get("msg_html_page").get("msg").match("江湖奇侠成长信息") == null) {
-        setTimeout(function () { GetNewQiXiaList(); }, 1000);
-    } else {
-        console.log('获取奇侠列表成功');
-        var firstQiXiaList = formatQx(g_obj_map.get("msg_html_page").get("msg"));
-        // console.log(QixiaInfoList);
-        QixiaInfoList = SortNewQiXia(firstQiXiaList);
-        giveSoreQiXiaListId();
-    }
-}
-// 给排序的奇侠列表赋予id
-function giveSoreQiXiaListId() {
-    for (var i = 0; i < QixiaIdList.length; i++) {
-        var name = QixiaIdList[i].name;
-        for (var j = 0; j < QixiaInfoList.length; j++) {
-            var cname = QixiaInfoList[j].name;
-            if (cname == name) {
-                QixiaInfoList[j].id = QixiaIdList[i].id;
-            }
-        }
-    }
-}
-function SortNewQiXia(firstQiXiaList) {//冒泡法排序
-    var temp = {};
-    var temparray = [];
-    var newarray = [];
-    for (var i = 0; i < firstQiXiaList.length; i++) {
-        for (var j = 1; j < firstQiXiaList.length - i; j++) {
-            if (parseInt(firstQiXiaList[j - 1]["degree"]) < parseInt(firstQiXiaList[j]["degree"])) {
-                temp = firstQiXiaList[j - 1];
-                firstQiXiaList[j - 1] = firstQiXiaList[j];
-                firstQiXiaList[j] = temp;
-            }
-        }
-    }
-    var tempcounter = 0;
-    // console.log("奇侠好感度排序如下:");
-    // console.log(firstQiXiaList);
-    //首次排序结束 目前是按照由小到大排序。现在需要找出所有的超过25000 小于30000的奇侠。找到后 排序到最上面；
-    var newList = [];
-    for (var i = 0; i < firstQiXiaList.length; i++) {
-        if (parseInt(firstQiXiaList[i]["degree"]) >= 30000) {
-            temparray[tempcounter] = firstQiXiaList[i];
-            tempcounter++;
-            newarray.push(firstQiXiaList[i]);
-        } else {
-            newList.push(firstQiXiaList[i]);
-        }
-    }
-    // console.log(newList);
-    var firstInsertIndex = 4;
-    for (var i = 0; i < newarray.length; i++) {
-        newList.splice(firstInsertIndex, 0, newarray[i]);
-        firstInsertIndex++;
-    }
-    return newList;
-}
-
-function getQiXiaObj(name) {
-    var newArr = [];
-    if (name) {
-        for (var i = 0; i < QixiaInfoList.length; i++) {
-            if (QixiaInfoList[i].name == name) {
-                qixiaObj = QixiaInfoList[i];
-                return
-            }
-        }
-    }
-}
-
-var fightQixiaSwitch = true;
-var qixiaObj = {};
-
-var fightSkillInter = null,
-    setFight = null,
-    zhaobing = true;
-
-var mijingNum = 0;
-var isTalkQiXia = false;
-
-// 给奇侠1金锭
-var qixiaDone = false;
-var giveJinInterval = null;
-var giveQixiaSwitch = false;
-// 对话奇侠
-function talkToQixiaFn(e) {
-    var Dom = $(e.target);
-    var DomTxt = Dom.html();
-
-    if (DomTxt == '对话奇侠') {
-        if (qixiaDone) {
-            return;
-        }
-        GetNewQiXiaList();
-        let qixiaName1 = prompt("请输入奇侠名字", "夏岳卿");
-        setTimeout(() => {
-            isTalkQiXia = true;
-            getQiXiaObj(qixiaName1)
-            if (!qixiaObj.name) {
-                alert("找不到奇侠【" + qixiaName1 + "】，请正确输入");
-                return;
-            }
-            $('#out2 .out2').addClass('done');
-            console.log(getTimes() + '开始对话' + qixiaObj.name + '！');
-            $('#out2 .out2').addClass('doneQiXia1');
-            giveQixiaSwitch = true;
-            Dom.html('停止对话');
-            giveJinQiXiaFunc();
-        }, 3000)
-    } else {
-        isTalkQiXia = false;
-        giveQixiaSwitch = false;
-        clearInterval(giveJinInterval);
-        Dom.html('对话奇侠');
-    }
-}
-
-// 给奇侠1金
-function giveJinToQixiaFn(e) {
-    var Dom = $(e.target);
-    var DomTxt = Dom.html();
-    if (DomTxt == '给奇侠金') {
-        if (qixiaDone) {
-            return;
-        }
-        if (!QixiaInfoList) {
-            clickButton('open jhqx');
-            var firstQiXiaList = formatQx(g_obj_map.get("msg_html_page").get("msg"));
-            QixiaInfoList = SortNewQiXia(firstQiXiaList);
-            giveSoreQiXiaListId();
-            console.log('获取奇侠列表成功');
-        }
-        let qixiaName1 = prompt("请输入奇侠名字", "夏岳卿");
-        getQiXiaObj(qixiaName1)
-        if (!qixiaObj) {
-            alert("找不到奇侠【" + qixiaName1 + "】，请正确输入");
-            return;
-        }
-        $('#out2 .out2').addClass('done');
-        console.log(getTimes() + '开始给奇侠金' + qixiaObj.name + '！');
-        isTalkQiXia = false;
-        giveQixiaSwitch = true;
-        isInMijing = false;
-        $('#out2 .out2').addClass('doneQiXia1');
-        Dom.html('取消给金');
-        giveJinQiXiaFunc();
-    } else {
-        giveQixiaSwitch = false;
-        clearInterval(giveJinInterval);
-        Dom.html('给奇侠金');
-    }
-}
-
-function giveJinQiXiaFunc() {
-    clearInterval(giveJinInterval);
-    clickButton('home');
-    clickButton('open jhqx');
-    clickButton('find_task_road qixia ' + qixiaObj.index);
-    if (giveQixiaSwitch) {
-        setTimeout(function () {
-            var QiXiaId = getNewQiXiaId(qixiaObj.name, qixiaObj.index);
-            var qixiaName1 = QiXiaId.split('_')[0];
-            // if(!isTalkQiXia){
-            if (giveJinSwitch == 0) {
-                if (mijingNum == 3) {
-                    eval("clickButton('auto_zsjd_" + qixiaName1 + "')");
-                } else if (mijingNum == 5) {
-                    eval("clickButton('ask " + QiXiaId + "')");
-                } else if (mijingNum > 3) {
-                    eval("clickButton('auto_zsjd20_" + qixiaName1 + "')");
-                } else {
-                    eval("clickButton('ask " + QiXiaId + "')");
-                }
-            } else if (giveJinSwitch == 1) {
-                eval("clickButton('auto_zsjd20_" + qixiaName1 + "')");
-            } else if (giveJinSwitch == 2) {
-                eval("clickButton('auto_zsjd_" + qixiaName1 + "')");
-            }
-            // }else{
-            //     eval("clickButton('ask " + QiXiaId + "')");
-            // }
-            giveJinInterval = setInterval(function () {
-                geiJinQiXiaInfo();
-            }, 1000)
-        }, 1000)
-    }
-}
-
-// 获取面板信息
-var isInMijing = false;
-var doGiveSetTimeout = null;
-function geiJinQiXiaInfo() {
-    var out = $('#out2 .out2');
-    out.each(function () {
-        if ($(this).hasClass('doneQiXia1')) {
-            return
-        }
-        $(this).addClass('doneQiXia1');
-        var txt = $(this).text();
-        if (txt.indexOf('悄声') != '-1') {
-            mijingNum++;
-            giveQixiaSwitch = false;
-            var place = getQxiaQuestionPlace(txt);
-            console.log(getTimes() + '这是第' + mijingNum + '次秘境，地址是：' + place);
-            isInMijing = true;
-            doGiveSetTimeout = setTimeout(function () {
-                $('#out2 .out2').addClass('doneQiXia1')
-                GoPlaceInfo(place);
-            }, 1500)
-        } else if (txt.indexOf('20/20') != '-1') {
-            isInMijing = false;
-            giveQixiaSwitch = false;
-            isTalkQiXia = false;
-            qixiaDone = true;
-            clearInterval(giveJinInterval);
-            clickButton('home');
-            $('#btno18').html('给奇侠金');
-            $('#btno23').html('对话奇侠');
-        } else if (txt.indexOf('太多关于亲密度') != '-1') {
-            isInMijing = false;
-            giveQixiaSwitch = false;
-            isTalkQiXia = false;
-            qixiaDone = true;
-            clearInterval(giveJinInterval);
-            clickButton('home');
-            $('#btno18').html('给奇侠金');
-            $('#btno23').html('对话奇侠');
-        } else if (txt.indexOf('你搜索到一些') != '-1') {
-            doGiveSetTimeout = setTimeout(function () {
-                clickBtnByName('仔细搜索');
-            }, 2000)
-        } else if (txt.indexOf('秘境') != '-1') {
-            doGiveSetTimeout = setTimeout(function () {
-                clickBtnByName('仔细搜索');
-            }, 2000)
-        } else if (txt.indexOf('秘密地图') != '-1') {
-            doGiveSetTimeout = setTimeout(function () {
-                clickBtnByName('仔细搜索');
-            }, 2000)
-        } else if (txt.indexOf('你开始四处搜索') != '-1') {
-            if (!hasSaoDan()) {
-                doGiveSetTimeout = setTimeout(function () {
-                    isInMijing = false;
-                    giveQixiaSwitch = true;
-                    giveJinQiXiaFunc();
-                }, 1500)
-            } else {
-                clickBtnByName('仔细搜索');
-                clickBtnByName('扫荡');
-                doGiveSetTimeout = setTimeout(function () {
-                    $('.cmd_click2').trigger('click');
-                }, 2000)
-            }
-        } else if (txt.indexOf('扫荡成功') != '-1') {
-            doGiveSetTimeout = setTimeout(function () {
-                isInMijing = false;
-                giveQixiaSwitch = true;
-                giveJinQiXiaFunc();
-            }, 3000)
-        } else if (txt.indexOf('今日亲密度操作次数') != '-1') {
-            if (!isInMijing) {
-                doGiveSetTimeout = setTimeout(function () {
-                    if (giveQixiaSwitch) {
-                        giveJinQiXiaFunc();
-                    }
-                }, 2500)
-            }
-        } else if (txt.indexOf('此地图还未解锁') != '-1') {
-            doGiveSetTimeout = setTimeout(function () {
-                giveQixiaSwitch = true;
-                isInMijing = false;
-                giveJinQiXiaFunc();
-            }, 10000)
-        } else if (txt.match(qixiaObj.name + "往(.*?)离开。")) {
-            if (isInMijing) {
-                return;
-            }
-            clearTimeout(doGiveSetTimeout);
-            doGiveSetTimeout = setTimeout(function () {
-                giveQixiaSwitch = true;
-                isInMijing = false;
-                giveJinQiXiaFunc();
-            }, 3000)
-        }
-    });
-}
-// 是否可以扫荡
-function hasSaoDan() {
-    var btns = $('.cmd_click3');
-    var hasSD = false;
-    btns.each(function () {
-        if ($(this).text() == '扫荡') {
-            hasSD = true;
-        }
-    });
-    return hasSD;
-}
-// 扫荡
-function clickBtnByName(txt) {
-    var btns = $('.cmd_click3');
-    btns.each(function () {
-        if ($(this).text() == txt) {
-            $(this).trigger('click');
-            setTimeout(function () {
-                console.log(getTimes() + '点击扫荡');
-            }, 1000)
-        }
-    });
-}
-// 打奇侠方法
-function startFightQixiaFn(e) {
-    var Dom = $(e.target);
-    var DomTxt = Dom.html();
-
-    if (DomTxt == '比试奇侠') {
-        $('#out2 .out2').addClass('doneQiXia');
-        fightQixiaSwitch = true;
-        Dom.html('取消奇侠');
-        fightQiXiaFunc();
-    } else {
-        fightQixiaSwitch = false;
-        clearInterval(fightSkillInter);
-        clearInterval(setFight);
-        Dom.html('比试奇侠');
-    }
-}
-
-// 
-function getNewQiXiaId(name, QXindex) {
-    console.log("开始寻找奇侠：" + name);
-    var QX_ID = "";
-    var npcindex = 0;
-    var els = g_obj_map.get("msg_room").elements;
-    for (var i = els.length - 1; i >= 0; i--) {
-        if (els[i].key.indexOf("npc") > -1) {
-            if (els[i].value.indexOf(",") > -1) {
-                var elsitem_ar = els[i].value.split(',');
-                if (elsitem_ar.length > 1 && elsitem_ar[1] == name) {
-                    // console.log(elsitem_ar[0]);
-                    npcindex = els[i].key;
-                    QX_ID = elsitem_ar[0];
-                }
-            }
-        }
-    }
-    if (QX_ID) {
-        return QX_ID
-    }
-    return false;
-
-}
-// 打奇侠定时器
-function fightQiXiaFunc() {
-    clickButton('home');
-    zhaobing = true;
-    console.log(getTimes() + '开始比试' + qixiaObj.name + '！');
-    clickButton('open jhqx');
-    clickButton('find_task_road qixia ' + qixiaObj.index);
-    if (fightQixiaSwitch) {
-        setTimeout(function () {
-            var QiXiaId = getNewQiXiaId(qixiaObj.name, qixiaObj.index);
-            eval("clickButton('fight " + QiXiaId + "')");
-            // eval("clickButton('fight " + qixiaObj.id + "')");
-            // clickButton('fight huoyunxieshen_1493787900_1939');
-            fightSkillInter = setInterval(function () {
-                getQiXiaInfo();
-            }, 2000)
-            setFight = setInterval(function () {
-                dofightQixiaSet();
-            }, 2000)
-        }, 1000)
-    }
-}
-
-// 比试奇侠技能
-function dofightQixiaSet() {
-    var skillArr = Base.mySkillLists.split('；');
-    if (zhaobing) {
-        skillArr = ['茅山道术', '天师灭神剑'];
-    }
-
-    if (hasDog().length > 0 && zhaobing) {
-        clickButton('escape');
-        return false;
-    }
-    var skillIdA = ['1', '2', '3', '4', '5', '6'];
-    var clickSkillSwitch = false;
-    $.each(skillIdA, function (index, val) {
-        var btn = $('#skill_' + val);
-        var btnName = btn.text();
-        for (var i = 0; i < skillArr.length; i++) {
-            var skillName = skillArr[i];
-            if (btnName == skillName) {
-                btn.find('button').trigger('click');
-                clickSkillSwitch = true;
-                break;
-            }
-        }
-    })
-    //clickButton('escape');
-    if (!clickSkillSwitch && $('.cmd_skill_button').length > 0) {
-        clickButton('playskill 1');
-    }
-}
-
-// 获取面板信息
-function getQiXiaInfo() {
-    var out = $('#out2 .out2');
-    out.each(function () {
-        if ($(this).hasClass('doneQiXia')) {
-            return
-        }
-        $(this).addClass('doneQiXia');
-        var txt = $(this).text();
-        if (txt.indexOf('悄声') != '-1') {
-            mijingNum++;
-            fightQixiaSwitch = false;
-            clearInterval(fightSkillInter);
-            clearInterval(setFight);
-            var place = getQxiaQuestionPlace(txt);
-            console.log(getTimes() + '这是第' + mijingNum + '次秘境，地址是：' + place);
-            setTimeout(function () {
-                fightQixiaSwitch = false;
-                clearInterval(fightSkillInter);
-                clearInterval(setFight);
-                GoPlaceInfo(place);
-            }, 2000)
-        } else if (txt.indexOf('20/20') != '-1') {
-            fightQixiaSwitch = false;
-            clearInterval(fightSkillInter);
-            clearInterval(setFight);
-        } else if (txt.indexOf('逃跑成功') != '-1') {
-            //clearInterval(fightSkillInter);
-            // clickButton('golook_room');
-            clickButton('home');
-            clickButton('open jhqx');
-            clickButton('find_task_road qixia ' + qixiaObj.index);
-            setTimeout(function () {
-                fightDog();
-            }, 1000)
-        } else if (txt.indexOf('今日亲密度操作次数') != '-1') {
-            // fightQixiaSwitch = false;
-            clearInterval(fightSkillInter);
-            clearInterval(setFight);
-            setTimeout(function () {
-                fightQiXiaFunc();
-            }, 1000)
-        } else if (txt.match(qixiaObj.name + "往(.*?)离开。")) {
-            clearInterval(fightSkillInter);
-            clearInterval(setFight);
-            setTimeout(function () {
-                fightQiXiaFunc();
-            }, 1000)
-        }
-    });
-}
-// 比试狗
-function fightDog() {
-    if (getDogNum().length > 0) {
-        doFightDog();
-    }
-}
-function doFightDog() {
-    var nameArr = [];
-    var nameDom = $('.cmd_click3');
-    console.log(getTimes() + '开始打兵');
-    nameDom.each(function () {
-        var name = $(this).text();
-        if (name == '金甲符兵' || name == '玄阴符兵') {
-            var npcText = $(this).attr('onclick');
-            var id = getId(npcText);
-            clickButton('fight ' + id);
-            zhaobing = false;
-        }
-    })
-}
-function getQxiaQuestionPlace(txt) {
-    var correctPlace = txt.split('，')[0].split('去')[1];
-    return correctPlace;
-}
-// east  west south north northeast northwest northsouth southeast
-//
-// northwest    north(上)     northeast
-//
-// west(左)                   east(右)
-//
-// southwest    south(下)     southeast
-//
-function GoPlaceInfo(place) {
-    var placeNum = '';
-    var placeSteps = [];
-    switch (place) {
-        case '卢崖瀑布':
-            placeNum = '22';
-            placeSteps = [{ 'road': 'north' }];
-            break;
-        case '戈壁':
-            placeNum = '21';
-            placeSteps = [{ 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '草原':
-            placeNum = '26';
-            placeSteps = [{ 'road': 'west' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '天梯':
-            placeNum = '24';
-            placeSteps = [{ 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '观景台':
-            placeNum = '24';
-            placeSteps = [{ 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'east' }, { 'road': 'east' }, { 'road': 'north' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '启母石':
-            placeNum = '22';
-            placeSteps = [{ 'road': 'north' }, { 'road': 'north' }, { 'road': 'west' }, { 'road': 'west' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '无极老姆洞':
-            placeNum = '22';
-            placeSteps = [{ 'road': 'north' }, { 'road': 'north' }, { 'road': 'west' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '千尺幢':
-            placeNum = '4';
-            placeSteps = [{ 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '猢狲愁':
-            placeNum = '4';
-            placeSteps = [{ 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'event': 'event_1_91604710' }, { 'road': 'northwest' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '潭畔草地':
-            placeNum = '4';
-            placeSteps = [{ 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'event': 'event_1_91604710' }, { 'road': 'south' }, { 'road': 'south' }, { 'road': 'south' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '临渊石台':
-            placeNum = '4';
-            placeSteps = [{ 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'east' }, { 'road': 'north' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '玉女峰':
-            placeNum = '4';
-            placeSteps = [{ 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'west' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '长空栈道':
-            placeNum = '4';
-            placeSteps = [{ 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'east' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '山坳':
-            placeNum = '1';
-            placeSteps = [{ 'road': 'east' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '山溪畔':
-            placeNum = '22';
-            placeSteps = [{ 'road': 'north' }, { 'road': 'north' }, { 'road': 'west' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'event': 'event_1_88705407' }, { 'road': 'south' }, { 'road': 'south' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '小洞天':
-            placeNum = '24';
-            placeSteps = [{ 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'east' }, { 'road': 'east' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '观景台':
-            placeNum = '24';
-            placeSteps = [{ 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'east' }, { 'road': 'east' }, { 'road': 'north' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '云步桥':
-            placeNum = '24';
-            placeSteps = [{ 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '桃花泉':
-            placeNum = '3';
-            placeSteps = [{ 'road': 'south' }, { 'road': 'south' }, { 'road': 'south' }, { 'road': 'south' }, { 'road': 'south' }, { 'road': 'northwest' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'east' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '碧水寒潭':
-            placeNum = '18';
-            placeSteps = [{ 'road': 'north' }, { 'road': 'northwest' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'northeast' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'east' }, { 'road': 'east' }, { 'road': 'southeast' }, { 'road': 'southeast' }, { 'road': 'east' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '玉壁瀑布':
-            placeNum = '16';
-            placeSteps = [{ 'road': 'south' }, { 'road': 'south' }, { 'road': 'south' }, { 'road': 'south' }, { 'road': 'east' }, { 'road': 'north' }, { 'road': 'east' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '湖边':
-            placeNum = '16';
-            placeSteps = [{ 'road': 'south' }, { 'road': 'south' }, { 'road': 'south' }, { 'road': 'south' }, { 'road': 'east' }, { 'road': 'north' }, { 'road': 'east' }, { 'event': 'event_1_5221690' }, { 'road': 'south' }, { 'road': 'west' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '悬根松':
-            placeNum = '9';
-            placeSteps = [{ 'road': 'north' }, { 'road': 'west' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '夕阳岭':
-            placeNum = '9';
-            placeSteps = [{ 'road': 'north' }, { 'road': 'north' }, { 'road': 'east' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '沙丘小洞':
-            placeNum = '6';
-            placeSteps = [{ 'event': 'event_1_98623439' }, { 'road': 'northeast' }, { 'road': 'north' }, { 'road': 'northeast' }, { 'road': 'northeast' }, { 'road': 'northeast' }, { 'event': 'event_1_97428251' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '寒水潭':
-            placeNum = '20';
-            placeSteps = [{ 'road': 'west' }, { 'road': 'west' }, { 'road': 'south' }, { 'road': 'east' }, { 'road': 'south' }, { 'road': 'south' }, { 'road': 'south' }, { 'road': 'south' }, { 'road': 'south' }, { 'road': 'southwest' }, { 'road': 'southwest' }, { 'road': 'south' }, { 'road': 'east' }, { 'road': 'southeast' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '青云坪':
-            placeNum = '13';
-            placeSteps = [{ 'road': 'east' }, { 'road': 'south' }, { 'road': 'south' }, { 'road': 'west' }, { 'road': 'west' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '悬崖':
-            placeNum = '20';
-            placeSteps = [{ 'road': 'west' }, { 'road': 'west' }, { 'road': 'south' }, { 'road': 'east' }, { 'road': 'south' }, { 'road': 'south' }, { 'road': 'south' }, { 'road': 'south' }, { 'road': 'south' }, { 'road': 'southwest' }, { 'road': 'southwest' }, { 'road': 'south' }, { 'road': 'south' }, { 'road': 'east' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '奇槐坡':
-            placeNum = '23';
-            placeSteps = [{ 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '无名山峡谷':
-            placeNum = '29';
-            placeSteps = [{ 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }];
-            break;
-        case '危崖前':
-            placeNum = '25';
-            placeSteps = [{ 'road': 'west' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-        case '九老洞':
-            placeNum = '8';
-            placeSteps = [{ 'road': 'west' }, { 'road': 'northwest' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'east' }, { 'road': 'east' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'east' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'west' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'north' }, { 'road': 'northwest' }, { 'road': 'southwest' }, { 'road': 'west' }, { 'road': 'northwest' }, { 'road': 'west' }, { 'event': 'find_task_road secret' }, { 'event': 'secret_op1' }];
-            break;
-    }
-
-    GoPlace(placeNum, placeSteps);
-}
-async function GoPlace(num, steps) {
-    go('home');
-    go('jh ' + num);
-    //clickButton('go south');
-    for (var i = 0; i < steps.length; i++) {
-        for (var j in steps[i]) {
-            if (j == 'road') {
-                go('go ' + steps[i][j]);
-            } else if (j == 'event') {
-                go(steps[i][j]);
-            }
-        }
-    }
-}
-/* 比试奇侠  :end */
-/* 撩奇侠  :start */
-
-function talkSelectQiXia() {
-    GetNewQiXiaList();
-    setTimeout(function () {
-        startTalk();
-    }, 3000)
-}
-function startTalk() {
-    var isLive = true;
-    for (var i = 0; i < 4; i++) {
-        if (!QixiaInfoList[i].isOk) {
-            isLive = false;
-        }
-    }
-    if (!isLive) {
-        console.log(getTimes() + '前4排名奇侠在浪中，请稍后再试');
-        return;
-    }
-    for (var i = 0; i < QixiaInfoList.length; i++) {
-        doTalkWithQixia(QixiaInfoList[i]);
-    }
-}
-
-function doTalkWithQixia(info) {
-    var maxLength = 5;
-    var QiXiaId = info.id;
-
-    if (!QiXiaId) {
-        return;
-    }
-    if (!info.isOk) {
-        console.log(getTimes() + '没找到' + info.name + ",请稍后再试");
-        return;
-    }
-
-    console.log(getTimes() + "开始撩" + info.name + "！");
-    go('open jhqx');
-    go('find_task_road qixia ' + info.index);
-
-    for (var i = 0; i < maxLength; i++) {
-        go('ask ' + QiXiaId);
-    }
-    go('home');
-}
-/* // switch 案例
-    switch(localname){
-        case "王蓉":
-            setTimeout(TalkWangRong, currentTime); // 王蓉
-            break;
-        case "巫夜姬":
-            setTimeout(TalkWuYeJi, currentTime);
-            break;
-        default:
-            console.error("没有找到该奇侠：" + localname + " ！");
-    }
-*/
-// 获取当前时间
-function getTimes() {
-    var date = new Date();
-    return date.toLocaleString();
 }

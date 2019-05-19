@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B-72区-2019.4.25
 // @namespace    http://tampermonkey.net/
-// @version      2019.5.10
+// @version      2019.5.11
 // @description  try to take over the world!
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -351,6 +351,7 @@ createButton('青龙监听', btnBox0, listenQLFunc);
 createButton('交悬红', btnBox0, LingxuanhongFunc);
 createButton('嵩山', btnBox0, SongshanFunc);
 createButton('捡钥匙', btnBox0, JianyaoshiFunc);
+createButton('医者治疗', btnBox0, xiakedaozhiliao);
 //隐藏所有按钮的按钮----------------------------------
 var buttonhiden = 0;
 function buttonhideFunc() {
@@ -1677,6 +1678,28 @@ function killsnake() {
     setTimeout(killsnake, 500);
 }
 
+// 侠客岛治疗
+function xiakedaozhiliao() {
+    go("home")
+    go("jh 36");
+    go('yell', 0);
+    xiakedaozhiliao2();
+}
+
+function xiakedaozhiliao2() {
+    var roominfo = g_obj_map.get("msg_room")
+    if (roominfo == undefined) {
+        setTimeout(function () { xiakedaozhiliao2(); }, 200);
+    } else {
+        var locationname = roominfo.get("short");
+        console.log(locationname);
+        if (locationname == "侠客岛渡口") {
+            go('e;se;e;e;e;e;look_npc xiakedao_yizhe;event_1_77187106;home');
+        } else {
+            setTimeout(xiakedaozhiliao2, 500);
+        }
+    }
+}
 
 //大昭壁画-------------------------
 function MianBiFunc() {
