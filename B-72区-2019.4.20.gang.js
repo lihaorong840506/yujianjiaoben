@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B-72区-2019.5.2
 // @namespace    http://tampermonkey.net/
-// @version      2019.5.12
+// @version      2019.5.13
 // @description  免费版本
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -112,7 +112,7 @@ function delayCmd() {
     // 执行命令池中第一个命令，并从池中删除
     if (paustStatus === 1) {
         try {
-            timeCmd = setTimeout(delayCmd, cmdDelayTime);
+            timeCmd = setTimeout(funcDelayCmd, cmdDelayTime);
         } catch (error) {
             console.log("cmd error : ", error)
         }
@@ -121,7 +121,7 @@ function delayCmd() {
     var cmd = cmdCache.shift();
     if (!cmd) {
         try {
-            timeCmd = setTimeout(delayCmd, cmdDelayTime);
+            timeCmd = setTimeout(funcDelayCmd, cmdDelayTime);
         } catch (error) {
             console.log("cmd error : ", error)
         }
@@ -132,7 +132,7 @@ function delayCmd() {
     var arr = cmd.split(",");
     if (!arr) {
         try {
-            timeCmd = setTimeout(delayCmd, cmdDelayTime);
+            timeCmd = setTimeout(funcDelayCmd, cmdDelayTime);
         } catch (error) {
             console.log("cmd error : ", error)
         }
@@ -142,7 +142,7 @@ function delayCmd() {
     }
     if (!sock) {
         try {
-            timeCmd = setTimeout(delayCmd, cmdDelayTime);
+            timeCmd = setTimeout(funcDelayCmd, cmdDelayTime);
         } catch (error) {
             console.log("cmd error : ", error)
         }
@@ -172,7 +172,7 @@ function delayCmd() {
     // 如果命令池还有命令，则延时继续执行
     if (cmdCache.length > 0) {
         try {
-            timeCmd = setTimeout(delayCmd, cmdDelayTime);
+            timeCmd = setTimeout(funcDelayCmd, cmdDelayTime);
         } catch (error) {
             console.log("cmd error : ", error)
         }
@@ -183,10 +183,13 @@ function delayCmd() {
             if (cmdCache.length === 0)
                 timeCmd = 0;
             else
-                delayCmd();
+            funcDelayCmd();
         }, cmdDelayTime);
     }
 
+}
+function funcDelayCmd() {
+    delayCmd()
 }
 // 停止执行
 function stopDelayCmd() {
@@ -1810,32 +1813,32 @@ function escapeFunc() {
         { btnList["逃跑"].innerText = '逃跑'; }
     }
 
-    function AutoEscapeFunc() {
-        // 间隔500毫秒逃跑一次
-        AutoEscapeFuncIntervalFunc = setInterval(AutoEscape, 500);
-    }
-
-    function clearEscape() {
-        clearInterval(AutoEscapeFuncIntervalFunc);
-    }
-
-    function AutoEscape() {
-        clickButton('escape');     //逃跑
-        if ($('span.outbig_text:contains(战斗结束)').length > 0) {
-            clearEscape();
-            btnList["逃跑"].innerText = '逃跑';
-            clickButton('prev_combat');
-            nowXueTempCount = 0;
-        }
-        else if ($('button.cmd_combat_byebye').length === 0) {
-            clearEscape();
-            btnList["逃跑"].innerText = '逃跑';
-            clickButton('prev_combat');
-            nowXueTempCount = 0;
-        }
-    }
 }
 
+function AutoEscapeFunc() {
+    // 间隔500毫秒逃跑一次
+    AutoEscapeFuncIntervalFunc = setInterval(AutoEscape, 500);
+}
+
+function clearEscape() {
+    clearInterval(AutoEscapeFuncIntervalFunc);
+}
+
+function AutoEscape() {
+    clickButton('escape');     //逃跑
+    if ($('span.outbig_text:contains(战斗结束)').length > 0) {
+        clearEscape();
+        btnList["逃跑"].innerText = '逃跑';
+        clickButton('prev_combat');
+        nowXueTempCount = 0;
+    }
+    else if ($('button.cmd_combat_byebye').length === 0) {
+        clearEscape();
+        btnList["逃跑"].innerText = '逃跑';
+        clickButton('prev_combat');
+        nowXueTempCount = 0;
+    }
+}
 
 //自动突破，练习技能
 var PTtrigger = 0;
@@ -2009,23 +2012,7 @@ function QinglongMon() { //各种监控大杂烩
             var msg = g_simul_efun.replaceControlCharBlank(b.get("msg"));
             console.log("msg: " + msg)
             // 自动连招
-            var number_xdz = "";
-            if (sixqpvp == 1) {
-                if (msg !== "" && (msg.indexOf("--九天龙吟剑法--") > -1 || msg.indexOf("--排云掌法--") > -1 || msg.indexOf("--千影百伤棍--") > -1)) {
-                    //        console.log("行动值数据："+$('#combat_xdz').text());
-                    // number_xdz = parseInt($('#combat_xdz').text().split(";")[2].split("/")[0]);
-                    //  if (number_xdz>= 5){
-                    for (var i = 1; i < 7; i++) {
-                        skillName = $('#skill_' + i).children().children().text();
-                        if (skillName !== "" && isContains(allSkillLists, skillName)) {
-                            console.log(skillName);
-                            clickButton('playskill ' + i);
-                            break;
-                        }
-                    }
-                }
-                //}
-            }
+            
             // PVP战斗！！！//
             if (papapa == 1) {
                 if ((msg.match("席卷你") != null || msg.match("大绅倒悬") != null || msg.match("直劈你") != null || msg.match("无敌蛤蟆") != null || msg.match("直取你") != null || msg.match("要你") != null || msg.match("在你") != null || msg.match("你被震退") != null || msg.match("引渡你") != null || msg.match("你的") != null || msg.match("对着你") != null || msg.match("向你") != null || msg.match("将你") != null || msg.match("往你") != null || msg.match("朝你") != null || msg.match("直卷你") != null || msg.match("直扑你") != null || msg.match("落在你") != null) && msg.match("扰乱你的") == null) {
@@ -2155,6 +2142,12 @@ function QinglongMon() { //各种监控大杂烩
         //主窗口监控信息
         if (type == "main_msg") {  //handle main message;
             var msg = g_simul_efun.replaceControlCharBlank(b.get("msg"));
+
+            // 悬红
+            if (msg.match("【江湖悬红榜】下一个江洋大盗的线索请")) {
+                go_xuanhong(msg);
+                return;
+            }
             //         console.log(msg);
             if (msg.match("71-75区]") != null && KFQLtrigger == 1) {
                 //监控 71-75  青龙(周一、周二）-
@@ -2518,8 +2511,6 @@ function addXue() {
         if (kee / max_kee > 1 / 3) {
             if (force < 10000) {  //血量大于1/3 且蓝小于10000时 回蓝
                 JiaLanFight();
-            } else {
-                // setTimeout(addXue, 500);
             }
         }
         else { //使用内功加血
@@ -2532,12 +2523,9 @@ function addXue() {
             if (nowXueTempCount >= 3) { //加血次数判断
                 console.log("内功补血,加血后血量11：" + kee);
                 console.log("911");
-                AutoEscapeFunc();//逃跑
             } else {
                 JiaXueFight();  //加血
                 nowXueTempCount = nowXueTempCount + 1;
-                // kee=parseInt(g_obj_map.get("msg_attrs").get("kee"));//获取最新血量
-                // setTimeout(addXue, 500);
             }
         }
     }
@@ -5241,6 +5229,126 @@ function sendMessage(message) {
                 var response = JSON.parse(httpRequest.responseText);
                 console.log(response);
             }
+        }
+    }
+}
+
+function go_xuanhong(msg) {
+    if (msg.match("『雪亭镇』")) {
+        if (msg.match("一位面色黝黑的农夫")) {
+            go("jh 1;e;s;w;look_npc snow_old_farmer;ask snow_old_farmer;")
+        }
+        if (msg.match("『一只浑身脏兮兮的野狗")) {
+            // todo
+            go("jh 1;e;s;e;ne;look_npc snow_dog;ask snow_dog;")
+        }
+    } else if (msg.match("『洛阳』")) {
+        if (msg.match("好游山玩水的败剑山庄")) {
+            go("jh 2;n;n;n;n;n;e;e;n;n;n;n;e;look_npc luoyang_lingzhongtian;ask luoyang_lingzhongtian;")
+        }
+        if (msg.match("位身材高大的汉子，正")) {
+            // todo
+            go("jh 1;e;n;e;e;look_npc snow_trainee;ask snow_trainee;")
+        }
+    } else if (msg.match("『扬州』")) {
+        if (msg.match("浅月楼门口的侍卫")) {
+            go("jh 5;n;n;n;n;n;n;n;n;w;w;w;look_npc yangzhou_qingyimenwei;ask yangzhou_qingyimenwei;")
+        }
+    } else if (msg.match("『丐帮』")) {
+        if (msg.match("衣著邋塌，蓬头垢面的")) {
+            go("jh 6;look_npc gaibang_qiu-wan;ask gaibang_qiu-wan;event_1_98623439;ne;ne;look_npc gaibang_mo-bu;ask gaibang_mo-bu;sw;n;look_npc huashancun_cangjianloushouling;ask huashancun_cangjianloushouling;ne;ne;look_npc gaibang_he-bj;ask gaibang_he-bj;")
+        }
+        if (msg.match("他长的极其丑陋，脸")) {
+            go("jh 6;event_1_98623439;s;look_npc gaibang_huo-du;ask gaibang_huo-du;")
+        }
+    } else if (msg.match("『乔阴县』")) {
+        if (msg.match("起来像是有钱人家的女")) {
+            go("jh 7;s;s;s;s;s;s;s;s;e;n;e;look_npc choyin_girl;ask choyin_girl;")
+        }
+        if (msg.match("必恭必敬地垂手站在一")) {
+            go("jh 7;s;s;s;s;s;s;e;e;n;look_npc choyin_servant;ask choyin_servant;")
+        }
+    } else if (msg.match("『恒山』")) {
+        // todo
+        if (msg.match("一条吐着红舌头的毒蛇")) {
+            go("jh 9;n;n;n;n;n;look_npc henshan_henshan16;ask henshan_henshan16;")
+        }
+        if (msg.match("一只黑色的吸血蝙")) {
+            go("jh 9;n;n;n;n;n;n;n;n;look_npc henshan_henshan14;ask henshan_henshan14;")
+        }
+    } else if (msg.match("『少林寺』")) {
+        if (msg.match("田鼠，正在田间觅食")) {
+            go("jh 13;n;w;look_npc shaolin_shaolin18;ask shaolin_shaolin18;")
+        }
+        if (msg.match("袈裟的青年僧人。脸上")) {
+            go("jh 13;look_npc shaolin_xu-tong;ask shaolin_xu-tong;")
+        }
+    } else if (msg.match("『青城山』")) {
+        if (msg.match("公公是皇帝身边的红人")) {
+            go("jh 15;look_npc qingcheng_hai;ask qingcheng_hai;")
+        }
+    } else if (msg.match("『全真教』")) {
+        if (msg.match("一个全真教的小道童")) {
+            go("jh 19;s;s;s;sw;s;e;n;nw;n;n;n;n;n;n;n;w;w;w;s;look_npc quanzhen_yudao;ask quanzhen_yudao;")
+        }
+    } else if (msg.match("『白驼山』")) {
+        // todo
+        if (msg.match("白的小白兔，可爱之致")) {
+            go("jh 21;nw;w;w;nw;n;n;n;n;n;n;n;n;ne;look_npc baituo_baitu;ask baituo_baitu;")
+        }
+        if (msg.match("小眼睛不停地眨巴着")) {
+            go("jh 21;nw;w;w;nw;n;n;n;n;n;n;n;e;look_npc baituo_feifei;ask baituo_feifei;")
+        }
+    } else if (msg.match("『梅庄』")) {
+        if (msg.match("只肥大的地鼠，正")) {
+            go("jh 24;n;n;n;n;look_npc taishan_taishan2;ask taishan_taishan2;")
+        }
+    } else if (msg.match("『泰山』")) {
+        if (msg.match("豁达，原本是丐帮弟子")) {
+            go("jh 24;n;n;n;n;look_npc taishan_taishan2;ask taishan_taishan2;")
+        }
+    } else if (msg.match("『茅山』")) {
+        if (msg.match("一只笨笨的野猪")) {
+            go("jh 29;n;look_npc obj_pig;ask obj_pig;")
+        }
+    } else if (msg.match("『铁雪山庄』")) {
+        if (msg.match("一个砍柴为生的樵夫")) {
+            go("jh 31;n;n;n;w;look_npc resort_qiaofu1;ask resort_qiaofu1;")
+        }
+    } else if (msg.match("『慕容山庄』")) {
+        if (msg.match("满头，打扮的雍容华贵")) {
+            go("jh 32;n;n;se;n;look_npc murong_oldwoman;ask murong_oldwoman;")
+        }
+    } else if (msg.match("『峨眉山』")) {
+        if (msg.match("身材已经开始发育")) {
+            go("jh 8;w;nw;n;n;n;n;n;n;e;")
+        }
+    } else if (msg.match("『冰火岛』")) {
+        if (msg.match("身上的道袍颇为残旧")) {
+            go("jh 35;nw;nw;nw;n;ne;nw;w;nw;e;e;e;look_npc binghuo_youfangdaoshi;ask binghuo_youfangdaoshi;")
+        }
+    } else if (msg.match("『绝情谷』")) {
+        if (msg.match("正在吃草的野兔")) {
+            go("jh 37;n;e;e;nw;nw;w;n;e;n;look_npc jueqinggu_yetu;ask jueqinggu_yetu;")
+        }
+    } else if (msg.match("『天山』")) {
+        if (msg.match("对付对方，令到对方啼")) {
+            go("jh 39;ne;e;n;ne;look_npc tianshan_xinjianshi;ask tianshan_xinjianshi;")
+        }
+    }
+}
+
+function xiakedao_xiaonanhai() {
+    var roominfo = g_obj_map.get("msg_room")
+    if (roominfo == undefined) {
+        setTimeout(function () { xiakedao_xiaonanhai(); }, 200);
+    } else {
+        var locationname = roominfo.get("short");
+        console.log(locationname);
+        if (locationname == "侠客岛渡口") {
+            go('e;se;e;e;s;s;s;w;look_npc xiakedao_yujiananhai;ask xiakedao_yujiananhai;');
+        } else {
+            setTimeout(xiakedao_xiaonanhai, 500);
         }
     }
 }
