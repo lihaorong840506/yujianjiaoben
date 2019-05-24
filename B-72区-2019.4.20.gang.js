@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B-72区-2019.5.2
 // @namespace    http://tampermonkey.net/
-// @version      2019.5.13
+// @version      2019.5.14
 // @description  免费版本
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -3964,11 +3964,11 @@ function getZhuguo() {
             msg += finallist[i]["name"] + " ";
         }
     }
-    if (msg != "") {
-        alert("根据您的奇侠亲密好感度，目前可以最优化朱果数目的以下奇侠不在江湖或者已经死亡：" + msg + "。请您稍后再尝试使用奇侠领取朱果服务。");
-    } else {//头四位奇侠都在江湖中，可以开始领取朱果
+    // if (msg != "") {
+        // alert("根据您的奇侠亲密好感度，目前可以最优化朱果数目的以下奇侠不在江湖或者已经死亡：" + msg + "。请您稍后再尝试使用奇侠领取朱果服务。");
+    // } else {//头四位奇侠都在江湖中，可以开始领取朱果
         talktoQixia();
-    }
+    // }
 }
 var unfinish = "";
 function talktoQixia() {
