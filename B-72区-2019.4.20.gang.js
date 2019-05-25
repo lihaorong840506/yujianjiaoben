@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B-72区-2019.5.2
 // @namespace    http://tampermonkey.net/
-// @version      2019.5.14
+// @version      2019.5.15
 // @description  免费版本
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -183,7 +183,7 @@ function delayCmd() {
             if (cmdCache.length === 0)
                 timeCmd = 0;
             else
-            funcDelayCmd();
+                funcDelayCmd();
         }, cmdDelayTime);
     }
 
@@ -1599,7 +1599,12 @@ createPopButton('买灵芝', '辅助集合', buyMedecineFunc);
 createPopButton('买白羽箭', '辅助集合', buyArrowFunc);
 createPopButton('买糖葫芦', '辅助集合', buyTanghuluFunc);
 createPopButton('谜题密码', '辅助集合', quizCodeFunc);
+createPopButton('去掩月城', '辅助集合', QuYanyuechengFunc);
 
+// 去掩月城
+function QuYanyuechengFunc() {
+    clickButton('rank go 176')
+}
 //买糖葫芦--------------------------------------------------
 function buyTanghuluFunc() {
     go("jh 2;n;n;n;n;n;n;n;n;n;n;n;n;n;n;n;w;w;n;w;w;n;w;event_1_712982 go;");
@@ -2004,6 +2009,7 @@ function KuafuBossRun() {
     go("w;w;w;w;w;w;w;w;w;e;e;e;e;e;e;e;");
 }
 
+var youxia_msg;
 function QinglongMon() { //各种监控大杂烩
     allSkillLists = mySkillLists;
     this.dispatchMessage = function (b) {
@@ -2012,7 +2018,7 @@ function QinglongMon() { //各种监控大杂烩
             var msg = g_simul_efun.replaceControlCharBlank(b.get("msg"));
             console.log("msg: " + msg)
             // 自动连招
-            
+
             // PVP战斗！！！//
             if (papapa == 1) {
                 if ((msg.match("席卷你") != null || msg.match("大绅倒悬") != null || msg.match("直劈你") != null || msg.match("无敌蛤蟆") != null || msg.match("直取你") != null || msg.match("要你") != null || msg.match("在你") != null || msg.match("你被震退") != null || msg.match("引渡你") != null || msg.match("你的") != null || msg.match("对着你") != null || msg.match("向你") != null || msg.match("将你") != null || msg.match("往你") != null || msg.match("朝你") != null || msg.match("直卷你") != null || msg.match("直扑你") != null || msg.match("落在你") != null) && msg.match("扰乱你的") == null) {
@@ -2142,6 +2148,17 @@ function QinglongMon() { //各种监控大杂烩
         //主窗口监控信息
         if (type == "main_msg") {  //handle main message;
             var msg = g_simul_efun.replaceControlCharBlank(b.get("msg"));
+
+            // 监听游侠
+            if (msg.match('晃了晃，道：垂涎吗？')) {
+                if (!youxia_msg) {
+                    youxia_msg = msg
+                    sendMessage(youxia_msg);
+                    setTimeout(() => {
+                        youxia_msg = null
+                    }, 3600)
+                }
+            }
 
             // 悬红
             if (msg.match("【江湖悬红榜】下一个江洋大盗的线索请")) {
@@ -3965,9 +3982,9 @@ function getZhuguo() {
         }
     }
     // if (msg != "") {
-        // alert("根据您的奇侠亲密好感度，目前可以最优化朱果数目的以下奇侠不在江湖或者已经死亡：" + msg + "。请您稍后再尝试使用奇侠领取朱果服务。");
+    // alert("根据您的奇侠亲密好感度，目前可以最优化朱果数目的以下奇侠不在江湖或者已经死亡：" + msg + "。请您稍后再尝试使用奇侠领取朱果服务。");
     // } else {//头四位奇侠都在江湖中，可以开始领取朱果
-        talktoQixia();
+    talktoQixia();
     // }
 }
 var unfinish = "";
@@ -5234,15 +5251,27 @@ function sendMessage(message) {
 }
 
 function go_xuanhong(msg) {
+    const v_msg = msg.match(/『.*?』/g)
+    let match_str
+    if (v_msg && v_msg.length == 2) {
+        match_str = v_msg[1].replace('『', '').replace('』', '')
+    }
+    if (!match_str) return
     if (msg.match("『雪亭镇』")) {
         if (msg.match("一位面色黝黑的农夫")) {
             go("jh 1;e;s;w;look_npc snow_old_farmer;ask snow_old_farmer;")
         }
-        if (msg.match("『一只浑身脏兮兮的野狗")) {
+        if (msg.match("『只浑身脏兮兮的野狗")) {
             // todo
             go("jh 1;e;s;e;ne;look_npc snow_dog;ask snow_dog;")
         }
+        if ('王铁匠正用铁钳夹住一块红热的铁块放进炉中。打孔'.includes(match_str)) {
+            go("jh 1;e;n;n;w;look_npc snow_smith;ask snow_smith;")
+        }
     } else if (msg.match("『洛阳』")) {
+        if ('洛阳城的财主，开了一家钱庄，家财万贯。'.includes(match_str)) {
+            go("jh 2;n;n;n;n;n;n;n;e;look_npc luoyang_luoyang4;ask luoyang_luoyang4;")
+        }
         if (msg.match("好游山玩水的败剑山庄")) {
             go("jh 2;n;n;n;n;n;e;e;n;n;n;n;e;look_npc luoyang_lingzhongtian;ask luoyang_lingzhongtian;")
         }
@@ -5250,8 +5279,15 @@ function go_xuanhong(msg) {
             // todo
             go("jh 1;e;n;e;e;look_npc snow_trainee;ask snow_trainee;")
         }
+    } else if (msg.match("『华山』")) {
+        if ('这是一只调皮的小猴子，虽是畜牲，却喜欢模仿人样'.includes(match_str)) {
+            go("jh 4;n;n;n;n;n;n;n;n;n;n;n;n;w;look_npc huashan_huashan22;ask huashan_huashan22;")
+        }
     } else if (msg.match("『扬州』")) {
         if (msg.match("浅月楼门口的侍卫")) {
+            go("jh 5;n;n;n;n;n;n;n;n;w;w;w;look_npc yangzhou_qingyimenwei;ask yangzhou_qingyimenwei;")
+        }
+        if ('身着红衣的抚琴少女，红色的外袍包裹着洁白细腻的肌肤，她偶尔站起走动，都要露出细白水嫩的小腿。脚上的银铃也随着步伐轻轻发出零零碎碎的声音。纤细的手指划过古朴的琵琶。令人骚动的琴声从弦衫流淌下来。'.includes(match_str)) {
             go("jh 5;n;n;n;n;n;n;n;n;w;w;w;look_npc yangzhou_qingyimenwei;ask yangzhou_qingyimenwei;")
         }
     } else if (msg.match("『丐帮』")) {
@@ -5262,11 +5298,18 @@ function go_xuanhong(msg) {
             go("jh 6;event_1_98623439;s;look_npc gaibang_huo-du;ask gaibang_huo-du;")
         }
     } else if (msg.match("『乔阴县』")) {
-        if (msg.match("起来像是有钱人家的女")) {
+        if ('一个看起来像是有钱人家的女子，正在这里游湖。'.includes(match_str)) {
             go("jh 7;s;s;s;s;s;s;s;s;e;n;e;look_npc choyin_girl;ask choyin_girl;")
+        }
+        if ('这个老太婆怀中抱了个竹篓，似乎在卖什麽东西，也许你可以跟她问问价钱？'.includes(match_str)) {
+            go("jh 7;s;s;s;s;s;s;s;sw;w;look_npc choyin_crone;ask choyin_crone;")
         }
         if (msg.match("必恭必敬地垂手站在一")) {
             go("jh 7;s;s;s;s;s;s;e;e;n;look_npc choyin_servant;ask choyin_servant;")
+        }
+    } else if (msg.match("『峨眉山』")) {
+        if ('管理军械库的一位中年军官，健壮有力'.includes(match_str)) {
+            go('jh 8;ne;e;e;e;n;n;n;;n;n;e;e;n;look_npc emei_junxieguan;ask emei_junxieguan;');
         }
     } else if (msg.match("『恒山』")) {
         // todo
@@ -5277,15 +5320,37 @@ function go_xuanhong(msg) {
             go("jh 9;n;n;n;n;n;n;n;n;look_npc henshan_henshan14;ask henshan_henshan14;")
         }
     } else if (msg.match("『少林寺』")) {
-        if (msg.match("田鼠，正在田间觅食")) {
+        if ('一只脏兮兮的田鼠，正在田间觅食'.includes(match_str)) {
             go("jh 13;n;w;look_npc shaolin_shaolin18;ask shaolin_shaolin18;")
+        }
+        if ('黑色山猪，披着一身刚硬的鬃毛。'.includes(match_str)) {
+            go("jh 13;look_npc shaolin_shaolin16;ask shaolin_shaolin16;")
         }
         if (msg.match("袈裟的青年僧人。脸上")) {
             go("jh 13;look_npc shaolin_xu-tong;ask shaolin_xu-tong;")
         }
+    } else if (msg.match("『唐门』")) {
+        if ('这是唐门的弟子，不苟言笑。'.includes(match_str)) {
+            go("jh 14;w;n;look_npc tangmen_dizi3;ask tangmen_dizi3;")
+        }
     } else if (msg.match("『青城山』")) {
         if (msg.match("公公是皇帝身边的红人")) {
             go("jh 15;look_npc qingcheng_hai;ask qingcheng_hai;")
+        }
+        if ('这是福州城中人见人恶的恶少，最好别惹。'.includes(match_str)) {
+            go("jh 15;s;s;look_npc qingcheng_eshao;ask qingcheng_eshao;")
+        }
+    } else if (msg.match("『逍遥林』")) {
+        if ('她精于莳花，天下的奇花异卉，一经她的培植，无不欣欣向荣。'.includes(match_str)) {
+            go("jh 16;s;s;s;s;e;e;e;s;w;w;n;look_npc xiaoyao_shiqinglu;ask xiaoyao_shiqinglu;")
+        }
+    } else if (msg.match("『开封』")) {
+        if ('名将之女，自幼受其父兄武略的影响，青年时候就成为一名性机敏、善骑射，文武双全的女将。她与普通的大家闺秀不同，她研习兵法，颇通将略，把戍边御侵、保卫疆域、守护中原民众为己任，协助父兄练兵把关，具备巾帼英雄的气度。夫君边关打仗，她在杨府内组织男女仆人丫环习武，仆人的武技和忠勇之气个个都不亚于边关的士兵'.includes(match_str)) {
+            go("jh 17;n;n;n;n;w;w;w;s;s;w;look_npc kaifeng_shetaijun;ask kaifeng_shetaijun;")
+        }
+    } else if (msg.match("『光明顶』")) {
+        if ('一个村妇。'.includes(match_str)) {
+            go("jh 18;w;look_npc mingjiao_woman;ask mingjiao_woman;")
         }
     } else if (msg.match("『全真教』")) {
         if (msg.match("一个全真教的小道童")) {
@@ -5299,17 +5364,39 @@ function go_xuanhong(msg) {
         if (msg.match("小眼睛不停地眨巴着")) {
             go("jh 21;nw;w;w;nw;n;n;n;n;n;n;n;e;look_npc baituo_feifei;ask baituo_feifei;")
         }
+    } else if (msg.match("『嵩山』")) {
+        if (msg.match("食的野狼，看起来很饿")) {
+            go("jh 22;n;n;w;n;look_npc songshan_songshan15;ask songshan_songshan15;")
+        }
     } else if (msg.match("『梅庄』")) {
         if (msg.match("只肥大的地鼠，正")) {
-            go("jh 24;n;n;n;n;look_npc taishan_taishan2;ask taishan_taishan2;")
+            go("jh 23;n;n;n;n;look_npc taishan_taishan2;ask taishan_taishan2;")
         }
     } else if (msg.match("『泰山』")) {
         if (msg.match("豁达，原本是丐帮弟子")) {
             go("jh 24;n;n;n;n;look_npc taishan_taishan2;ask taishan_taishan2;")
         }
+        if ('这是一条斑斓的大蛇，一眼看去就知道有剧毒'.includes(match_str)) {
+            go("jh 24;n;n;n;n;n;n;n;n;n;n;n;n;w;n;look_npc taishan_taishan36;ask taishan_taishan36;")
+        }
+    } else if (msg.match("『大昭寺』")) {
+        if ('一只浑身脏兮兮的野狗，一双眼睛正恶狠狠地瞪著你。'.includes(match_str)) {
+            go("jh 26;w;w;w;w;w;w;n;n;w;look_npc guanwai_crazy_dog;ask guanwai_crazy_dog;")
+        }
+    } else if (msg.match("『星宿海』")) {
+        if ('一只有着三角形脑袋的蛇，尾巴沙沙做响'.includes(match_str)) {
+            go("jh 28;e;n;w;w;w;w;look_npc xingxiu_snake;ask xingxiu_snake;")
+        }
+        if ('一个辛苦工作的采药人。'.includes(match_str)) {
+            go("jh 28;e;n;w;w;look_npc xingxiu_caiyaoren;ask xingxiu_caiyaoren;")
+        }
     } else if (msg.match("『茅山』")) {
         if (msg.match("一只笨笨的野猪")) {
             go("jh 29;n;look_npc obj_pig;ask obj_pig;")
+        }
+    } else if (msg.match("『桃花岛』")) {
+        if (msg.match("又聋又哑，似乎以前曾")) {
+            go("jh 30;n;n;n;n;n;n;n;w;w;look_npc taohua_yapuren;ask taohua_yapuren;")
         }
     } else if (msg.match("『铁雪山庄』")) {
         if (msg.match("一个砍柴为生的樵夫")) {
@@ -5319,20 +5406,22 @@ function go_xuanhong(msg) {
         if (msg.match("满头，打扮的雍容华贵")) {
             go("jh 32;n;n;se;n;look_npc murong_oldwoman;ask murong_oldwoman;")
         }
-    } else if (msg.match("『峨眉山』")) {
-        if (msg.match("身材已经开始发育")) {
-            go("jh 8;w;nw;n;n;n;n;n;n;e;")
+        if ('她看起来像个小灵精，头上梳两个小包包头。她坐在地上，看到你看她便向你作了个鬼脸!你想她一定是调皮才会在这受罚!'.includes(match_str)) {
+            go("jh 32;n;n;se;e;s;s;look_npc murong_azhu;event_1_99232080;e;e;s;e;s;e;e;e;look_npc murong_fangling;ask murong_fangling;")
         }
     } else if (msg.match("『冰火岛』")) {
         if (msg.match("身上的道袍颇为残旧")) {
             go("jh 35;nw;nw;nw;n;ne;nw;w;nw;e;e;e;look_npc binghuo_youfangdaoshi;ask binghuo_youfangdaoshi;")
+        }
+        if ('一身赭黄色的皮毛，背上还有许多像梅花白点。头上岔立着的一双犄角，看上去颇有攻击性。行动十分机敏。'.includes(match_str)) {
+            go("jh 35;nw;nw;nw;n;ne;nw;w;nw;e;e;e;e;e;look_npc binghuo_meihualu;ask binghuo_meihualu;")
         }
     } else if (msg.match("『绝情谷』")) {
         if (msg.match("正在吃草的野兔")) {
             go("jh 37;n;e;e;nw;nw;w;n;e;n;look_npc jueqinggu_yetu;ask jueqinggu_yetu;")
         }
     } else if (msg.match("『天山』")) {
-        if (msg.match("对付对方，令到对方啼")) {
+        if ('性情古怪，不好交往，喜用新招，每每和对方对招之际，学会对方的招式，然后拿来对付对方，令到对方啼笑皆非。。是个狼养大的孩子，他很能打，打起来不要命，一个性情古怪的人，有着一段谜一样的过去。'.includes(match_str)) {
             go("jh 39;ne;e;n;ne;look_npc tianshan_xinjianshi;ask tianshan_xinjianshi;")
         }
     }
