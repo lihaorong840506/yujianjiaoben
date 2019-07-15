@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B-72区-2019.5.2
 // @namespace    http://tampermonkey.net/
-// @version      2019.5.16
+// @version      2019.7.10
 // @description  免费版本
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -480,8 +480,8 @@ function WhoAmIFunc() {
             skillstr9 = "千影百伤棍,燎原百破,6,道种心魔经";
             addXueFunc();
         } else if (myID == 'u6786985') {   // u6786985--闾丘公钢
-            skillstr6 = "覆雨剑法,如来神掌,6,道种心魔经";
-            skillstr9 = "覆雨剑法,如来神掌,6,道种心魔经";
+            skillstr6 = "翻云刀法,破军棍诀,6,道种心魔经";
+            skillstr9 = "翻云刀法,破军棍诀,6,道种心魔经";
             addXueFunc();
         } else if (myID == 'u6800807') {   // u6800807--梅长熙
             skillstr6 = "覆雨剑法,如来神掌,6,道种心魔经";
@@ -5283,7 +5283,10 @@ function go_xuanhong(msg) {
         if ('这人虽然年纪不大，却十分傲慢。看来金刀门是上梁不正下梁歪。'.includes(match_str)) {
             go("jh 2;n;n;n;e;look_npc luoyang_luoyang27;ask luoyang_luoyang27;")
         }
-        if (msg.match("好游山玩水的败剑山庄")) {
+        if ("好游山玩水的败剑山庄庄主。".includes(match_str)) {
+            go("jh 2;n;n;n;n;n;e;e;n;n;n;n;e;look_npc luoyang_lingzhongtian;ask luoyang_lingzhongtian;")
+        }
+        if ("一个身受重伤的布衣青年，手持一把染血的佩剑。".includes(match_str)) {
             go("jh 2;n;n;n;n;n;e;e;n;n;n;n;e;look_npc luoyang_lingzhongtian;ask luoyang_lingzhongtian;")
         }
         if (msg.match("位身材高大的汉子，正")) {
@@ -5297,12 +5300,18 @@ function go_xuanhong(msg) {
         if ('华山派门下的第子'.includes(match_str)) {
             go("jh 4;n;n;n;n;n;n;n;n;n;n;w;look_npc huashan_shi;event_1_30014247;look_npc huashan_huashan_fb1;ask huashan_huashan_fb1;")
         }
+        if ('一只在松林里觅食的小松鼠。'.includes(match_str)) {
+            go("jh 4;n;n;n;n;n;n;n;n;look_npc huashan_huashan24;ask huashan_huashan24;")
+        }
     } else if (msg.match("『扬州』")) {
         if (msg.match("浅月楼门口的侍卫")) {
             go("jh 5;n;n;n;n;n;n;n;n;w;w;w;look_npc yangzhou_qingyimenwei;ask yangzhou_qingyimenwei;")
         }
         if ('身着红衣的抚琴少女，红色的外袍包裹着洁白细腻的肌肤，她偶尔站起走动，都要露出细白水嫩的小腿。脚上的银铃也随着步伐轻轻发出零零碎碎的声音。纤细的手指划过古朴的琵琶。令人骚动的琴声从弦衫流淌下来。'.includes(match_str)) {
             go("jh 5;n;n;n;n;n;n;n;n;w;w;w;look_npc yangzhou_qingyimenwei;ask yangzhou_qingyimenwei;")
+        }
+        if ('名满天下的第一琴姬，苏小婉是那种文人梦中的红颜知己。这样美貌才智具备的女子，怕是世间几百年才能出现一位。曾有人替她惋惜，说如若她是一大家闺秀，或许也能寻得一志趣相投之人，也会有“赌书消得泼茶香”的美谈。即使她只是一贫家女子，不读书亦不学艺，纵使是貌胜西子，或许仍可安稳一生。然而命运时常戏弄人，偏偏让那如花美眷落入淤泥，误了那似水流年。本想为一人盛开，却被众人窥去了芳颜。可她只是微微一笑，说道：『寻一平凡男子，日出而作日落而息，相夫教子，如湮没于历史烟尘中的所有女子一般。那样的生活，不是我做不到，只是不愿意。没有燃烧过的，只是一堆黑色的粉末，哪里能叫做烟火？』'.includes(match_str)) {
+            go("jh 5;n;n;n;n;n;n;n;n;w;w;w;s;e;e;s;s;e;e;s;s;s;look_npc yangzhou_suxiaowan;ask yangzhou_suxiaowan;")
         }
         if ('在武馆拜师学艺的弟子，看来还是会些基本功。'.includes(match_str)) {
             go("jh 5;n;n;n;e;n;look_npc yangzhou_yangzhou_fb2;ask yangzhou_yangzhou_fb2;")
@@ -5334,6 +5343,9 @@ function go_xuanhong(msg) {
         if ('峨眉山上做点小生意的小贩。'.includes(match_str)) {
             go('jh 8;w;nw;n;n;n;n;e;e;n;n;e;fight emei_shoushan;golook_room;n;eval_halt_move();golook_room;n;n;n;w;look_npc emei_xiao-fan;ask emei_xiao-fan;');
         }
+        if ('这是一个年轻尼姑。'.includes(match_str)) {
+            go('jh 8;w;nw;n;n;n;n;e;e;n;n;e;fight emei_shoushan;golook_room;n;eval_halt_move();golook_room;n;n;n;w;n;n;n;w;w;w;w;n;look_npc emei_nigu1;ask emei_nigu1;');
+        }
     } else if (msg.match("『恒山』")) {
         // todo
         if (msg.match("一条吐着红舌头的毒蛇")) {
@@ -5342,13 +5354,23 @@ function go_xuanhong(msg) {
         if (msg.match("一只黑色的吸血蝙")) {
             go("jh 9;n;n;n;n;n;n;n;n;look_npc henshan_henshan14;ask henshan_henshan14;")
         }
+        if ('弟子，脸上没有一丝表恒山派俗家弟子，脸上没有一丝表情，让人望而却步。'.includes(match_str)) {
+            go("jh 9;n;look_npc henshan_henshan1;ask henshan_henshan1;")
+        }
     } else if (msg.match("『晚月庄』")) {
         if ('一只翩翩起舞的小蝴蝶哦!'.includes(match_str)) {
             go("jh 11;e;e;s;look_npc latemoon_butterfly;ask latemoon_butterfly;")
         }
+    } else if (msg.match("『武当山』")) {
+        if ('一位前往武当山进香的人。'.includes(match_str)) {
+            go("jh 10;w;n;n;w;look_npc wudang_guest;ask wudang_guest;")
+        }
     } else if (msg.match("『水烟阁』")) {
         if ('萧辟尘自幼生长於岚城之中，看起来仙风道骨，不食人间烟火。'.includes(match_str)) {
             go("jh 12;n;n;n;n;look_npc fighter_master;ask fighter_master;")
+        }
+        if ('於兰天武是当今皇上的叔父，但是他毕生浸淫武学，甘愿抛弃荣华富以换取水烟阁传功使一职，以便阅读水烟阁中所藏的武学典籍，无论你有什麽武学上的疑难，他都能为你解答。'.includes(match_str)) {
+            go("jh 12;n;n;n;e;n;ne;w;n;look_npc fighter_champion;ask fighter_champion;")
         }
     } else if (msg.match("『少林寺』")) {
         if ('一只脏兮兮的田鼠，正在田间觅食'.includes(match_str)) {
@@ -5379,6 +5401,9 @@ function go_xuanhong(msg) {
         if ('名将之女，自幼受其父兄武略的影响，青年时候就成为一名性机敏、善骑射，文武双全的女将。她与普通的大家闺秀不同，她研习兵法，颇通将略，把戍边御侵、保卫疆域、守护中原民众为己任，协助父兄练兵把关，具备巾帼英雄的气度。夫君边关打仗，她在杨府内组织男女仆人丫环习武，仆人的武技和忠勇之气个个都不亚于边关的士兵'.includes(match_str)) {
             go("jh 17;n;n;n;n;w;w;w;s;s;w;look_npc kaifeng_shetaijun;ask kaifeng_shetaijun;")
         }
+        if ('这是一条看起来有些疲惫的骆驼。'.includes(match_str)) {
+            go("jh 17;look_npc kaifeng_kaifeng18;ask kaifeng_kaifeng18;")
+        }
     } else if (msg.match("『光明顶』")) {
         if ('一个村妇。'.includes(match_str)) {
             go("jh 18;w;look_npc mingjiao_woman;ask mingjiao_woman;")
@@ -5387,10 +5412,16 @@ function go_xuanhong(msg) {
         if (msg.match("一个全真教的小道童")) {
             go("jh 19;s;s;s;sw;s;e;n;nw;n;n;n;n;n;n;n;w;w;w;s;look_npc quanzhen_yudao;ask quanzhen_yudao;")
         }
+        if ('一只叽叽咋咋的小麻雀。'.includes(match_str)) {
+            go("jh 19;s;s;s;sw;s;e;n;nw;n;n;n;n;n;n;n;n;n;n;n;e;e;e;n;look_npc quanzhen_bird;ask quanzhen_bird;")
+        }
     } else if (msg.match("『白驼山』")) {
         // todo
         if (msg.match("白的小白兔，可爱之致")) {
             go("jh 21;nw;w;w;nw;n;n;n;n;n;n;n;n;ne;look_npc baituo_baitu;ask baituo_baitu;")
+        }
+        if ('一只让人看了起毛骨悚然的金环蛇。'.includes(match_str)) {
+            go("jh 21;nw;w;w;nw;n;n;n;n;n;n;n;n;ne;e;look_npc baituo_jinshe;ask baituo_jinshe;")
         }
         if (msg.match("小眼睛不停地眨巴着")) {
             go("jh 21;nw;w;w;nw;n;n;n;n;n;n;n;e;look_npc baituo_feifei;ask baituo_feifei;")
@@ -5420,6 +5451,10 @@ function go_xuanhong(msg) {
         if ('这个老人看起来七十多岁了，看著他佝偻的身影，你忽然觉得心情沈重了下来。'.includes(match_str)) {
             go("jh 26;w;w;w;w;w;w;w;w;w;look_npc guanwai_keeper;ask guanwai_keeper;")
         }
+    } else if (msg.match("『黑木崖』")) {
+        if ('这是一个忙忙碌碌的小二。'.includes(match_str)) {
+            go("jh 27;ne;w;look_npc heimuya_xiaoer;ask heimuya_xiaoer;")
+        }
     } else if (msg.match("『星宿海』")) {
         if ('一只有着三角形脑袋的蛇，尾巴沙沙做响'.includes(match_str)) {
             go("jh 28;e;n;w;w;w;w;look_npc xingxiu_snake;ask xingxiu_snake;")
@@ -5429,6 +5464,9 @@ function go_xuanhong(msg) {
         }
         if ('一个风尘仆仆的侠客。。'.includes(match_str)) {
             go("jh 28;nw;e;look_npc xingxiu_bayi;ask xingxiu_bayi;")
+        }
+        if ('一个很胖的中年妇女。'.includes(match_str)) {
+            go("jh 28;nw;look_npc xingxiu_woman;ask xingxiu_woman;")
         }
     } else if (msg.match("『茅山』")) {
         if (msg.match("一只笨笨的野猪")) {
@@ -5470,9 +5508,15 @@ function go_xuanhong(msg) {
         if (msg.match("正在吃草的野兔")) {
             go("jh 37;n;e;e;nw;nw;w;n;e;n;look_npc jueqinggu_yetu;ask jueqinggu_yetu;")
         }
+        if ('被关押在暗无天日的地牢内，落魄的样子无法让你联想到他们曾是江湖好汉。'.includes(match_str)) {
+            go("jh 37;n;e;e;nw;nw;w;n;e;n;e;e;e;ne;ne;ne;se;s;s;s;look_npc jueqinggu_qiufan;ask jueqinggu_qiufan;")
+        }
     } else if (msg.match("『天山』")) {
         if ('性情古怪，不好交往，喜用新招，每每和对方对招之际，学会对方的招式，然后拿来对付对方，令到对方啼笑皆非。。是个狼养大的孩子，他很能打，打起来不要命，一个性情古怪的人，有着一段谜一样的过去。'.includes(match_str)) {
             go("jh 39;ne;e;n;ne;look_npc tianshan_xinjianshi;ask tianshan_xinjianshi;")
+        }
+        if ('这是一位边塞牧民，正在驱赶羊群。'.includes(match_str)) {
+            go("jh 39;ne;e;n;nw;look_npc tianshan_mumin;ask tianshan_mumin;")
         }
     }
 }
