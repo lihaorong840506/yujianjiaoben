@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B-72区-2019.5.2
 // @namespace    http://tampermonkey.net/
-// @version      2019.7.10
+// @version      2019.7.11
 // @description  免费版本
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -2165,7 +2165,7 @@ function QinglongMon() { //各种监控大杂烩
             //         console.log(msg);
             if (msg.match("71-75区]") != null && KFQLtrigger == 1) {
                 //监控 71-75  青龙(周一、周二）-
-                if ((msg.match("天罡掌套") != null || msg.match("晚香玉") != null || msg.match("凌霄花") != null || msg.match("百宜雪梅") != null || msg.match("朝开暮落花") != null || msg.match("熙颜花") != null || msg.match("夕雾草") != null || msg.match("彼岸花") != null || msg.match("洛神花") != null || msg.match("碎片") != null) && (msg.match("荣威镖局") == null)) { // pt triggsuer = 1 是默认， =0 时 打所有跨服青龙
+                if ((msg.match("晚香玉") != null || msg.match("凌霄花") != null || msg.match("百宜雪梅") != null || msg.match("朝开暮落花") != null || msg.match("熙颜花") != null || msg.match("夕雾草") != null || msg.match("彼岸花") != null || msg.match("洛神花") != null || msg.match("碎片") != null) && (msg.match("荣威镖局") == null)) { // pt triggsuer = 1 是默认， =0 时 打所有跨服青龙
                     //                  if (( msg.match("晚香玉")!=null || msg.match("凌霄花")!=null || msg.match("百宜雪梅")!=null || msg.match("朝开暮落花")!=null || msg.match("凤凰木")!=null || msg.match("熙颜花")!=null || msg.match("君影草")!=null ||msg.match("矢车菊")!=null ||msg.match("忘忧草")!=null ||msg.match("仙客来")!=null ||msg.match("雪英")!=null ||msg.match("夕雾草")!=null ||  msg.match("彼岸花")!=null || msg.match("洛神花")!=null || PTtrigger == 0) && ( msg.match("荣威镖局")==null)){ // pt triggsuer = 1 是默认， =0 时 打所有跨服青龙
                     // var url = msg.split("href;0;")[1].split("")[0];
                     clearInterval(QinglongIntervalFunc)
@@ -2191,7 +2191,7 @@ function QinglongMon() { //各种监控大杂烩
             if (QLtrigger == 1) {
                 if (msg.match("青龙会组织") != null) {
                     //                    console.log(msg);
-                    if ((msg.match("天罡掌套") != null || msg.match("晚香玉") != null || msg.match("凌霄花") != null || msg.match("百宜雪梅") != null || msg.match("朝开暮落花") != null || msg.match("凤凰木") != null || msg.match("熙颜花") != null || msg.match("君影草") != null || msg.match("矢车菊") != null || msg.match("忘忧草") != null || msg.match("仙客来") != null || msg.match("雪英") != null || msg.match("夕雾草") != null || msg.match("彼岸花") != null || msg.match("洛神花") != null || msg.match("碎片") != null || msg.match("岳老大") != null) || (msg.match("乾坤再造丹") != null) || (msg.match("灵草") != null) || (msg.match("小还丹") != null) || (msg.match("紫芝") != null) || (msg.match("狂暴丹") != null)) {
+                    if ((msg.match("晚香玉") != null || msg.match("凌霄花") != null || msg.match("百宜雪梅") != null || msg.match("朝开暮落花") != null || msg.match("凤凰木") != null || msg.match("熙颜花") != null || msg.match("君影草") != null || msg.match("矢车菊") != null || msg.match("忘忧草") != null || msg.match("仙客来") != null || msg.match("雪英") != null || msg.match("夕雾草") != null || msg.match("彼岸花") != null || msg.match("洛神花") != null || msg.match("碎片") != null || msg.match("岳老大") != null) || (msg.match("乾坤再造丹") != null) || (msg.match("灵草") != null) || (msg.match("小还丹") != null) || (msg.match("紫芝") != null) || (msg.match("狂暴丹") != null)) {
                         tarNPC = msg.split("组织：")[1].split("正在")[0];
                         // 在跨服时，不执行本服青龙的操作
                         if (!tarNPC.match("]区")) {
@@ -2201,7 +2201,7 @@ function QinglongMon() { //各种监控大杂烩
                             QinglongIntervalFunc = setInterval(() => {
                                 Qinglong(tarNPC)
                             }, 500)
-                            sendMessage(msg.replace(/href;0;find_qinglong_road/, '').replace(/\d{5,7}/, '').replace(/\d{1}/, ''));
+                            sendMessage(g_area_id + '区：' + msg.replace(/href;0;find_qinglong_road/, '').replace(/\d{5,7}/, '').replace(/\d{1}/, ''));
                         }
                     }
                 }
@@ -2279,7 +2279,7 @@ function QinglongMon() { //各种监控大杂烩
             var msg = g_simul_efun.replaceControlCharBlank(b.get("msg"));
             //监控 71-75  周四跨服逃犯
 
-            if (msg.match("71-75区]段老大慌不择路") != null && kuafuzhuitao == 1) {
+            if (msg.match("71-75区]段老大慌不择路") != null) {
                 sendMessage(msg);
                 var url = msg.split("href;0;")[1].split("")[0];
                 if (btnList1["杀好人"].innerText == '停好人') { tarNPC = '[71-75区]无一'; }
@@ -2326,6 +2326,7 @@ function QinglongMon() { //各种监控大杂烩
             var msg = g_simul_efun.replaceControlCharBlank(b.get("msg"));
             //监控 帮派boss
             if (msg.match("帮派BOSS") != null && QLtrigger == 1) {
+                sendMessage(g_area_id + '区：' + msg);
                 clickButton('clan scene', 0);
             }
         }
