@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B-72区-2019.5.2
 // @namespace    http://tampermonkey.net/
-// @version      2019.7.11
+// @version      2019.7.10
 // @description  免费版本
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -2165,7 +2165,7 @@ function QinglongMon() { //各种监控大杂烩
             //         console.log(msg);
             if (msg.match("71-75区]") != null && KFQLtrigger == 1) {
                 //监控 71-75  青龙(周一、周二）-
-                if ((msg.match("晚香玉") != null || msg.match("凌霄花") != null || msg.match("百宜雪梅") != null || msg.match("朝开暮落花") != null || msg.match("熙颜花") != null || msg.match("夕雾草") != null || msg.match("彼岸花") != null || msg.match("洛神花") != null || msg.match("碎片") != null) && (msg.match("荣威镖局") == null)) { // pt triggsuer = 1 是默认， =0 时 打所有跨服青龙
+                if ((msg.match("碎片") != null) && (msg.match("荣威镖局") == null)) { // pt triggsuer = 1 是默认， =0 时 打所有跨服青龙
                     //                  if (( msg.match("晚香玉")!=null || msg.match("凌霄花")!=null || msg.match("百宜雪梅")!=null || msg.match("朝开暮落花")!=null || msg.match("凤凰木")!=null || msg.match("熙颜花")!=null || msg.match("君影草")!=null ||msg.match("矢车菊")!=null ||msg.match("忘忧草")!=null ||msg.match("仙客来")!=null ||msg.match("雪英")!=null ||msg.match("夕雾草")!=null ||  msg.match("彼岸花")!=null || msg.match("洛神花")!=null || PTtrigger == 0) && ( msg.match("荣威镖局")==null)){ // pt triggsuer = 1 是默认， =0 时 打所有跨服青龙
                     // var url = msg.split("href;0;")[1].split("")[0];
                     clearInterval(QinglongIntervalFunc)
@@ -5277,6 +5277,9 @@ function go_xuanhong(msg) {
         if ('王铁匠正用铁钳夹住一块红热的铁块放进炉中。打孔'.includes(match_str)) {
             go("jh 1;e;n;n;w;look_npc snow_smith;ask snow_smith;")
         }
+        if ('这个人不但自己收破烂，身上也穿得破烂不堪。'.includes(match_str)) {
+            go("jh 1;e;n;n;look_npc snow_scavenger;ask snow_scavenger;")
+        }
     } else if (msg.match("『洛阳』")) {
         if ('洛阳城的财主，开了一家钱庄，家财万贯。'.includes(match_str)) {
             go("jh 2;n;n;n;n;n;n;n;e;look_npc luoyang_luoyang4;ask luoyang_luoyang4;")
@@ -5316,6 +5319,9 @@ function go_xuanhong(msg) {
         }
         if ('在武馆拜师学艺的弟子，看来还是会些基本功。'.includes(match_str)) {
             go("jh 5;n;n;n;e;n;look_npc yangzhou_yangzhou_fb2;ask yangzhou_yangzhou_fb2;")
+        }
+        if ('一个年级尚幼的飞贼。'.includes(match_str)) {
+            go("jh 5;n;n;n;n;w;look_npc yangzhou_xiaofeizei;ask yangzhou_xiaofeizei;")
         }
     } else if (msg.match("『丐帮』")) {
         if (msg.match("衣著邋塌，蓬头垢面的")) {
@@ -5373,6 +5379,9 @@ function go_xuanhong(msg) {
         if ('於兰天武是当今皇上的叔父，但是他毕生浸淫武学，甘愿抛弃荣华富以换取水烟阁传功使一职，以便阅读水烟阁中所藏的武学典籍，无论你有什麽武学上的疑难，他都能为你解答。'.includes(match_str)) {
             go("jh 12;n;n;n;e;n;ne;w;n;look_npc fighter_champion;ask fighter_champion;")
         }
+        if ('潘军禅是当今武林的一位传奇性人物，以他仅仅二十八岁的年龄竟能做到水烟阁执法使的职位，著实是一位不简单的人物。潘军禅是封山剑派掌门柳淳风的结拜义弟，但是他为人其实十分风趣，又好交朋友，丝毫不会摆出武林执法者的架子。'.includes(match_str)) {
+            go("jh 12;n;n;n;n;look_npc fighter_executioner;ask fighter_executioner;")
+        }
     } else if (msg.match("『少林寺』")) {
         if ('一只脏兮兮的田鼠，正在田间觅食'.includes(match_str)) {
             go("jh 13;n;w;look_npc shaolin_shaolin18;ask shaolin_shaolin18;")
@@ -5396,7 +5405,10 @@ function go_xuanhong(msg) {
         }
     } else if (msg.match("『逍遥林』")) {
         if ('她精于莳花，天下的奇花异卉，一经她的培植，无不欣欣向荣。'.includes(match_str)) {
-            go("jh 16;s;s;s;s;e;e;e;s;w;w;n;look_npc xiaoyao_shiqinglu;ask xiaoyao_shiqinglu;")
+            go("jh 16;s;s;s;s;e;e;e;s;w;s;look_npc xiaoyao_shiqinglu;ask xiaoyao_shiqinglu;")
+        }
+        if ('据说他就是鲁班的后人，本来是木匠出身。他在精于土木工艺之学，当代的第一巧匠，设计机关的能手'.includes(match_str)) {
+            go("jh 16;s;s;s;s;e;e;s;s;w;s;s;look_npc xiaoyao_fengasan;ask xiaoyao_fengasan;")
         }
     } else if (msg.match("『开封』")) {
         if ('名将之女，自幼受其父兄武略的影响，青年时候就成为一名性机敏、善骑射，文武双全的女将。她与普通的大家闺秀不同，她研习兵法，颇通将略，把戍边御侵、保卫疆域、守护中原民众为己任，协助父兄练兵把关，具备巾帼英雄的气度。夫君边关打仗，她在杨府内组织男女仆人丫环习武，仆人的武技和忠勇之气个个都不亚于边关的士兵'.includes(match_str)) {
@@ -5469,6 +5481,9 @@ function go_xuanhong(msg) {
         if ('一个很胖的中年妇女。'.includes(match_str)) {
             go("jh 28;nw;look_npc xingxiu_woman;ask xingxiu_woman;")
         }
+        if ('他是星宿派的击钹手。他手中拿着一对铜钹，一边敲一边扯着嗓子唱些肉麻的话。'.includes(match_str)) {
+            go("jh 28;n;n;look_npc xingxiu_boshou;ask xingxiu_boshou;")
+        }
     } else if (msg.match("『茅山』")) {
         if (msg.match("一只笨笨的野猪")) {
             go("jh 29;n;look_npc obj_pig;ask obj_pig;")
@@ -5511,6 +5526,10 @@ function go_xuanhong(msg) {
         }
         if ('被关押在暗无天日的地牢内，落魄的样子无法让你联想到他们曾是江湖好汉。'.includes(match_str)) {
             go("jh 37;n;e;e;nw;nw;w;n;e;n;e;e;e;ne;ne;ne;se;s;s;s;look_npc jueqinggu_qiufan;ask jueqinggu_qiufan;")
+        }
+    } else if (msg.match("『碧海山庄』")) {
+        if ('正在吃草的兔子。'.includes(match_str)) {
+            go("jh 38;n;n;n;n;w;w;look_npc bihaishanzhuang_yetu;ask bihaishanzhuang_yetu;")
         }
     } else if (msg.match("『天山』")) {
         if ('性情古怪，不好交往，喜用新招，每每和对方对招之际，学会对方的招式，然后拿来对付对方，令到对方啼笑皆非。。是个狼养大的孩子，他很能打，打起来不要命，一个性情古怪的人，有着一段谜一样的过去。'.includes(match_str)) {
