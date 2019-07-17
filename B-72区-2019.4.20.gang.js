@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B-72区-2019.5.2
 // @namespace    http://tampermonkey.net/
-// @version      2019.7.10
+// @version      2019.7.11
 // @description  免费版本
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -5280,6 +5280,9 @@ function go_xuanhong(msg) {
         if ('这个人不但自己收破烂，身上也穿得破烂不堪。'.includes(match_str)) {
             go("jh 1;e;n;n;look_npc snow_scavenger;ask snow_scavenger;")
         }
+        if ('你看到一个粗壮的大汉，身上穿著普通樵夫的衣服。'.includes(match_str)) {
+            go("jh 1;e;n;n;n;w;look_npc snow_woodcutter;ask snow_woodcutter;")
+        }
     } else if (msg.match("『洛阳』")) {
         if ('洛阳城的财主，开了一家钱庄，家财万贯。'.includes(match_str)) {
             go("jh 2;n;n;n;n;n;n;n;e;look_npc luoyang_luoyang4;ask luoyang_luoyang4;")
@@ -5296,6 +5299,10 @@ function go_xuanhong(msg) {
         if (msg.match("位身材高大的汉子，正")) {
             // todo
             go("jh 1;e;n;e;e;look_npc snow_trainee;ask snow_trainee;")
+        }
+    } else if (msg.match("『华山村』")) {
+        if ('一只在松林里觅食的小松鼠。'.includes(match_str)) {
+            go("jh 3;n;look_npc huashancun_huashancun14;ask huashancun_huashancun14;")
         }
     } else if (msg.match("『华山』")) {
         if ('这是一只调皮的小猴子，虽是畜牲，却喜欢模仿人样'.includes(match_str)) {
@@ -5527,9 +5534,15 @@ function go_xuanhong(msg) {
         if ('被关押在暗无天日的地牢内，落魄的样子无法让你联想到他们曾是江湖好汉。'.includes(match_str)) {
             go("jh 37;n;e;e;nw;nw;w;n;e;n;e;e;e;ne;ne;ne;se;s;s;s;look_npc jueqinggu_qiufan;ask jueqinggu_qiufan;")
         }
+        if ('多权谋，善用计，所率西夏堂刺客素以神鬼莫测著称，让对头心惊胆战。'.includes(match_str)) {
+            go("jh 37;n;e;e;nw;nw;w;n;e;n;e;e;e;ne;nw;w;n;nw;n;ne;e;look_npc jueqinggu_mzyw;ask jueqinggu_mzyw;")
+        }
     } else if (msg.match("『碧海山庄』")) {
         if ('正在吃草的兔子。'.includes(match_str)) {
             go("jh 38;n;n;n;n;w;w;look_npc bihaishanzhuang_yetu;ask bihaishanzhuang_yetu;")
+        }
+        if ('打理碧海山庄上上下下的杂物。'.includes(match_str)) {
+            go("jh 38;n;n;n;n;n;n;n;w;w;nw;look_npc bihaishanzhuang_shinv;ask bihaishanzhuang_shinv;")
         }
     } else if (msg.match("『天山』")) {
         if ('性情古怪，不好交往，喜用新招，每每和对方对招之际，学会对方的招式，然后拿来对付对方，令到对方啼笑皆非。。是个狼养大的孩子，他很能打，打起来不要命，一个性情古怪的人，有着一段谜一样的过去。'.includes(match_str)) {
