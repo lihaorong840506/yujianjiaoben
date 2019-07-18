@@ -2279,7 +2279,7 @@ function QinglongMon() { //各种监控大杂烩
             var msg = g_simul_efun.replaceControlCharBlank(b.get("msg"));
             //监控 71-75  周四跨服逃犯
 
-            if (msg.match("71-75区]段老大慌不择路") != null) {
+            if (msg.match("71-75区]段老大") != null) {
                 sendMessage(msg);
                 var url = msg.split("href;0;")[1].split("")[0];
                 if (btnList1["杀好人"].innerText == '停好人') { tarNPC = '[71-75区]无一'; }
