@@ -3244,7 +3244,7 @@ function Mjly2Func() {
 function Mjly3Func() {
     if (isContains($('span.out2:contains(炼药的丹炉)').text().slice(-6), '明天再来吧！')) {
         console.log("炼完了。");
-        go('home');
+        // go('home');
     } else {
         go('lianyao;');
         setTimeout(Mjly3Func, 6000);
@@ -5383,6 +5383,9 @@ function go_xuanhong(msg) {
         if ('萧辟尘自幼生长於岚城之中，看起来仙风道骨，不食人间烟火。'.includes(match_str)) {
             go("jh 12;n;n;n;n;look_npc fighter_master;ask fighter_master;")
         }
+        if ('这是一只天邪派的灵兽「天邪虎」，火红的毛皮上有著如白银般的白纹，湛蓝色的眼珠中散发出妖异的光芒。'.includes(match_str)) {
+            go("jh 12;n;n;n;look_npc waterfog_tiger;ask waterfog_tiger;")
+        }
         if ('於兰天武是当今皇上的叔父，但是他毕生浸淫武学，甘愿抛弃荣华富以换取水烟阁传功使一职，以便阅读水烟阁中所藏的武学典籍，无论你有什麽武学上的疑难，他都能为你解答。'.includes(match_str)) {
             go("jh 12;n;n;n;e;n;ne;w;n;look_npc fighter_champion;ask fighter_champion;")
         }
@@ -5446,6 +5449,9 @@ function go_xuanhong(msg) {
         if (msg.match("小眼睛不停地眨巴着")) {
             go("jh 21;nw;w;w;nw;n;n;n;n;n;n;n;e;look_npc baituo_feifei;ask baituo_feifei;")
         }
+        if ('铁匠正用汗流浃背地打铁。'.includes(match_str)) {
+            go("jh 21;nw;s;look_npc baituo_smith;ask baituo_smith;")
+        }
     } else if (msg.match("『嵩山』")) {
         if (msg.match("食的野狼，看起来很饿")) {
             go("jh 22;n;n;w;n;look_npc songshan_songshan15;ask songshan_songshan15;")
@@ -5464,6 +5470,9 @@ function go_xuanhong(msg) {
         if ('这是一条斑斓的大蛇，一眼看去就知道有剧毒'.includes(match_str)) {
             go("jh 24;n;n;n;n;n;n;n;n;n;n;n;n;w;n;look_npc taishan_taishan36;ask taishan_taishan36;")
         }
+        if ('这是一名魁梧的中年男子，看起来内家功夫造诣不浅。'.includes(match_str)) {
+            go("jh 24;n;n;n;n;n;n;n;n;n;n;n;n;e;e;n;n;n;n;look_npc taishan_taishan_fb55;ask taishan_taishan_fb55;")
+        }
     } else if (msg.match("『大昭寺』")) {
         if ('一只浑身脏兮兮的野狗，一双眼睛正恶狠狠地瞪著你。'.includes(match_str)) {
             go("jh 26;w;w;w;w;w;w;n;n;w;look_npc guanwai_crazy_dog;ask guanwai_crazy_dog;")
@@ -5476,7 +5485,7 @@ function go_xuanhong(msg) {
             go("jh 27;ne;w;look_npc heimuya_xiaoer;ask heimuya_xiaoer;")
         }
     } else if (msg.match("『星宿海』")) {
-        if ('一只有着三角形脑袋的蛇，尾巴沙沙做响'.includes(match_str)) {
+        if ('一只有着三角形脑袋的蛇，尾巴沙沙做响。'.includes(match_str)) {
             go("jh 28;e;n;w;w;w;w;look_npc xingxiu_snake;ask xingxiu_snake;")
         }
         if ('一个辛苦工作的采药人。'.includes(match_str)) {
@@ -5504,8 +5513,11 @@ function go_xuanhong(msg) {
             go("jh 31;n;n;n;w;look_npc resort_qiaofu1;ask resort_qiaofu1;")
         }
     } else if (msg.match("『慕容山庄』")) {
-        if (msg.match("满头，打扮的雍容华贵")) {
+        if ('她身穿古铜缎子袄裙，腕带玉镯，珠翠满头，打扮的雍容华贵，脸上皱纹甚多，眼睛迷迷朦朦，似乎已经看不见东西。'.includes(match_str)) {
             go("jh 32;n;n;se;n;look_npc murong_oldwoman;ask murong_oldwoman;")
+        }
+        if ('一个侍女，年龄不大。'.includes(match_str)) {
+            go("jh 32;n;n;se;n;look_npc murong_shinv;ask murong_shinv;")
         }
         if ('她看起来像个小灵精，头上梳两个小包包头。她坐在地上，看到你看她便向你作了个鬼脸!你想她一定是调皮才会在这受罚!'.includes(match_str)) {
             go("jh 32;n;n;se;e;s;s;look_npc murong_azhu;event_1_99232080;e;e;s;e;s;e;e;e;look_npc murong_fangling;ask murong_fangling;")
@@ -5520,6 +5532,9 @@ function go_xuanhong(msg) {
         }
         if ('一身赭黄色的皮毛，背上还有许多像梅花白点。头上岔立着的一双犄角，看上去颇有攻击性。行动十分机敏。'.includes(match_str)) {
             go("jh 35;nw;nw;nw;n;ne;nw;w;nw;e;e;e;e;e;look_npc binghuo_meihualu;ask binghuo_meihualu;")
+        }
+        if ('眼瞳红如鲜血，牙齿十分锐利，身形巨大强壮，速度极快。天性狡猾，通常都是群体出动。'.includes(match_str)) {
+            go("jh 35;nw;nw;nw;n;ne;nw;w;nw;e;e;e;e;e;se;n;n;ne;look_npc binghuo_xuelang;ask binghuo_xuelang;")
         }
     } else if (msg.match("『侠客岛』")) {
         go("jh 36;")
