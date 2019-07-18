@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B-72区-2019.5.2
 // @namespace    http://tampermonkey.net/
-// @version      2019.7.12
+// @version      2019.7.11
 // @description  免费版本
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -2279,24 +2279,11 @@ function QinglongMon() { //各种监控大杂烩
             var msg = g_simul_efun.replaceControlCharBlank(b.get("msg"));
             //监控 71-75  周四跨服逃犯
 
-            if (msg.match("71-75区]段老大逃到了") != null) {
+            if (msg.match("71-75区]段老大") != null) {
                 sendMessage(msg);
                 var url = msg.split("href;0;")[1].split("")[0];
                 if (btnList1["杀好人"].innerText == '停好人') { tarNPC = '[71-75区]无一'; }
                 else { tarNPC = '[71-75区]段老大'; }
-                clearInterval(QinglongIntervalFunc);
-                // Qinglong(tarNPC);
-                QinglongIntervalFunc = setTimeout(Qinglong, 500);
-                zhou4TaoFan = 1;
-                clickButton(url);
-                return;
-            }
-
-            if (msg.match("71-75区]云老四逃到了") != null) {
-                sendMessage(msg);
-                var url = msg.split("href;0;")[1].split("")[0];
-                if (btnList1["杀好人"].innerText == '停好人') { tarNPC = '[71-75区]无一'; }
-                else { tarNPC = '[71-75区]云老四'; }
                 clearInterval(QinglongIntervalFunc);
                 // Qinglong(tarNPC);
                 QinglongIntervalFunc = setTimeout(Qinglong, 500);
