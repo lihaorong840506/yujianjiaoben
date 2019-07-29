@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B-72区-2019.5.2
 // @namespace    http://tampermonkey.net/
-// @version      2019.7.12
+// @version      2019.7.13
 // @description  免费版本
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -2174,7 +2174,7 @@ function QinglongMon() { //各种监控大杂烩
                     go_qinglong(msg);
                     QinglongIntervalFunc = setInterval(() => {
                         Qinglong(tarNPC)
-                    }, 500)
+                    }, 1000)
                     sendMessage(msg.replace(/href;0;find_qinglong_road/, '').replace(/[/d]{5,7}/, '').replace(/[\d]{1}施展力量/, '施展力量'));
                 }
                 //监控 71-75  镖车(周日）-
@@ -2200,7 +2200,7 @@ function QinglongMon() { //各种监控大杂烩
                             go_qinglong(msg);
                             QinglongIntervalFunc = setInterval(() => {
                                 Qinglong(tarNPC)
-                            }, 500)
+                            }, 1000)
                             sendMessage(g_area_id + '区：' + msg.replace(/href;0;find_qinglong_road/, '').replace(/\d{5,7}/, '').replace(/\d{1}/, ''));
                         }
                     }
@@ -2286,7 +2286,7 @@ function QinglongMon() { //各种监控大杂烩
                 else { tarNPC = '[71-75区]段老大'; }
                 clearInterval(QinglongIntervalFunc);
                 // Qinglong(tarNPC);
-                QinglongIntervalFunc = setTimeout(Qinglong, 500);
+                QinglongIntervalFunc = setTimeout(Qinglong, 1000);
                 zhou4TaoFan = 1;
                 clickButton(url);
                 return;
