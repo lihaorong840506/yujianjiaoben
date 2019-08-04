@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B-72区-2019.5.2
 // @namespace    http://tampermonkey.net/
-// @version      2019.7.14
+// @version      2019.7.15
 // @description  免费版本
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -480,7 +480,7 @@ function WhoAmIFunc() {
             skillstr9 = "千影百伤棍,燎原百破,6,道种心魔经";
             addXueFunc();
         } else if (myID == 'u6786985') {   // u6786985--闾丘公钢
-            skillstr6 = "翻云刀法,破军棍诀,6,道种心魔经";
+            skillstr6 = "翻云刀法,天火飞锤,6,道种心魔经";
             skillstr9 = "翻云刀法,破军棍诀,6,道种心魔经";
             addXueFunc();
         } else if (myID == 'u6800807') {   // u6800807--梅长熙
