@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B-72区-2019.5.2
 // @namespace    http://tampermonkey.net/
-// @version      2019.7.15
+// @version      2019.7.16
 // @description  免费版本
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -67,6 +67,7 @@ var SkillSet = {
     "不动明王诀": "budongmwj", "万象流云刀法": "wanxianglyd", "片雪疾剑": "pianxuejijian", "万仞血杀刀": "wanrenshadao", "十阳灭冥箭": "shiyangjian",
     "碧血心法": "bxxf", "烈血十式": "lxss", "镇国龙枪": "zglq", "天波九转": "tbjz",
     "九天龙吟剑法": "jiutian-sword", "覆雨剑法": "fuyu-sword", "织冰剑法": "binggong-jianfa",
+    "天火飞锤": "thfc", "西凉心法": "xlxf",
     "如来神掌": "rulai-zhang", "排云掌法": "paiyun-zhang",
     "翻云刀法": "fanyun-blade",
     "孔雀翎": "kongqueling", "飞刀绝技": "feidao",
