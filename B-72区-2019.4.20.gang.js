@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B-72区-2019.5.2
 // @namespace    http://tampermonkey.net/
-// @version      2019.7.17
+// @version      2019.7.18
 // @description  免费版本
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -2179,7 +2179,7 @@ function QinglongMon() { //各种监控大杂烩
                     sendMessage(msg.replace(/href;0;find_qinglong_road/, '').replace(/[/d]{5,7}/, '').replace(/[\d]{1}施展力量/, '施展力量'));
                 }
                 //监控 71-75  镖车(周日）-
-                if (msg.match("71-75区]花落云") != null) {
+                if (msg.match("71-75区]花落云")) {
                     if (btnList1["杀好人"].innerText == '停好人') { tarNPC = '[71-75区]花落云'; }
                     else { tarNPC = '[71-75区]墟归一'; }
                     var url = msg.split("href;0;")[1].split("")[0];
@@ -2189,9 +2189,9 @@ function QinglongMon() { //各种监控大杂烩
                 }
             }
             //监控 本服 碎片青龙
-            if (msg.match("青龙会组织") != null) {
+            if (msg.match("青龙会组织")) {
                 //                    console.log(msg);
-                if ((msg.match("晚香玉") != null || msg.match("凌霄花") != null || msg.match("百宜雪梅") != null || msg.match("朝开暮落花") != null || msg.match("凤凰木") != null || msg.match("熙颜花") != null || msg.match("君影草") != null || msg.match("矢车菊") != null || msg.match("忘忧草") != null || msg.match("仙客来") != null || msg.match("雪英") != null || msg.match("夕雾草") != null || msg.match("彼岸花") != null || msg.match("洛神花") != null || msg.match("碎片") != null || msg.match("岳老大") != null) || (msg.match("乾坤再造丹") != null) || (msg.match("灵草") != null) || (msg.match("小还丹") != null) || (msg.match("紫芝") != null) || (msg.match("狂暴丹") != null)) {
+                if ((msg.match("晚香玉") || msg.match("凌霄花") || msg.match("百宜雪梅") || msg.match("朝开暮落花") || msg.match("凤凰木") || msg.match("熙颜花") || msg.match("君影草") || msg.match("矢车菊") || msg.match("忘忧草") || msg.match("仙客来") || msg.match("雪英") || msg.match("夕雾草") || msg.match("彼岸花") || msg.match("洛神花") || msg.match("碎片") || msg.match("岳老大")) || (msg.match("乾坤再造丹")) || (msg.match("灵草")) || (msg.match("小还丹")) || (msg.match("紫芝")) || (msg.match("狂暴丹"))) {
                     tarNPC = msg.split("组织：")[1].split("正在")[0];
                     // 在跨服时，不执行本服青龙的操作
                     if (!tarNPC.match("]区")) {
@@ -5271,9 +5271,8 @@ function go_xuanhong(msg) {
         if ('你看到一位面色黝黑的农夫。'.includes(match_str)) {
             go("jh 1;e;s;w;look_npc snow_old_farmer;ask snow_old_farmer;")
         }
-        if ('一只浑身脏兮兮的野狗。'.includes(match_str)) {
-            // todo
-            go("jh 1;e;s;e;ne;look_npc snow_dog;ask snow_dog;")
+        if ('一只浑身脏兮兮的野狗，一双眼睛正恶狠狠地瞪著你。'.includes(match_str)) {
+            go("jh 1;e;s;w;w;look_npc snow_crazy_dog;ask snow_crazy_dog;")
         }
         if ('王铁匠正用铁钳夹住一块红热的铁块放进炉中。打孔'.includes(match_str)) {
             go("jh 1;e;n;n;w;look_npc snow_smith;ask snow_smith;")
@@ -5383,12 +5382,18 @@ function go_xuanhong(msg) {
         if ('一只翩翩起舞的小蝴蝶哦!'.includes(match_str)) {
             go("jh 11;e;e;s;look_npc latemoon_butterfly;ask latemoon_butterfly;")
         }
+        if ('一个狂放书生，显是出自豪富之家，轻财好施，慷慨任侠。'.includes(match_str)) {
+            go("jh 11;e;e;s;n;nw;w;nw;e;e;e;se;look_npc tieflag_chenziang;ask tieflag_chenziang;")
+        }
     } else if (msg.match("『武当山』")) {
         if ('一位前往武当山进香的人。'.includes(match_str)) {
             go("jh 10;w;n;n;w;look_npc wudang_guest;ask wudang_guest;")
         }
         if ('这是一只蜜蜂，正忙着采蜜。'.includes(match_str)) {
             go("jh 10;w;n;n;w;w;w;n;n;n;e;e;s;e;s;e;n;look_npc wudang_bee;ask wudang_bee;")
+        }
+        if ('一只好可爱的小野兔。'.includes(match_str)) {
+            go("jh 10;w;n;n;w;look_npc wudang_yetu;ask wudang_yetu;")
         }
     } else if (msg.match("『水烟阁』")) {
         if ('萧辟尘自幼生长於岚城之中，看起来仙风道骨，不食人间烟火。'.includes(match_str)) {
@@ -5452,6 +5457,10 @@ function go_xuanhong(msg) {
         if ('一只叽叽咋咋的小麻雀。'.includes(match_str)) {
             go("jh 19;s;s;s;sw;s;e;n;nw;n;n;n;n;n;n;n;n;n;n;n;e;e;e;n;look_npc quanzhen_bird;ask quanzhen_bird;")
         }
+    } else if (msg.match("『古墓』")) {
+        if ('盈盈而站着一位秀美绝俗的女子，肌肤间少了一层血色，显得苍白异常。披著一袭轻纱般的白衣，犹似身在烟中雾里。'.includes(match_str)) {
+            go("jh 20;w;w;s;e;s;s;s;s;s;sw;sw;s;s;s;s;e;e;look_npc gumu_longnv;ask gumu_longnv;")
+        }
     } else if (msg.match("『白驼山』")) {
         // todo
         if ('一只雪白的小白兔，可爱之致。'.includes(match_str)) {
@@ -5493,9 +5502,19 @@ function go_xuanhong(msg) {
         if ('这是一名魁梧的中年男子，看起来内家功夫造诣不浅。'.includes(match_str)) {
             go("jh 24;n;n;n;n;n;n;n;n;n;n;n;n;e;e;n;n;n;n;look_npc taishan_taishan_fb55;ask taishan_taishan_fb55;")
         }
+    } else if (msg.match("『铁血大旗门』")) {
+        if ('一个狂放书生，显是出自豪富之家，轻财好施，慷慨任侠。'.includes(match_str)) {
+            go("jh 11;e;e;s;n;nw;w;nw;e;e;e;se;look_npc tieflag_chenziang;ask tieflag_chenziang;")
+        }
     } else if (msg.match("『大昭寺』")) {
         if ('一只浑身脏兮兮的野狗，一双眼睛正恶狠狠地瞪著你。'.includes(match_str)) {
             go("jh 26;w;w;w;w;w;w;n;n;w;look_npc guanwai_crazy_dog;ask guanwai_crazy_dog;")
+        }
+        if ('一个牧羊女正在放羊。'.includes(match_str)) {
+            go("jh 26;w;w;look_npc guanwai_muyangnv;ask guanwai_muyangnv;")
+        }
+        if ('一只全身雪白的的绵羊。'.includes(match_str)) {
+            go("jh 26;look_npc guanwai_sheep;ask guanwai_sheep;w;look_npc guanwai_sheep;ask guanwai_sheep;w;look_npc guanwai_sheep2;ask guanwai_sheep2;")
         }
         if ('这个老人看起来七十多岁了，看著他佝偻的身影，你忽然觉得心情沈重了下来。'.includes(match_str)) {
             go("jh 26;w;w;w;w;w;w;w;w;w;look_npc guanwai_keeper;ask guanwai_keeper;")
