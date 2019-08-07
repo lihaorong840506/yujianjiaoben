@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B-72区-2019.5.2
 // @namespace    http://tampermonkey.net/
-// @version      2019.7.18
+// @version      2019.7.19
 // @description  免费版本
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -5457,14 +5457,19 @@ function go_xuanhong(msg) {
         if ('一只叽叽咋咋的小麻雀。'.includes(match_str)) {
             go("jh 19;s;s;s;sw;s;e;n;nw;n;n;n;n;n;n;n;n;n;n;n;e;e;e;n;look_npc quanzhen_bird;ask quanzhen_bird;")
         }
+        if ('有道家之所才有的怪兽'.includes(match_str)) {
+            go("jh 19;s;s;s;sw;s;e;n;nw;n;n;n;n;n;n;n;n;n;w;look_npc quanzhen_gx-beast;ask quanzhen_gx-beast;")
+        }
     } else if (msg.match("『古墓』")) {
         if ('盈盈而站着一位秀美绝俗的女子，肌肤间少了一层血色，显得苍白异常。披著一袭轻纱般的白衣，犹似身在烟中雾里。'.includes(match_str)) {
             go("jh 20;w;w;s;e;s;s;s;s;s;sw;sw;s;s;s;s;e;e;look_npc gumu_longnv;ask gumu_longnv;")
         }
     } else if (msg.match("『白驼山』")) {
-        // todo
         if ('一只雪白的小白兔，可爱之致。'.includes(match_str)) {
             go("jh 21;nw;w;w;nw;n;n;n;n;n;n;n;n;ne;look_npc baituo_baitu;ask baituo_baitu;")
+        }
+        if ('一个历经沧桑的老婆婆。'.includes(match_str)) {
+            go("jh 21;nw;w;w;nw;n;n;n;n;n;n;n;n;nw;look_npc baituo_zhangma;ask baituo_zhangma;")
         }
         if ('一只让人看了起毛骨悚然的金环蛇。'.includes(match_str)) {
             go("jh 21;nw;w;w;nw;n;n;n;n;n;n;n;n;ne;e;look_npc baituo_jinshe;ask baituo_jinshe;")
@@ -5474,6 +5479,12 @@ function go_xuanhong(msg) {
         }
         if ('铁匠正用汗流浃背地打铁。'.includes(match_str)) {
             go("jh 21;nw;s;look_npc baituo_smith;ask baituo_smith;")
+        }
+        if ('是个和蔼可亲的教练。'.includes(match_str)) {
+            go("jh 21;nw;w;w;nw;n;n;n;n;n;look_npc baituo_li;ask baituo_li;")
+        }
+        if ('一个很健壮的樵夫。'.includes(match_str)) {
+            go("jh 21;nw;w;w;nw;nw;nw;look_npc baituo_qiaofu;ask baituo_qiaofu;")
         }
     } else if (msg.match("『嵩山』")) {
         if ('山林觅食的野狼，看起来很饿。'.includes(match_str)) {
@@ -5549,7 +5560,10 @@ function go_xuanhong(msg) {
         }
     } else if (msg.match("『铁雪山庄』")) {
         if ('一个砍柴为生的樵夫。'.includes(match_str)) {
-            go("jh 31;n;n;n;w;look_npc resort_qiaofu1;ask resort_qiaofu1;")
+            go("jh 31;n;n;n;look_npc resort_woodcutter;ask resort_woodcutter;w;look_npc resort_qiaofu1;ask resort_qiaofu1;")
+        }
+        if ('铁雪山庄的一个丫鬟。'.includes(match_str)) {
+            go("jh 31;n;n;n;w;w;w;w;n;n;n;look_npc resort_girl;ask resort_girl;")
         }
     } else if (msg.match("『慕容山庄』")) {
         if ('她身穿古铜缎子袄裙，腕带玉镯，珠翠满头，打扮的雍容华贵，脸上皱纹甚多，眼睛迷迷朦朦，似乎已经看不见东西。'.includes(match_str)) {
@@ -5563,7 +5577,18 @@ function go_xuanhong(msg) {
         }
     } else if (msg.match("『大理』")) {
         if ('他看上去长的眉清目秀。'.includes(match_str)) {
-            go("jh 33;sw;sw;s;s;s;s;w;w;s;nw;n;e;se;look_npc 他看上去长的眉清目秀。;ask 他看上去长的眉清目秀。;")
+            go("jh 33;sw;sw;s;s;s;s;w;w;s;nw;n;e;se;look_npc dali_shizhe;ask dali_shizhe;")
+        }
+        if ('一位乌夷族的少女，以酥泽发，盘成两环，上披蓝纱头巾，饰以花边。'.includes(match_str)) {
+            go("jh 33;sw;sw;s;s;s;s;w;w;w;w;w;s;s;se;look_npc dali_shaonu;ask dali_shaonu;")
+        }
+    } else if (msg.match("断剑山庄")) {
+        if ('他是剑痴，剑重要过他的生命。'.includes(match_str)) {
+            go("jh 34;ne;e;e;e;e;e;n;n;n;w;w;w;n;n;")
+            go("yell", 0)
+            setTimeout(() => {
+                go("n;n;n;n;n;n;look_npc duanjian_jianchi;ask duanjian_jianchi;")
+            }, 6000)
         }
     } else if (msg.match("『冰火岛』")) {
         if ('一名云游四海的道士，头束白色发带，身上的道袍颇为残旧，背驮着一个不大的行囊，脸上的皱纹显示饱经风霜的游历，双目却清澈异常，仿佛包容了天地。'.includes(match_str)) {
@@ -5576,10 +5601,19 @@ function go_xuanhong(msg) {
             go("jh 35;nw;nw;nw;n;ne;nw;w;nw;e;e;e;e;e;se;n;n;ne;look_npc binghuo_xuelang;ask binghuo_xuelang;")
         }
     } else if (msg.match("『侠客岛』")) {
-        go("jh 36;")
-        go('yell', 0);
         if ('他就是雪山剑派的掌门人，习武成性，自认为天下武功第一，精明能干，嫉恶如仇，性如烈火。'.includes(match_str)) {
-            xiakedao_xuanhong('白掌门')
+            go("jh 36;")
+            go('yell', 0);
+            setTimeout(() => {
+                xiakedao_xuanhong('白掌门')
+            }, 6000)
+        }
+        if ('这是一个十五六岁的少年，眉清目秀，聪明伶俐，深得岛主喜爱。'.includes(match_str)) {
+            go("jh 36;")
+            go('yell', 0);
+            setTimeout(() => {
+                xiakedao_xuanhong('xiakedao_tongzi')
+            }, 6000)
         }
     } else if (msg.match("『绝情谷』")) {
         if ('正在吃草的野兔。'.includes(match_str)) {
@@ -5598,6 +5632,9 @@ function go_xuanhong(msg) {
         if ('打理碧海山庄上上下下的杂物。'.includes(match_str)) {
             go("jh 38;n;n;n;n;n;n;n;w;w;nw;look_npc bihaishanzhuang_shinv;ask bihaishanzhuang_shinv;")
         }
+        if ('碧海山庄少庄主，整日沉迷于一些稀奇古怪的玩意。'.includes(match_str)) {
+            go("jh 38;n;n;n;n;n;n;n;n;n;n;n;e;e;se;se;e;n;n;n;look_npc bihaishanzhuang_zixuan;ask bihaishanzhuang_zixuan;")
+        }
     } else if (msg.match("『天山』")) {
         if ('性情古怪，不好交往，喜用新招，每每和对方对招之际，学会对方的招式，然后拿来对付对方，令到对方啼笑皆非。。是个狼养大的孩子，他很能打，打起来不要命，一个性情古怪的人，有着一段谜一样的过去。'.includes(match_str)) {
             go("jh 39;ne;e;n;ne;look_npc tianshan_xinjianshi;ask tianshan_xinjianshi;")
@@ -5611,7 +5648,7 @@ function go_xuanhong(msg) {
 function xiakedao_xuanhong(msg) {
     var roominfo = g_obj_map.get("msg_room")
     if (roominfo == undefined) {
-        setTimeout(function () { xiakedao_xuanhong(msg); }, 200);
+        setTimeout(function () { xiakedao_xuanhong(msg); }, 1000);
     } else {
         var locationname = roominfo.get("short");
         console.log(locationname);
@@ -5622,10 +5659,13 @@ function xiakedao_xuanhong(msg) {
             if (msg.includes('xiakedao_yujiananhai')) {
                 go('e;se;e;e;s;s;s;w;look_npc xiakedao_yujiananhai;ask xiakedao_yujiananhai;');
             }
+            if (msg.includes('xiakedao_tongzi')) {
+                go('e;ne;ne;ne;e;e;e;look_npc xiakedao_tongzi;ask xiakedao_tongzi;');
+            }
         } else {
             setTimeout(() => {
                 xiakedao_xuanhong(msg)
-            }, 500);
+            }, 1000);
         }
     }
 }
