@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B-72区-2019.5.2
 // @namespace    http://tampermonkey.net/
-// @version      2019.7.19
+// @version      2019.7.20
 // @description  免费版本
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -4465,18 +4465,35 @@ function WuMingFunc() {
     go("jh 29;n;n;n;n");
     setTimeout(MaoShanWuZhongFunc, 2000);
 }
-function MaoShanWuZhongFunc() {
+function MaoShanWuZhongFunc(xuanhong) {
     console.log($('span.outtitle').text());
     if ($('span.outtitle').text().indexOf("雾中") > 0) {
         go("event_1_60035830");
-        setTimeout(MaoShanWuZhongFunc, 1000);
+        setTimeout(() => {
+            MaoShanWuZhongFunc(xuanhong)
+        }, 1000);
     } else if ($('span.outtitle').text().indexOf("平台") > 0) {
-        setTimeout(MaoShanWuZhongFunc, 1000);
+        setTimeout(() => {
+            MaoShanWuZhongFunc(xuanhong)
+        }, 1000);
         go("event_1_65661209");
     } else if ($('span.outtitle').text().indexOf("洞口") > 0) {
-        setTimeout(MaoShanWuZhongFunc, 1000);
+        if (xuanhong === 'taoguan_up_taoist') {
+            go("n;n;n;n;n;n;n;event_1_98579273;n;look_npc taoguan_up_taoist;ask taoguan_up_taoist;")
+            return
+        }
+        setTimeout(() => {
+            MaoShanWuZhongFunc(xuanhong)
+        }, 1000);
         go("s;event_1_65661209");
     } else if ($('span.outtitle').text().indexOf("无名山峡谷") > 0) {
+        if (xuanhong === 'taoguan_up_taoist') {
+            go("jh 29;n;n;n;n");
+            setTimeout(() => {
+                MaoShanWuZhongFunc('taoguan_up_taoist')
+            }, 2000);
+            return
+        }
         go("find_task_road secret;secret_op1");
     }
 }
@@ -5307,6 +5324,9 @@ function go_xuanhong(msg) {
         if ('一只黑色毛发的大狗。'.includes(match_str)) {
             go("jh 3;s;s;s;look_npc huashancun_heigou;ask huashancun_heigou;")
         }
+        if ('颇有几分姿色的女子，是个寡妇。'.includes(match_str)) {
+            go("jh 3;s;s;w;n;look_npc huashancun_huashancun7;ask huashancun_huashancun7;")
+        }
     } else if (msg.match("『华山』")) {
         if ('这是一只调皮的小猴子，虽是畜牲，却喜欢模仿人样'.includes(match_str)) {
             go("jh 4;n;n;n;n;n;n;n;n;n;n;n;n;w;look_npc huashan_huashan22;ask huashan_huashan22;")
@@ -5439,6 +5459,9 @@ function go_xuanhong(msg) {
         if ('据说他就是鲁班的后人，本来是木匠出身。他在精于土木工艺之学，当代的第一巧匠，设计机关的能手'.includes(match_str)) {
             go("jh 16;s;s;s;s;e;e;s;s;w;s;s;look_npc xiaoyao_fengasan;ask xiaoyao_fengasan;")
         }
+        if ('只见他高额凸颡，容貌奇古，笑眯眯的脸色极为和谟，手中抱着一具瑶琴。'.includes(match_str)) {
+            go("jh 16;s;s;s;s;e;e;s;s;w;w;s;s;look_npc xiaoyao_kangguangling;ask xiaoyao_kangguangling;")
+        }
     } else if (msg.match("『开封』")) {
         if ('名将之女，自幼受其父兄武略的影响，青年时候就成为一名性机敏、善骑射，文武双全的女将。她与普通的大家闺秀不同，她研习兵法，颇通将略，把戍边御侵、保卫疆域、守护中原民众为己任，协助父兄练兵把关，具备巾帼英雄的气度。夫君边关打仗，她在杨府内组织男女仆人丫环习武，仆人的武技和忠勇之气个个都不亚于边关的士兵'.includes(match_str)) {
             go("jh 17;n;n;n;n;w;w;w;s;s;w;look_npc kaifeng_shetaijun;ask kaifeng_shetaijun;")
@@ -5486,6 +5509,9 @@ function go_xuanhong(msg) {
         if ('一个很健壮的樵夫。'.includes(match_str)) {
             go("jh 21;nw;w;w;nw;nw;nw;look_npc baituo_qiaofu;ask baituo_qiaofu;")
         }
+        if ('一个很清秀的年轻农村姑娘，挎着一只盖着布小篮子。'.includes(match_str)) {
+            go("jh 21;nw;w;w;look_npc baituo_cungu;ask baituo_cungu;")
+        }
     } else if (msg.match("『嵩山』")) {
         if ('山林觅食的野狼，看起来很饿。'.includes(match_str)) {
             go("jh 22;n;n;w;n;look_npc songshan_songshan15;ask songshan_songshan15;")
@@ -5499,6 +5525,9 @@ function go_xuanhong(msg) {
     } else if (msg.match("『梅庄』")) {
         if ('一只肥大的地鼠，正在觅食。'.includes(match_str)) {
             go("jh 23;n;n;n;n;look_npc taishan_taishan2;ask taishan_taishan2;")
+        }
+        if ('这女子有着倾城之貌，闭月之姿，流转星眸顾盼生辉，发丝随意披散，慵懒不羁。她是江南一带有名的歌妓，据闻琴棋书画无不精通，文人雅士、王孙公子都想一亲芳泽。'.includes(match_str)) {
+            go("jh 23;n;n;n;n;n;n;n;n;n;n;look_npc meizhuang_meizhuang9;ask meizhuang_meizhuang9;")
         }
     } else if (msg.match("『泰山』")) {
         if ('生性豁达，原本是丐帮弟子，因为风流本性难改，被逐出丐帮。'.includes(match_str)) {
@@ -5553,6 +5582,12 @@ function go_xuanhong(msg) {
     } else if (msg.match("『茅山』")) {
         if (msg.match("一只笨笨的野猪")) {
             go("jh 29;n;look_npc obj_pig;ask obj_pig;")
+        }
+        if ("护山使者是茅山派的护法，着一身黑色的道袍".includes(match_str)) {
+            go("jh 29;n;n;n;n");
+            setTimeout(() => {
+                MaoShanWuZhongFunc('taoguan_up_taoist')
+            }, 2000);
         }
     } else if (msg.match("『桃花岛』")) {
         if ('又聋又哑，似乎以前曾是一位武林高手。'.includes(match_str)) {
