@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B-72区-2019.5.2
 // @namespace    http://tampermonkey.net/
-// @version      2019.7.21
+// @version      2019.7.22
 // @description  免费版本
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -5337,6 +5337,9 @@ function go_xuanhong(msg) {
         if ("一个身受重伤的布衣青年，手持一把染血的佩剑。".includes(match_str)) {
             go("jh 2;n;n;n;n;n;e;e;n;n;n;n;e;look_npc luoyang_lingzhongtian;ask luoyang_lingzhongtian;")
         }
+        if ("败剑山庄少庄主，跟着父亲云游四海。".includes(match_str)) {
+            go("jh 2;n;n;n;n;n;e;e;n;n;n;n;e;look_npc luoyang_lingyun;ask luoyang_lingyun;")
+        }
         if ('位身材高大的汉子，正你看到一位身材高大的汉子，正在辛苦地操练著。'.includes(match_str)) {
             // todo
             go("jh 1;e;n;e;e;look_npc snow_trainee;ask snow_trainee;")
@@ -5440,7 +5443,7 @@ function go_xuanhong(msg) {
         }
     } else if (msg.match("『武当山』")) {
         if ('一位前往武当山进香的人。'.includes(match_str)) {
-            go("jh 10;w;n;n;w;look_npc wudang_guest;ask wudang_guest;")
+            go("jh 10;w;n;n;w;look_npc wudang_guest;ask wudang_guest;w;look_npc wudang_guest;ask wudang_guest;")
         }
         if ('这是一只蜜蜂，正忙着采蜜。'.includes(match_str)) {
             go("jh 10;w;n;n;w;w;w;n;n;n;e;e;s;e;s;e;n;look_npc wudang_bee;ask wudang_bee;")
@@ -5485,6 +5488,9 @@ function go_xuanhong(msg) {
         if ('这是一个女店小二，在福州城内，可是独一无二哦。'.includes(match_str)) {
             go("jh 15;s;s;w;n;look_npc qingcheng_wgirl;ask qingcheng_wgirl;")
         }
+        if ('一个卖肉的屠夫。'.includes(match_str)) {
+            go("jh 15;s;s;e;look_npc qingcheng_tufu;ask qingcheng_tufu;")
+        }
     } else if (msg.match("『逍遥林』")) {
         if ('她精于莳花，天下的奇花异卉，一经她的培植，无不欣欣向荣。'.includes(match_str)) {
             go("jh 16;s;s;s;s;e;e;e;s;w;s;look_npc xiaoyao_shiqinglu;ask xiaoyao_shiqinglu;")
@@ -5515,9 +5521,15 @@ function go_xuanhong(msg) {
         if ('他是一个明教小圣使。'.includes(match_str)) {
             go("jh 18;n;nw;n;n;n;n;n;look_npc mingjiao_xiaotong;ask mingjiao_xiaotong;")
         }
+        if ('这是个七八岁的小男孩。'.includes(match_str)) {
+            go("jh 18;w;n;look_npc mingjiao_kid;ask mingjiao_kid;")
+        }
     } else if (msg.match("『全真教』")) {
         if (msg.match("一个全真教的小道童")) {
             go("jh 19;s;s;s;sw;s;e;n;nw;n;n;n;n;n;n;n;w;w;w;s;look_npc quanzhen_yudao;ask quanzhen_yudao;")
+        }
+        if (msg.match("这是一个男童。")) {
+            go("jh 19;s;s;s;sw;s;e;n;nw;look_npc quanzhen_kid;ask quanzhen_kid;")
         }
         if ('一只叽叽咋咋的小麻雀。'.includes(match_str)) {
             go("jh 19;s;s;s;sw;s;e;n;nw;n;n;n;n;n;n;n;n;n;n;n;e;e;e;n;look_npc quanzhen_bird;ask quanzhen_bird;")
@@ -5556,6 +5568,9 @@ function go_xuanhong(msg) {
         }
         if ('一个年少貌美的姑娘。'.includes(match_str)) {
             go("jh 21;nw;ne;n;n;ne;n;n;w;look_npc baituo_jinhua;ask baituo_jinhua;")
+        }
+        if ('一个很能干的丫环。'.includes(match_str)) {
+            go("jh 21;nw;w;w;nw;n;n;n;n;look_npc baituo_yahuan;ask baituo_yahuan;")
         }
     } else if (msg.match("『嵩山』")) {
         if ('山林觅食的野狼，看起来很饿。'.includes(match_str)) {
@@ -5626,6 +5641,9 @@ function go_xuanhong(msg) {
         }
         if ('一个很胖的中年妇女。'.includes(match_str)) {
             go("jh 28;nw;look_npc xingxiu_woman;ask xingxiu_woman;")
+        }
+        if ('这是个小孩子'.includes(match_str)) {
+            go("jh 28;nw;e;look_npc xingxiu_kid;ask xingxiu_kid;")
         }
         if ('买卖提是个中年商人，去过几次中原，能讲一点儿汉话'.includes(match_str)) {
             go("jh 28;nw;w;look_npc xingxiu_maimaiti;ask xingxiu_maimaiti;")
