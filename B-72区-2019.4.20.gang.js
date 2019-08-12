@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B-72区-2019.5.2
 // @namespace    http://tampermonkey.net/
-// @version      2019.7.22
+// @version      2019.7.23
 // @description  免费版本
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -1208,9 +1208,7 @@ function QiJian2Func() {
         setTimeout(function () { QiJian2Func(); }, 200);
     } else {
         var locationname = g_obj_map.get("msg_room").get("short");
-        console.log(locationname);
         if (locationname == "星星峡") {
-            console.log("。");
             go('ne;ne;nw;nw;');
         } else {
             setTimeout(QiJian1Func, 200);
@@ -3305,6 +3303,31 @@ function Tsdz2Func() {
         }
     }
 }
+function Tsdz1xuanhongFunc(msg) {
+    go('jh 39;ne;e;n;ne;ne;n;ne;nw;event_1_58460791;');
+    setTimeout(() => {
+        Tsdz2xuanhongFunc(msg)
+    }, 5000);
+}
+function Tsdz2xuanhongFunc(msg) {
+    if (g_obj_map.get("msg_room") == undefined) {
+        setTimeout(function () { Tsdz2xuanhongFunc(msg); }, 200);
+    } else {
+        var locationname = g_obj_map.get("msg_room").get("short");
+        console.log(locationname);
+        if (locationname == "失足岩") {
+            console.log("继续走。");
+            go('nw;n;ne;nw;nw;w;n;n;n;e;e;s;give tianshan_hgdz;ask tianshan_hgdz;ask tianshan_hgdz;s;event_1_34855843');
+            if (msg.includes('tianshan_fuqishi')) {
+                go('se;look_npc tianshan_fuqishi;ask tianshan_fuqishi')
+            }
+        } else {
+            setTimeout(() => {
+                Tsdz1xuanhongFunc(msg)
+            }, 200);
+        }
+    }
+}
 
 //进入跨服-------------------------------------------------------------------------------------------------------------
 function JinKuaFuFunc() {
@@ -5348,6 +5371,9 @@ function go_xuanhong(msg) {
         if ('一只在松林里觅食的小松鼠。'.includes(match_str)) {
             go("jh 3;n;look_npc huashancun_huashancun14;ask huashancun_huashancun14;")
         }
+        if ('出来觅食的小狼'.includes(match_str)) {
+            go("jh 3;s;s;s;s;s;nw;look_npc huashancun_huashancun_fb6;ask huashancun_huashancun_fb6;")
+        }
         if ('一只黑色毛发的大狗。'.includes(match_str)) {
             go("jh 3;s;s;s;look_npc huashancun_heigou;ask huashancun_heigou;")
         }
@@ -5396,6 +5422,9 @@ function go_xuanhong(msg) {
         }
         if ('他是丐帮新近加入的弟子，可也一步步升到了五袋。他长的极其丑陋，脸上坑坑洼洼'.includes(match_str)) {
             go("jh 6;event_1_98623439;s;look_npc gaibang_huo-du;ask gaibang_huo-du;")
+        }
+        if ('这是位豪爽大方的丐帮七袋弟子，看来是个北地豪杰。'.includes(match_str)) {
+            go("jh 6;s;look_npc gaibang_zuo-qu;ask gaibang_zuo-qu;")
         }
     } else if (msg.match("『乔阴县』")) {
         if ('一个看起来像是有钱人家的女子，正在这里游湖。'.includes(match_str)) {
@@ -5608,6 +5637,9 @@ function go_xuanhong(msg) {
         if ('这是一名魁梧的中年男子，看起来内家功夫造诣不浅。'.includes(match_str)) {
             go("jh 24;n;n;n;n;n;n;n;n;n;n;n;n;e;e;n;n;n;n;look_npc taishan_taishan_fb55;ask taishan_taishan_fb55;")
         }
+        if ('这是一名身穿粗布衣服的男子，看起来很强壮。'.includes(match_str)) {
+            go("jh 24;n;n;n;n;n;n;n;n;w;n;n;n;w;n;look_npc taishan_taishan_fb41;event_1_15941870;look_npc taishan_taishan_fb44;ask taishan_taishan_fb44;")
+        }
     } else if (msg.match("『铁血大旗门』")) {
         if ('一个狂放书生，显是出自豪富之家，轻财好施，慷慨任侠。'.includes(match_str)) {
             go("jh 11;e;e;s;n;nw;w;nw;e;e;e;se;look_npc tieflag_chenziang;ask tieflag_chenziang;")
@@ -5725,6 +5757,13 @@ function go_xuanhong(msg) {
                 xiakedao_xuanhong('xiakedao_tongzi')
             }, 6000)
         }
+        if ('这是个渔家少年，大概由于长期在室外的缘故，皮肤已晒得黝黑，人也长得很粗壮了。'.includes(match_str)) {
+            go("jh 36;")
+            go('yell', 0);
+            setTimeout(() => {
+                xiakedao_xuanhong('xiakedao_yujiananhai')
+            }, 6000)
+        }
     } else if (msg.match("『绝情谷』")) {
         if ('正在吃草的野兔。'.includes(match_str)) {
             go("jh 37;n;e;e;nw;nw;w;n;e;n;look_npc jueqinggu_yetu;ask jueqinggu_yetu;")
@@ -5755,6 +5794,9 @@ function go_xuanhong(msg) {
         if ('这是一位边塞牧民，正在驱赶羊群。'.includes(match_str)) {
             go("jh 39;ne;e;n;nw;look_npc tianshan_mumin;ask tianshan_mumin;")
         }
+        if ('一个三绺长须、面色红润、儒冠儒服的老人，不但医术精妙，天下无匹，而且长于武功，在剑法上有精深造诣。除此之外，他还是书画名家。'.includes(match_str)) {
+            Tsdz1xuanhongFunc('tianshan_fuqishi')
+        }
     }
 }
 
@@ -5774,6 +5816,9 @@ function xiakedao_xuanhong(msg) {
             }
             if (msg.includes('xiakedao_tongzi')) {
                 go('e;ne;ne;ne;e;e;e;look_npc xiakedao_tongzi;ask xiakedao_tongzi;');
+            }
+            if (msg.includes('xiakedao_yujiananhai')) {
+                go('e;ne;se;e;s;s;s;s;w;look_npc xiakedao_yujiananhai;ask xiakedao_yujiananhai;');
             }
         } else {
             setTimeout(() => {
