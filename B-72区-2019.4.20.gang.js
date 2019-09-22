@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B-72区-2019.5.2
 // @namespace    http://tampermonkey.net/
-// @version      2019.7.23
+// @version      2019.7.25
 // @description  免费版本
 // @author       寒塘渡鹤影 - 闾丘公钢
 // @match        http://*.yytou.cn/*
@@ -2182,8 +2182,8 @@ function QinglongMon() { //各种监控大杂烩
             //         console.log(msg);
             if (msg.match("71-75区]") != null && KFQLtrigger) {
                 //监控 71-75  青龙(周一、周二）-
-                if ((msg.match("碎片") != null) && (msg.match("荣威镖局") == null)) { // pt triggsuer = 1 是默认， =0 时 打所有跨服青龙
-                    //                  if (( msg.match("晚香玉")!=null || msg.match("凌霄花")!=null || msg.match("百宜雪梅")!=null || msg.match("朝开暮落花")!=null || msg.match("凤凰木")!=null || msg.match("熙颜花")!=null || msg.match("君影草")!=null ||msg.match("矢车菊")!=null ||msg.match("忘忧草")!=null ||msg.match("仙客来")!=null ||msg.match("雪英")!=null ||msg.match("夕雾草")!=null ||  msg.match("彼岸花")!=null || msg.match("洛神花")!=null || PTtrigger == 0) && ( msg.match("荣威镖局")==null)){ // pt triggsuer = 1 是默认， =0 时 打所有跨服青龙
+                // if ((msg.match("碎片") != null) && (msg.match("荣威镖局") == null)) { // pt triggsuer = 1 是默认， =0 时 打所有跨服青龙
+                if ((msg.match("晚香玉") != null || msg.match("凌霄花") != null || msg.match("百宜雪梅") != null || msg.match("朝开暮落花") != null || msg.match("凤凰木") != null || msg.match("熙颜花") != null || msg.match("君影草") != null || msg.match("矢车菊") != null || msg.match("忘忧草") != null || msg.match("仙客来") != null || msg.match("雪英") != null || msg.match("夕雾草") != null || msg.match("彼岸花") != null || msg.match("洛神花") != null || PTtrigger == 0) && (msg.match("荣威镖局") == null)) { // pt triggsuer = 1 是默认， =0 时 打所有跨服青龙
                     // var url = msg.split("href;0;")[1].split("")[0];
                     // clickButton(url);
                     clearInterval(QinglongIntervalFunc)
@@ -2191,7 +2191,7 @@ function QinglongMon() { //各种监控大杂烩
                     go_qinglong(msg);
                     QinglongIntervalFunc = setInterval(() => {
                         Qinglong(tarNPC)
-                    }, 1500)
+                    }, 500)
                     sendMessage(msg.replace(/href;0;find_qinglong_road/, '').replace(/[/d]{5,7}/, '').replace(/[\d]{1}施展力量/, '施展力量'));
                 }
                 //监控 71-75  镖车(周日）-
@@ -2217,7 +2217,7 @@ function QinglongMon() { //各种监控大杂烩
                             go_qinglong(msg);
                             QinglongIntervalFunc = setInterval(() => {
                                 Qinglong(tarNPC)
-                            }, 1500)
+                            }, 500)
                         }
                         sendMessage(g_area_id + '区：' + msg.replace(/href;0;find_qinglong_road/, '').replace(/\d{5,7}/, '').replace(/\d{1}/, ''));
                     }
@@ -5374,6 +5374,9 @@ function go_xuanhong(msg) {
         if ('出来觅食的小狼'.includes(match_str)) {
             go("jh 3;s;s;s;s;s;nw;look_npc huashancun_huashancun_fb6;ask huashancun_huashancun_fb6;")
         }
+        if ('在山上觅食的老狼'.includes(match_str)) {
+            go("jh 3;s;s;s;s;s;nw;n;look_npc huashancun_huashancun_fb7;ask huashancun_huashancun_fb7;")
+        }
         if ('一只黑色毛发的大狗。'.includes(match_str)) {
             go("jh 3;s;s;s;look_npc huashancun_heigou;ask huashancun_heigou;")
         }
@@ -5724,6 +5727,9 @@ function go_xuanhong(msg) {
     } else if (msg.match("断剑山庄")) {
         if ('出了家的人，唯一做的事就是念经了。'.includes(match_str)) {
             go("jh 34;ne;e;e;e;e;e;n;n;n;n;n;w;look_npc duanjian_bonze;ask duanjian_bonze;")
+        }
+        if ('一个饱经风霜的摆渡老人。'.includes(match_str)) {
+            go("jh 34;ne;e;e;e;e;e;n;n;n;w;w;w;n;n;yell;look_npc duanjian_bdlaoren;ask duanjian_bdlaoren;")
         }
         if ('他是剑痴，剑重要过他的生命。'.includes(match_str)) {
             go("jh 34;ne;e;e;e;e;e;n;n;n;w;w;w;n;n;")
